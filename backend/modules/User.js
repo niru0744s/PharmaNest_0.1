@@ -18,6 +18,9 @@ const newSchema = mongoose.Schema({
     otp:{
         type:String,
     },
+    token:{
+        type:String
+    },
     purchased:[
         {
             type:mongoose.Schema.Types.ObjectId,
