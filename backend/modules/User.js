@@ -12,6 +12,10 @@ const newSchema = mongoose.Schema({
         type:String,
         require:true,
     },
+    phoneNumber:{
+        type:String,
+        require:true
+    },
     password:{
         type:String,
     },
@@ -36,3 +40,6 @@ const newSchema = mongoose.Schema({
 },{
     timestamps:true
 })
+
+const User = mongoose.model("User",newSchema);
+module.exports = User;
