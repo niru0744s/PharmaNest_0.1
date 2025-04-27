@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
+
 const newSchema = mongoose.Schema({
     firstName:{
         type:String,
@@ -12,34 +13,23 @@ const newSchema = mongoose.Schema({
         type:String,
         require:true,
     },
-    phoneNumber:{
+    phNumber:{
         type:String,
-        require:true
+        require:true,
     },
     password:{
         type:String,
+        require:true,
     },
-    otp:{
-        type:String,
-    },
-    token:{
-        type:String
-    },
-    purchased:[
+    products:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Products"
-        }
-    ],
-    locations:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"Products"
+            ref:"products",
         }
     ]
 },{
     timestamps:true
-})
+});
 
-const User = mongoose.model("User",newSchema);
-module.exports = User;
+const host = mongoose.model('host',newSchema);
+module.exports = host;

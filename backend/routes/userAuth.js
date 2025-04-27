@@ -4,7 +4,9 @@ const userAuthController = require('../controllers/User/AuthController');
 
 route.post('/otpSent',userAuthController.otpSent);
 route.post('/otpVerify',userAuthController.otpVerify);
-route.post('/createPass',userAuthController.changePass);
+route.post('/createPass',userAuthController.createPass);
 route.post('/login',userAuthController.login);
-route.post('./forgetPass',userAuthController.forgetPass);
-route.post('./changePass',userAuthController.changePass);
+route.post('/forgetPass',userAuthController.forgetPass);
+route.post('/changePass',userAuthController.changePass);
+
+module.exports = route;

@@ -5,7 +5,7 @@ const jwtToken = require('../../middleware/tokenVerify');
 
 module.exports.otpSent = async (req,res)=>{
     try {
-        const {firstName,lastName,email} = req.body;
+        const {firstName,lastName,email,phoneNumber} = req.body;
         const exstUser = await User.findOne({email:email});
         if(exstUser){
             res.send({
@@ -18,15 +18,20 @@ module.exports.otpSent = async (req,res)=>{
             firstName:firstName,
             lastName:lastName,
             email:email,
+            phoneNumber:phoneNumber,
             otp:otp
-        });
-        newUSr.save();
+        }).save();
+        setTimeout(async ()=>{
+            const newOtp = randomInt(1000,10000);
+            await User.findByIdAndUpdate(newUSr._id,{
+            otp:newOtp
+            });
+        },10*60*1000)
         res.send({
             success:1,
-            message:"OTP sent successfully !",
+            message:"OTP sent successfully ! , will valid for 10 min",
             newUSr
         });
-
     } catch (error) {
         res.send({
             success:0,
@@ -62,11 +67,17 @@ module.exports.createPass = async(req,res)=>{
     try {
         const {pass} = req.body;
         const {id} = req.query;
-        const empass = bcrypt.hash(pass,10);
-        await User.findByIdAndUpdate(id,{
-            password:pass
+        const empass = await bcrypt.hash(pass,10);
+        const newUser = await User.findByIdAndUpdate(id,{
+            password:empass
         });
+        console.log(newUser);
+        res.send({
+            success:1,
+            message:"Password has updated !",
+        })
     } catch (error) {
+        console.log(error)
         res.send({
             success:0,
             message:error
@@ -79,25 +90,26 @@ module.exports.login = async(req,res)=>{
         const {email , password} = req.body;
         const usr = await User.findOne({email:email});
         if(!usr){
-            res.send({
+            return res.send({
                 success:0,
                 message:"Wrong Email Address"
             })
         }
-        const compare = bcrypt.compare(usr.password,password);
+        const compare = await bcrypt.compare(password , usr.password);
         if(!compare){
-            res.send({
+            return res.send({
                 success:0,
                 message:"Wrong Password"
             })
         }
         const token = jwtToken.generateToken(usr);
-        User.findByIdAndUpdate(usr._id,{
+        const updatedUsr = await User.findByIdAndUpdate(usr._id,{
             token:token
         });
         res.send({
             success:1,
-            message:"User login Successfull"
+            message:"User login Successfull",
+            updatedUsr
         })
     } catch (error) {
         res.send({
@@ -110,24 +122,25 @@ module.exports.login = async(req,res)=>{
 module.exports.forgetPass = async(req,res)=>{
     try {
         const {email} = req.body;
-        if(!email){
-            res.send({
-                success:0,
-                message:"Wrong email."
-            })
-        }
         const otp = randomInt(1000,10000);
-        const usr = await findOneAndUpdate({email},{
+        const usr = await User.findOneAndUpdate({email},{
             $set:{
                 otp:otp
             }
         })
+        if(!usr){
+            return res.send({
+                success:0,
+                message:"Wrong email."
+            })
+        }
         res.send({
             success:1,
             message:"OTP sent successfully ",
             usr
         })
     } catch (error) {
+        console.log(error)
         res.send({
             success:0,
             message:error
@@ -137,12 +150,21 @@ module.exports.forgetPass = async(req,res)=>{
 
 module.exports.changePass = async(req,res)=>{
     try {
-        const {pass} = req.body;
+        const {otp , pass} = req.body;
         const {id} = req.query;
-        const empass = bcrypt.hash(pass,10);
+        const usr = await User.findById(id);
+        if(!usr){
+            return res.send({
+                success:0,
+                message:"Something went wrong !"
+            })
+        }
+        if(otp === usr.otp){
+        const empass = await bcrypt.hash(pass,10);
         await User.findByIdAndUpdate(id,{
             password:empass
         });
+        }
         res.send({
             success:1,
             message:"Password has updated successfully "
