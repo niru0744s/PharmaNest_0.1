@@ -16,7 +16,7 @@ async function Main(){
 
 Main().then(()=>console.log("Database is connected")).catch((err)=>console.log(err));
 
-app.get('/',(req,res)=>{
+app.get('/api/v1/',(req,res)=>{
     res.send("root");
 });
 
