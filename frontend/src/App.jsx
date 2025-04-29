@@ -1,7 +1,7 @@
 import {BrowserRouter , Routes , Route} from 'react-router-dom';
-import Hero from './components/Home/Hero';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from './components/Header&Footer/Navbar';
+import Footer from './components/Header&Footer/Footer';
+import LandingPage from './components/Home/LandingPage';
 function App() {
 
   return (
@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
       <Navbar/>
       <Routes>
-        <Route path='/' element={<Hero/>} />
+        <Route path='/' element={<LandingPage/>} />
       </Routes>
       <Footer/>
       </BrowserRouter>

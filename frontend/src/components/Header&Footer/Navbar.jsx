@@ -5,6 +5,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import CartBadge from './CartBadge';
 import './Navbar.css'
 
@@ -43,6 +44,9 @@ export default function Navbar() {
         </li>
         <li class="nav-item ms-2 mt-2">
           <a class="nav-link" aria-disabled="true"><LocalHospitalIcon className='me-1 mb-1'/>Advisor</a>
+        </li>
+        <li class="nav-item mt-2">
+          <a class="nav-link" aria-disabled="true"><HeadsetMicIcon className='me-1 mb-1'/></a>
         </li>
       </ul>
     </div>
