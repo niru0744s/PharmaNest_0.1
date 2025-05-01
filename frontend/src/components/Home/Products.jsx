@@ -19,7 +19,7 @@ const Products = () => {
       <Slider {...settings}>
       {data.map((ele)=>(
       <div class="ms-4" style={{width:"20rem"}}>
-        <img src={ele.image} class="" alt="..." style={{height:"10rem" , width:"10rem"}}/>
+        <img src={ele.image} class="product" alt="..." style={{height:"10rem" , width:"10rem"}}/>
           <div class="">
             <p class="">{ele.title}</p>
             <h5 class="">From -/{ele.price}</h5>
@@ -34,7 +34,7 @@ const Products = () => {
       <Slider {...settings}>
       {data.map((ele)=>(
       <div class="ms-4" style={{width:"20rem"}}>
-        <img src={ele.image} class="" alt="..." style={{height:"10rem" , width:"10rem"}}/>
+        <img src={ele.image} class="product" alt="..." style={{height:"10rem" , width:"10rem"}}/>
           <div class="">
             <p class="">{ele.title}</p>
             <h5 class="">From -/{ele.price}</h5>
@@ -49,7 +49,7 @@ const Products = () => {
       <Slider {...settings}>
       {data.map((ele)=>(
       <div class="ms-4" style={{width:"20rem"}}>
-        <img src={ele.image} class="" alt="..." style={{height:"10rem" , width:"10rem"}}/>
+        <img src={ele.image} class="product" alt="..." style={{height:"10rem" , width:"10rem"}}/>
           <div class="">
             <p class="">{ele.title}</p>
             <h5 class="">From -/{ele.price}</h5>

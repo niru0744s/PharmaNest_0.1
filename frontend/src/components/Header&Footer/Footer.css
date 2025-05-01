@@ -1,0 +1,30 @@
+.footerBody{
+    align-items: flex-end;
+}
+.inp:focus{
+    border-color: #a3b493;
+    outline: none;
+    box-shadow: 0 0 5px rgba(39, 254, 1, 0.5);
+}
+
+.btnn{
+    background-color: #219a14;
+    color: white;
+}
+.cont{
+    background-color: #93a057;
+    height: 2.7rem;
+    width: 2.7rem;
+    margin-right: 1rem;
+    border-radius: 50%;
+}
+.icon{
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    margin-top: 6px;
+}
+
+.footer-links  p:hover{
+    color: #ffffff !important;
+}

@@ -14,7 +14,7 @@ export default function GridLayout() {
                     <div className="row mt-5">
                         <div className="col">
                             <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -23,7 +23,7 @@ export default function GridLayout() {
                         </div>
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -34,7 +34,7 @@ export default function GridLayout() {
                     <div className="row mt-5">
                     <div className="col">
                             <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -43,7 +43,7 @@ export default function GridLayout() {
                         </div>
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -61,7 +61,7 @@ export default function GridLayout() {
                     <div className="row mt-5">
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -70,7 +70,7 @@ export default function GridLayout() {
                         </div>
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -81,7 +81,7 @@ export default function GridLayout() {
                     <div className="row mt-5">
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -90,7 +90,7 @@ export default function GridLayout() {
                         </div>
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -108,7 +108,7 @@ export default function GridLayout() {
                     <div className="row mt-5">
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -117,7 +117,7 @@ export default function GridLayout() {
                         </div>
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -128,7 +128,7 @@ export default function GridLayout() {
                     <div className="row mt-5">
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>
@@ -137,7 +137,7 @@ export default function GridLayout() {
                         </div>
                         <div className="col">
                         <div class="">
-                                <img src="media/headerImg/img7.png" class="" alt="..." style={{ height: "10rem", width: "10rem" }} />
+                                <img src="media/headerImg/img7.png" class="product" alt="..." style={{ height: "10rem", width: "10rem" }} />
                                 <div class="">
                                     <p class="">Baby product</p>
                                     <h5 class="">From -/800</h5>

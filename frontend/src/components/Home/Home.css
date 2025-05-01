@@ -12,7 +12,11 @@
     right:10px;
 }
   
-  .slick-prev::before, .slick-next::before {
+.slick-prev::before, .slick-next::before {
     font-size: 20px;
     color: rgb(0, 0, 0);              /* arrow color */
-  }
+}
+
+.product:hover{
+  transform: scale(1.1);
+}
