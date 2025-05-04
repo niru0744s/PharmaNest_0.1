@@ -3,9 +3,13 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import {Link} from 'react-router-dom';
+import Navbar from '../Header&Footer/Navbar';
+import Footer from '../Header&Footer/Footer';
 
 export default function Login() {
   return (
+    <>
+    <Navbar/>
     <div className="container m-5">
       <div className="row" style={{height:"36rem"}}>
         <div className="col-2"></div>
@@ -17,7 +21,6 @@ export default function Login() {
         <div className="col-5 bg-light d-flex align-items-start flex-column">
           <form action="">
           <Box
-          component="form"
           sx={{ '& > :not(style)': { m: 5, mt:9, width: '50ch' } }}
           noValidate
           autoComplete="off"
@@ -34,5 +37,7 @@ export default function Login() {
         </div>
       </div>      
     </div>
+    <Footer/>
+    </>
   )
 }

@@ -2,12 +2,12 @@ const mongoose = require("mongoose");
 const newSchema = mongoose.Schema({
     UserId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Users"
+        ref:"User"
     },
-    products:{
+    products:[{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Products"
-    },
+        ref:"Product"
+    }],
 },{
     timestamps:true,
 })

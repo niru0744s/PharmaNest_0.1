@@ -32,11 +32,11 @@ export default function Navbar() {
           Login
           </Link>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">New User ? SIgnup</a></li>
+            <li><Link class="dropdown-item" to={"/signup"}>New User ? SIgnup</Link></li>
             <li><hr class="dropdown-divider"/></li>
-            <li><a class="dropdown-item" href="#"><AccountCircleIcon className='me-2'/>My Profile</a></li>
-            <li><a class="dropdown-item" href="#"> <LocalShippingIcon className='me-2'/>Orders</a></li>
-            <li><a class="dropdown-item" href="#"><FavoriteBorderIcon className='me-2'/>Wishlist</a></li>
+            <li><Link class="dropdown-item" to={"/userDashboard"}><AccountCircleIcon className='me-2'/>My Profile</Link></li>
+            <li><Link class="dropdown-item" to={"/orders"}> <LocalShippingIcon className='me-2'/>Orders</Link></li>
+            <li><Link class="dropdown-item" to={"/wishlist"}><FavoriteBorderIcon className='me-2'/>Wishlist</Link></li>
           </ul>
         </li>
         <li class="nav-item ms-1">
