@@ -13,23 +13,24 @@ const newSchema = mongoose.Schema({
         type:String,
         require:true,
     },
-    phNumber:{
+    token:{
         type:String,
-        require:true,
+    },
+    otp:{
+        type:Number
     },
     password:{
         type:String,
-        require:true,
     },
     products:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"products",
+            ref:"product",
         }
     ]
 },{
     timestamps:true
 });
 
-const host = mongoose.model('host',newSchema);
-module.exports = host;
+const Host = mongoose.model('Host',newSchema);
+module.exports = Host;

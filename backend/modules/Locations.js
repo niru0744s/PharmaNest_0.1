@@ -39,13 +39,9 @@ const newSchema = mongoose.Schema({
         type:String,
         require:true,
     },
-    users:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"users"
-        }
-    ]
+},{
+    timestamps:true,
 });
 
-const address = mongoose.model('address',newSchema);
-module.exports = address;
+const Address = mongoose.model('Address',newSchema);
+module.exports = Address;
