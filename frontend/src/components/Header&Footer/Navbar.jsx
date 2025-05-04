@@ -5,15 +5,19 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import CartBadge from './CartBadge';
 import './Navbar.css'
+import {Link} from 'react-router-dom'
 
 export default function Navbar() {
   return (
     <>
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid ms-5">
-      <img src="media/images/logo2.svg" alt="" style={{height:"4rem",width:"10%" }} />
+    <Link to="/" className='nav-link active' style={{margin:"0",padding:"0"}}>
+      <img src="media/images/logo2.svg" alt="" style={{height:"4rem",width:"100%" }} />
+    </Link>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -23,26 +27,29 @@ export default function Navbar() {
       </form>
       <ul class="navbar-nav mb-2 ms-5 mt-1">
         <li class="nav-item dropdown ms-2 mt-1">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <Link to="/login" className='nav-link dropdown-toggle' role="button">
           <AccountCircleIcon className='me-3' sx={{ fontSize: 30 }}/>
-            Login
-          </a>
+          Login
+          </Link>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">New User ? SIgnup</a></li>
+            <li><Link class="dropdown-item" to={"/signup"}>New User ? SIgnup</Link></li>
             <li><hr class="dropdown-divider"/></li>
-            <li><a class="dropdown-item" href="#"><AccountCircleIcon className='me-2'/>My Profile</a></li>
-            <li><a class="dropdown-item" href="#"> <LocalShippingIcon className='me-2'/>Orders</a></li>
-            <li><a class="dropdown-item" href="#"><FavoriteBorderIcon className='me-2'/>Wishlist</a></li>
+            <li><Link class="dropdown-item" to={"/userDashboard"}><AccountCircleIcon className='me-2'/>My Profile</Link></li>
+            <li><Link class="dropdown-item" to={"/orders"}> <LocalShippingIcon className='me-2'/>Orders</Link></li>
+            <li><Link class="dropdown-item" to={"/wishlist"}><FavoriteBorderIcon className='me-2'/>Wishlist</Link></li>
           </ul>
         </li>
         <li class="nav-item ms-1">
-          <a class="nav-link active" aria-current="page" href="#"><CartBadge/> Cart</a>
+          <Link to="/cart" class="nav-link active"><CartBadge/>  Cart</Link>
         </li>
         <li class="nav-item ms-2 mt-2">
-          <a class="nav-link" aria-disabled="true"><AddBusinessIcon className='me-1 mb-1'/>Become a Seller</a>
+          <Link to="/sellerDashboard" class="nav-link" aria-disabled="true"><AddBusinessIcon className='me-1 mb-1'/>Become a Seller</Link>
         </li>
         <li class="nav-item ms-2 mt-2">
-          <a class="nav-link" aria-disabled="true"><LocalHospitalIcon className='me-1 mb-1'/>Advisor</a>
+          <Link to="/aiAdvisor" class="nav-link" aria-disabled="true"><LocalHospitalIcon className='me-1 mb-1'/>Advisor</Link>
+        </li>
+        <li class="nav-item mt-2">
+          <Link to="/customerCare" class="nav-link" aria-disabled="true"><HeadsetMicIcon className='me-1 mb-1'/></Link>
         </li>
       </ul>
     </div>

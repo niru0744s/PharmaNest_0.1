@@ -9,14 +9,26 @@ module.exports.generateToken = (user)=> {
 }
 
 module.exports.authenticateToken = (req, res, next)=> {
-    // Expect header: Authorization: Bearer <token>
     const authHeader = req.headers['authorization'];
-    const token      = authHeader && authHeader.split(' ')[1];
+    if(!authHeader || !authHeader.startsWith('Bearer ')){
+      return res.status(401).send({
+        success:0,
+        message:"No token provided , authorization denied"
+      });
+    }
+    const token = authHeader && authHeader.split(' ')[1];
     if (!token) return res.status(401).json({ error: 'Missing token' });
   
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-      if (err) return res.status(403).json({ error: 'Invalid or expired token' });
-      req.user = decoded;  // attach the decoded payload to req.user
-      next();
-    });
+    try {
+      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+        if (err) return res.status(403).json({ error: 'Invalid or expired token' });
+        req.user = decoded;  // attach the decoded payload to req.user
+        next();
+      });
+    } catch (error) {
+      res.status(401).send({
+        success:0,
+        message:"Token is not valid "
+      })
+    }
   }

@@ -1,0 +1,7 @@
+.nav-item.dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  .nav-link.dropdown-toggle::after {
+    pointer-events: none;
+  }

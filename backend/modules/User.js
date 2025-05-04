@@ -28,13 +28,13 @@ const newSchema = mongoose.Schema({
     purchased:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Products"
+            ref:"Product"
         }
     ],
     locations:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Products"
+            ref:"Product"
         }
     ]
 },{
