@@ -1,9 +1,10 @@
 const express = require("express");
 const route = express.Router();
+const hostController = require("../controllers/host/hostController");
 
-route.post('/api/v1/host/otpSent');
-route.post('/api/v1/host/otpVerify');
-route.post('/api/v1/host/createPass');
-route.post('/api/v1/host/login');
-route.post('/api/v1/host/forgetPass');
-route.post('/api/v1/host/changePass');
+route.post('/otpSent',hostController.otpSent);
+route.post('/otpVerify',hostController.otpVerify);
+route.post('/createPass',hostController.createPass);
+route.post('/login',hostController.login);
+
+module.exports = route;
