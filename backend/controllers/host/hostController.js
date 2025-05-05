@@ -5,7 +5,7 @@ const jwtToken = require('../../middleware/tokenVerify');
 
 module.exports.otpSent = async (req,res)=>{
     try {
-        const {firstName,lastName,email} = req.body;
+        const {email} = req.body;
         const exstUser = await Host.findOne({email:email});
         if(exstUser){
             res.send({
@@ -14,9 +14,7 @@ module.exports.otpSent = async (req,res)=>{
             })
         }
         const otp = randomInt(1000,10000);
-        const newUSr = new Host({
-            firstName:firstName,
-            lastName:lastName,
+        const newUSr = await new Host({
             email:email,
             otp:otp
         }).save();
@@ -44,8 +42,10 @@ module.exports.otpVerify = async(req,res)=>{
     try {
     const {id} = req.query;
     const {otp} = req.body;
+    console.log(id , otp);
     const exUser = await Host.findById(id);
-    if(otp !== exUser.otp){
+    console.log(exUser);
+    if(otp != exUser.otp){
         res.send({
             success:0,
             message:"Wrong OTP , Try again !"
@@ -66,16 +66,18 @@ module.exports.otpVerify = async(req,res)=>{
 
 module.exports.createPass = async(req,res)=>{
     try {
-        const {pass} = req.body;
+        const {firstName , lastName , pass} = req.body;
         const {id} = req.query;
         const empass = await bcrypt.hash(pass,10);
         const newUser = await Host.findByIdAndUpdate(id,{
+            firstName,
+            lastName,
             password:empass
         });
-        console.log(newUser);
         res.send({
             success:1,
             message:"Password has updated !",
+            newUser
         })
     } catch (error) {
         console.log(error)

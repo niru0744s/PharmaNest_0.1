@@ -23,7 +23,7 @@ const newSchema = mongoose.Schema({
         type:String,
     },
     token:{
-        type:String
+        type:String,
     },
     purchased:[
         {
