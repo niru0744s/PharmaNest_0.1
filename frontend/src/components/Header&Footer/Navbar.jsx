@@ -7,10 +7,22 @@ import AddBusinessIcon from '@mui/icons-material/AddBusiness';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import CartBadge from './CartBadge';
+import LogoutIcon from '@mui/icons-material/Logout';
 import './Navbar.css'
 import {Link} from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../features/loginSlice';
+
+
 
 export default function Navbar() {
+  const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
+  const user = useSelector((state)=> state.login.user);
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
   return (
     <>
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -29,7 +41,7 @@ export default function Navbar() {
         <li class="nav-item dropdown ms-2 mt-1">
         <Link to="/login" className='nav-link dropdown-toggle' role="button">
           <AccountCircleIcon className='me-3' sx={{ fontSize: 30 }}/>
-          Login
+          {isAuthenticated?(<>{user.firstName}</>):(<>Login</>)}
           </Link>
           <ul class="dropdown-menu">
             <li><Link class="dropdown-item" to={"/signup"}>New User ? SIgnup</Link></li>
@@ -37,6 +49,7 @@ export default function Navbar() {
             <li><Link class="dropdown-item" to={"/userDashboard"}><AccountCircleIcon className='me-2'/>My Profile</Link></li>
             <li><Link class="dropdown-item" to={"/orders"}> <LocalShippingIcon className='me-2'/>Orders</Link></li>
             <li><Link class="dropdown-item" to={"/wishlist"}><FavoriteBorderIcon className='me-2'/>Wishlist</Link></li>
+            <li><Link className='dropdown-item' to={'/'} onClick={handleLogout}><LogoutIcon/>Logout</Link></li>
           </ul>
         </li>
         <li class="nav-item ms-1">

@@ -5,7 +5,7 @@ const jwtToken = require('../../middleware/tokenVerify');
 
 module.exports.otpSent = async (req,res)=>{
     try {
-        const {email} = req.body;
+        const {email} = req.body
         const exstUser = await User.findOne({email:email});
         if(exstUser){
             res.send({
@@ -41,6 +41,7 @@ module.exports.otpVerify = async(req,res)=>{
     try {
     const {id} = req.query;
     const {otp} = req.body;
+    console.log(otp , id)
     const exUser = await User.findById(id);
     if(otp != exUser.otp){
         res.send({
@@ -63,6 +64,7 @@ module.exports.otpVerify = async(req,res)=>{
 module.exports.createPass = async(req,res)=>{
     try {
         const {firstName , lastName , phoneNumber , pass} = req.body;
+        console.log(firstName , lastName , phoneNumber , pass);
         const {id} = req.query;
         const empass = await bcrypt.hash(pass,10);
         const newUser = await User.findByIdAndUpdate(id,{

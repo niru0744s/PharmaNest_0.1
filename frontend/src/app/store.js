@@ -1,8 +1,9 @@
 import {configureStore} from '@reduxjs/toolkit';
+import signupReducer from '../features/signupSlice';
+import loginReducer from '../features/loginSlice';
 export const store = configureStore({
     reducer :{
-        cart: createReducer,
-        purchase: purchaseReducer,
-        products: productsReducer,
+        signup:signupReducer,
+        login: loginReducer,
     }
 });
