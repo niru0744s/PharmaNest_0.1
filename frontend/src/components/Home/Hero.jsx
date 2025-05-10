@@ -46,20 +46,20 @@ const Hero = () => {
         </div>
         <div className="col bg-light">
           <div className="row">
-          <div class="mt-5 ms-5 col-4" style={{ height: "20rem"}} >
+          <div class="mt-5 col-6" style={{ height: "20rem"}} >
             <h3 className='card-title mt-3'>Products</h3>
             <img src="media/headerImg/img7.png" class="card-img-top product" alt="..." style={{height:"10rem" , width:"100%"}}/>
               <div class="card-body">
-                <p class="card-text ms-2">Baby Products</p>
-                <h5 class="card-title ms-2">From -/800</h5>
+                <p class="card-text">Baby Products</p>
+                <h5 class="card-title">From -/800</h5>
               </div>
           </div>
-          <div class="mt-5 ms-5 col-4" style={{ height: "20rem"}} >
+          <div class="mt-5 col-6" style={{ height: "20rem"}} >
             <h3 className='card-title mt-3'>Products</h3>
             <img src="media/headerImg/img6.png" class="card-img-top product" alt="..." style={{height:"10rem" , width:"100%"}}/>
               <div class="card-body">
                 <p class="card-text  ">Health Supplements</p>
-                <h5 class="card-title ms-2 ">From -/800</h5>
+                <h5 class="card-title ">From -/800</h5>
               </div>
           </div>
           </div>

@@ -5,3 +5,6 @@
   .nav-link.dropdown-toggle::after {
     pointer-events: none;
   }
+  .h-icon{
+    color: #0072CE !important;
+  }

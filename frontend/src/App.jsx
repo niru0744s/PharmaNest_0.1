@@ -11,8 +11,12 @@ import AddProuducts from './components/HostDashboard/AddProducts/AddProuducts';
 import HostSignup from './components/HostDashboard/HostAuth/HostSignup';
 import HostLogin from './components/HostDashboard/HostAuth/HostLogin';
 import Signup from './components/UserAuth/Signup';
-import UserPf from './components/User/UserPf';
-import UserDashboard from './components/User/UserDashboard';
+import AccountCenter from './components/User/AccountCenter';
+import AiAdvisor from './components/Advisor/AiAdvisor';
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 function App() {
   return (
     <>
@@ -21,13 +25,13 @@ function App() {
         <Route path='/' element={<LandingPage/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Signup/>} />
-        <Route path='/userDashboard' element={<UserDashboard/>}/>
-        <Route path="profile" element={<UserPf />} />
+        <Route path='/userDashboard' element={<AccountCenter/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/hostLogin' element={<HostLogin/>}/>
         <Route path='/hostSignup' element={<HostSignup/>}/>
         <Route path='/orders' element={<PurchasedProducts/>}/>
         <Route path='/show' element={<ShowPage/>}/>
+        <Route path='/aiAdvisor' element={<AiAdvisor/>}/>
         <Route path='/search' element={<SearchEngine/>}/>
         <Route path='/wishlist' element={<Wishlist/>}/>
         <Route path='/sellerDashboard' element={<HostLandingPage/>}/>

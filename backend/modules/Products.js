@@ -3,42 +3,47 @@ const Review = require("./reviews");
 const User = require("./User");
 
 
-const newSchema = mongoose.Scheman({
+const newSchema = mongoose.Schema({
     name:{
         type:String,
-        require:true,
+        required:true,
     },
     brand:{
         type:String,
-        require:true,
+        required:true,
     },
     form:{
         type:String,
-        require:true,
+        required:true,
     },
     strength:{
         type:String,
-        require:true,
+        required:true,
     },
     category:{
         type:String,
+        enum:["Medicine","OTC_Medicine","First_Aid","Hygiene","Baby_product","Supplements","Test_kits"],
+        required:true,
+    },
+    mainPrice:{
+        type:Number,
         require:true,
     },
     price:{
         type:Number,
-        require:true,
+        required:true,
     },
     description:{
         type:String,
-        require:true,
+        required:true,
     },
-    image:{
-        url:String,
-        filename:String
+    imageUrl:{
+        type:String,
+        required:true
     },
     quantity:{
         type:Number,
-        require:true,
+        default:0,
     },
     reviews:[
         {
