@@ -20,3 +20,7 @@
 .product:hover{
   transform: scale(1.1);
 }
+
+.c-text > div > p{
+  color: #0072CE;
+}

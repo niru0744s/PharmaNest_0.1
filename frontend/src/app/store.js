@@ -1,9 +1,15 @@
 import {configureStore} from '@reduxjs/toolkit';
 import signupReducer from '../features/signupSlice';
 import loginReducer from '../features/loginSlice';
+import dataReducer from '../features/dataSlice';
+import productSlice from '../features/ProductSlice';
+import aiAdvisorReducer from '../features/aiAdvisorSlice';
 export const store = configureStore({
     reducer :{
         signup:signupReducer,
         login: loginReducer,
+        data:dataReducer,
+        product:productSlice,
+        aiAdvisor:aiAdvisorReducer
     }
 });

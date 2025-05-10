@@ -30,49 +30,49 @@ export default function Footer() {
             </div>
             <div className="row">
                     <div className="col-4 mt-5">
-                        <h4 className='mt-2'>PharmaNest</h4>
-                        <p className='text-muted mt-4'> `Pharmanest: Your trusted online medical store 
+                        <h4 className='mt-2' style={{color:"#F9FAFB"}}>PharmaNest</h4>
+                        <p className='mt-4' style={{color:"#D1D5DB"}}> `Pharmanest: Your trusted online medical store 
                             for high-quality medicines, health supplies, and wellness essentials. 
                             We prioritize your health with a seamless shopping experience, 
                             secure payments, and reliable delivery services. 
                             Shop with confidence and stay healthy with Pharmanest.`
                         </p>
                         <div className='d-flex mt-2'>
-                        <div className='cont'><FacebookOutlinedIcon style={{"color":"#fff"}} className='fs-2 icon'/></div>
-                            <div className='cont'><TwitterIcon style={{"color":"#fff"}} className='fs-2 icon'/></div>
-                            <div className='cont'><InstagramIcon style={{"color":"#fff"}} className='fs-2 icon'/></div>
-                            <div className='cont'><LinkedInIcon style={{"color":"#fff"}} className='fs-2 icon'/></div>
+                        <div className='cont'><FacebookOutlinedIcon style={{"color":"#22C55E "}} className='fs-2 icon'/></div>
+                            <div className='cont'><TwitterIcon style={{"color":"#22C55E "}} className='fs-2 icon'/></div>
+                            <div className='cont'><InstagramIcon style={{"color":"#22C55E "}} className='fs-2 icon'/></div>
+                            <div className='cont'><LinkedInIcon style={{"color":"#22C55E "}} className='fs-2 icon'/></div>
                         </div>
                     </div>
                     <div className="col-8 mt-5 d-flex footer-links">
                         <div className='me-5 ms-5 '>
-                            <p className='text-muted'>Aboutus</p>
-                            <p className='text-muted'>Services</p>
-                            <p className='text-muted'>Blog</p>
-                            <p className='text-muted'>Contactus</p>
+                            <p className='f-links'>Aboutus</p>
+                            <p className='f-links'>Services</p>
+                            <p className='f-links'>Blog</p>
+                            <p className='f-links'>Contactus</p>
                         </div>
                         <div className='me-5 ms-5'>
-                            <p className='text-muted'>Support</p>
-                            <p className='text-muted'>Knowledge base</p>
-                            <p className='text-muted'>Live Chat</p>
+                            <p className='f-links'>Support</p>
+                            <p className='f-links'>Knowledge base</p>
+                            <p className='f-links'>Live Chat</p>
                         </div>
                         <div className='me-5 ms-5'>
-                            <p className='text-muted'>Jobs</p>
-                            <p className='text-muted'>Our Team</p>
-                            <p className='text-muted'>Privacy Policy</p>
-                            <p className='text-muted'>Leadership</p>
+                            <p className='f-links'>Jobs</p>
+                            <p className='f-links'>Our Team</p>
+                            <p className='f-links'>Privacy Policy</p>
+                            <p className='f-links'>Leadership</p>
                         </div>
                         <div className='ms-5'>
-                            <p className='text-muted'>Medicines</p>
-                            <p className='text-muted'>Health</p>
-                            <p className='text-muted'>Supplies</p>
-                            <p className='text-muted'>Care</p>
+                            <p className='f-links'>Medicines</p>
+                            <p className='f-links'>Health</p>
+                            <p className='f-links'>Supplies</p>
+                            <p className='f-links'>Care</p>
                         </div>
                     </div>
             </div>
             <hr className='mt-5'/>
             <div className="col-6">
-                <p className='text-muted'>Copyright ©2025. All Rights Reserved. Design & Build by <a href="https://www.linkedin.com/in/nirupam-bhattacharya-5a36a4257/" target='_blank' className='text-danger stratched-link' style={{"textDecoration":"none"}}>Nirupam Bhattacharya</a></p>
+                <p className='' style={{color:"#D1D5DB"}}>Copyright ©2025. All Rights Reserved. Design & Build by <a href="https://www.linkedin.com/in/nirupam-bhattacharya-5a36a4257/" target='_blank' className='text-danger stratched-link' style={{"textDecoration":"none",color:"#60A5FA"}}>Nirupam Bhattacharya</a></p>
             </div>
             <div className="col-6"></div>
         </div>

@@ -17,7 +17,7 @@ export default function CartBadge() {
     return (
         <IconButton aria-label="cart" className='me-1'>
           <StyledBadge badgeContent={0} color="secondary">
-            <ShoppingCartIcon/>
+            <ShoppingCartIcon className='h-icon'/>
           </StyledBadge>
         </IconButton>
       );

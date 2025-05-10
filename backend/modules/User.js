@@ -25,7 +25,7 @@ const newSchema = mongoose.Schema({
     token:{
         type:String,
     },
-    purchased:[
+    wishlist:[
         {
             type:mongoose.Schema.Types.ObjectId,
             ref:"Product"
@@ -34,7 +34,7 @@ const newSchema = mongoose.Schema({
     locations:[
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Product"
+            ref:"Address"
         }
     ]
 },{

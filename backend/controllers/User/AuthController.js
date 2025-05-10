@@ -2,6 +2,8 @@ const User = require('../../modules/User');
 const {randomInt} = require('crypto');
 const bcrypt = require('bcrypt');
 const jwtToken = require('../../middleware/tokenVerify');
+const sendEmail = require('./SendEmail');
+const Address = require("../../modules/Locations");
 
 module.exports.otpSent = async (req,res)=>{
     try {
@@ -18,6 +20,11 @@ module.exports.otpSent = async (req,res)=>{
             email:email,
             otp:otp
         }).save();
+        await sendEmail(
+            email,
+            'Your OTP Code',
+            `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
+          );
         setTimeout(async ()=>{
             const newOtp = randomInt(1000,10000);
             await User.findByIdAndUpdate(newUSr._id,{
@@ -171,6 +178,69 @@ module.exports.changePass = async(req,res)=>{
         res.send({
             success:1,
             message:"Password has updated successfully "
+        })
+    } catch (error) {
+        res.send({
+            success:0,
+            message:error
+        })
+    }
+}
+
+module.exports.addAddress = async (req,res)=>{
+    try {
+        const {name,mobileNumber , pincode , locality , address , city , state , landmark , altNumber , addressType } = req.body;
+        const {userId} = req.query;
+
+        const existUser = await User.findById(userId);
+        let newAddress = new Address(req.body);
+        newAddress.userId = existUser._id;
+        existUser.locations.push(newAddress);
+        await newAddress.save();
+        await existUser.save();
+        res.send({
+            success:1,
+            message:"Address Added Successfully",
+        })
+
+    } catch (error) {
+        res.send({
+            success:0,
+            message:error
+        })
+    }
+};
+
+module.exports.deleteAddress = async(req,res)=>{
+    try {
+        let {userId , addressId} = req.params;
+        await User.findByIdAndDelete(userId , {$pull:{locations:addressId}});
+        await Address.findByIdAndDelete(addressId); 
+        res.send({
+            success:1,
+            message:"Address deleted"
+        })
+    } catch (error) {
+        res.send({
+            success:0,
+            message:error
+        })
+    }
+}
+
+module.exports.showAddress = async(req,res)=>{
+    try {
+        const allAddress = await User.findById(req.user._id).populate("locations");
+        if(allAddress.locations.length == 0){
+            return res.send({
+                success:0,
+                message:"You haven't set any address Yet!"
+            })
+        }
+        res.send({
+            success:1,
+            message:"Your saved Addresses",
+            allAddress
         })
     } catch (error) {
         res.send({

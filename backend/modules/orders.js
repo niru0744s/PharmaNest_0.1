@@ -4,12 +4,18 @@ const newSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     }
-    ,product:[
+    ,status: {
+        type: String,
+        enum: ["pending", "shipped", "on_the_way", "delivered", "cancelled", "return"],
+        default: "pending"
+    }
+    ,product:
         {
             type:mongoose.Schema.Types.ObjectId,
-            ref:"Product"
+            ref:"Cart"
         }
-    ]
 },{
     timestamps:true
-})
+});
+
+const Oders = mongoose.model("Orders" , newSchema);

@@ -1,9 +1,10 @@
 import React from 'react'
+import './Home.css'
 
 export default function Header() {
   return (
     <div className=' m-2 bg-light' style={{height:"8rem" , overflow:"hidden"}}>
-      <div className="row container ms-5">
+      <div className="row container ms-5 c-text">
         <div className="col">
         <img src="media/headerImg/img1.png" alt="" style={{height:"5rem", width:"5rem"}} className='m-1 ms-5 product'/>
         <p className='ms-5 fw-bold'>Medicines</p>

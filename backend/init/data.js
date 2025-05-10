@@ -6,7 +6,7 @@ const products= [
         "strength": "500 mg",
         "price": 50,
         "category": "Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Analgesic & antipyretic for mild to moderate pain/fever."
       },
       {
@@ -17,7 +17,7 @@ const products= [
         "strength": "500 mg",
         "price": 220,
         "category": "Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Macrole antibiotic for respiratory infections."
       },
       {
@@ -28,7 +28,7 @@ const products= [
         "strength": "500 mg",
         "price": 180,
         "category": "Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "First-line oral antiabetic for type 2 diabetes."
       },
       {
@@ -39,7 +39,7 @@ const products= [
         "strength": "20 mg",
         "price": 150,
         "category": "Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Proton-pump inhibitor for GERD and ulcers."
       },
       {
@@ -50,7 +50,7 @@ const products= [
         "strength": "150 mg",
         "price": 170,
         "category": "Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Antifungal for candiasis."
       },
       {
@@ -61,7 +61,7 @@ const products= [
         "strength": "400 mg",
         "price": 70,
         "category": "OTC Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "NSA for pain, inflammation, and fever."
       },
       {
@@ -72,7 +72,7 @@ const products= [
         "strength": "10 mg",
         "price": 120,
         "category": "OTC Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Second-generation antihistamine for allergy relief."
       },
       {
@@ -83,7 +83,7 @@ const products= [
         "strength": "5 mg",
         "price": 140,
         "category": "OTC Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Non-drowsy antihistamine for allergies."
       },
       {
@@ -94,7 +94,7 @@ const products= [
         "strength": "2 mg",
         "price": 90,
         "category": "OTC Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Antiarrheal agent."
       },
       {
@@ -105,7 +105,7 @@ const products= [
         "strength": "150 mg",
         "price": 80,
         "category": "OTC Medicines",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "H₂ receptor antagonist for heartburn."
       },
       {
@@ -116,7 +116,7 @@ const products= [
         "strength": "Standard",
         "price": 45,
         "category": "First A",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Sterile adhesive bandage for minor cuts and scrapes."
       },
       {
@@ -127,7 +127,7 @@ const products= [
         "strength": "1% w/w",
         "price": 95,
         "category": "First A",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Topical antiseptic to prevent infection."
       },
       {
@@ -138,7 +138,7 @@ const products= [
         "strength": "100 g",
         "price": 60,
         "category": "First A",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Medical-grade cotton roll for dressing wounds."
       },
       {
@@ -149,7 +149,7 @@ const products= [
         "strength": "10×10 cm",
         "price": 75,
         "category": "First A",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Sterile gauze pads for cleaning and covering wounds."
       },
       {
@@ -160,7 +160,7 @@ const products= [
         "strength": "1 inch",
         "price": 50,
         "category": "First A",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Hypoallergenic tape for securing dressings."
       },
       {
@@ -171,7 +171,7 @@ const products= [
         "strength": "50 ml",
         "price": 120,
         "category": "Hygiene",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Kills 99.9% of germs without water."
       },
       {
@@ -182,7 +182,7 @@ const products= [
         "strength": "250 ml",
         "price": 85,
         "category": "Hygiene",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Antibacterial handwash for daily use."
       },
       {
@@ -193,7 +193,7 @@ const products= [
         "strength": "N95",
         "price": 200,
         "category": "Hygiene",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Respirator mask for particulate protection."
       },
       {
@@ -204,7 +204,7 @@ const products= [
         "strength": "100 sheets",
         "price": 60,
         "category": "Hygiene",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Soft facial tissues for daily use."
       },
       {
@@ -215,7 +215,7 @@ const products= [
         "strength": "80 sheets",
         "price": 110,
         "category": "Hygiene",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Gentle wipes for hands and surfaces."
       },
       {
@@ -226,7 +226,7 @@ const products= [
         "strength": "60 wipes",
         "price": 140,
         "category": "Baby Products",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Soft wipes for gentle baby care."
       },
       {
@@ -237,7 +237,7 @@ const products= [
         "strength": "Size M – 32 pcs",
         "price": 400,
         "category": "Baby Products",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Ultra-absorbent diapers for infants."
       },
       {
@@ -248,7 +248,7 @@ const products= [
         "strength": "200 ml",
         "price": 180,
         "category": "Baby Products",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Gentle moisturizing lotion for baby skin."
       },
       {
@@ -259,7 +259,7 @@ const products= [
         "strength": "100 ml",
         "price": 160,
         "category": "Baby Products",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Soothing oil for massage and skin care."
       },
       {
@@ -270,7 +270,7 @@ const products= [
         "strength": "Standard",
         "price": 250,
         "category": "Baby Products",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Gentle suction device for infant nasal passages."
       },
       {
@@ -281,7 +281,7 @@ const products= [
         "strength": "250 ml",
         "price": 220,
         "category": "Supplements",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Broad-spectrum vitamins & minerals for general health."
       },
       {
@@ -292,7 +292,7 @@ const products= [
         "strength": "60k IU",
         "price": 160,
         "category": "Supplements",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Supplement for bone health."
       },
       {
@@ -303,7 +303,7 @@ const products= [
         "strength": "1000 mg",
         "price": 350,
         "category": "Supplements",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Cardiovascular and cognitive support."
       },
       {
@@ -314,7 +314,7 @@ const products= [
         "strength": "10 mg + 500 mg",
         "price": 120,
         "category": "Supplements",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Immune-support combo."
       },
       {
@@ -325,7 +325,7 @@ const products= [
         "strength": "500 mg + 50 mg",
         "price": 180,
         "category": "Supplements",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Bone & muscle support."
       },
       {
@@ -336,7 +336,7 @@ const products= [
         "strength": "Standard",
         "price": 800,
         "category": "Test Kits",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Self-testing kit for blood sugar levels."
       },
       {
@@ -347,7 +347,7 @@ const products= [
         "strength": "Single-use",
         "price": 250,
         "category": "Test Kits",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Rap early pregnancy detection."
       },
       {
@@ -358,7 +358,7 @@ const products= [
         "strength": "Single-use",
         "price": 300,
         "category": "Test Kits",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Quick antigen test for SARS-CoV-2."
       },
       {
@@ -369,7 +369,7 @@ const products= [
         "strength": "Single-use",
         "price": 950,
         "category": "Test Kits",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Confential home HIV testing."
       },
       {
@@ -380,7 +380,7 @@ const products= [
         "strength": "Standard",
         "price": 650,
         "category": "Test Kits",
-        "imageUrl": "",
+        "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.indiatoday.in%2Fhealth%2Fstory%2Franitidine-white-petrolatum-removed-from-essential-medicines-list-what-it-means-1999932-2022-09-13&psig=AOvVaw2WuH30xlxphx9wve_nF6Va&ust=1746555639191000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJCFnfX4jI0DFQAAAAAdAAAAABAY",
         "description": "Home cholesterol monitoring kit."
       }
     ];

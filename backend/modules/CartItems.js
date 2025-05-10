@@ -4,10 +4,14 @@ const newSchema = mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     },
-    products:[{
+    quantity:{
+        type:Number,
+        default:0
+    },
+    products:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"Product"
-    }],
+    },
 },{
     timestamps:true,
 })
