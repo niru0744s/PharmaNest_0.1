@@ -66,9 +66,9 @@ const SellerSupportSection = () => {
 
       {/* Seller App Section */}
       <Paper sx={{ my: 5, p: 4, backgroundColor: '#f0f8ff' }}>
-        <Grid container spacing={4} alignItems="center">
+        <Grid container spacing={20} alignItems="center">
           <Grid item md={5} xs={12}>
-            <img src="https://via.placeholder.com/200x400?text=Seller+App+UI" alt="App" width="100%" />
+            <img src="media/images/sellerApp.webp" alt="App" width="100%" />
           </Grid>
           <Grid item md={7} xs={12}>
             <Typography variant="h6" color="primary" gutterBottom>Seller App</Typography>
