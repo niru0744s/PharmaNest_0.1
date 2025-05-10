@@ -9,7 +9,7 @@ import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import CartBadge from './CartBadge';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Navbar.css'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/loginSlice';
 
@@ -18,7 +18,7 @@ import { logout } from '../../features/loginSlice';
 export default function Navbar() {
   const dispatch = useDispatch();
   const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
-  const user = useSelector((state)=> state.login.user);
+  const user = useSelector((state) => state.login.user);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -26,48 +26,52 @@ export default function Navbar() {
   return (
     <>
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid ms-5">
-    <Link to="/" className='nav-link active' style={{margin:"0",padding:"0"}}>
-      <img src="media/images/logo2.svg" alt="" style={{height:"4rem",width:"100%" }} />
-    </Link>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <form class="d-flex position-relative ms-5" role="search" style={{width:"40rem"}}>
-      <SearchBox/>
-      </form>
-      <ul class="navbar-nav mb-2 ms-5 mt-1">
-        <li class="nav-item dropdown ms-2 mt-1">
-        <Link to="/login" className='nav-link dropdown-toggle' role="button">
-          <AccountCircleIcon className='me-3' sx={{ fontSize: 30 }}/>
-          {isAuthenticated?(<>{user.firstName}</>):(<>Login</>)}
-          </Link>
-          <ul class="dropdown-menu">
-            <li><Link class="dropdown-item" to={"/signup"}>New User ? SIgnup</Link></li>
-            <li><hr class="dropdown-divider"/></li>
-            <li><Link class="dropdown-item" to={"/userDashboard"}><AccountCircleIcon className='me-2'/>My Profile</Link></li>
-            <li><Link class="dropdown-item" to={"/orders"}> <LocalShippingIcon className='me-2'/>Orders</Link></li>
-            <li><Link class="dropdown-item" to={"/wishlist"}><FavoriteBorderIcon className='me-2'/>Wishlist</Link></li>
-            <li><Link className='dropdown-item' to={'/'} onClick={handleLogout}><LogoutIcon/>Logout</Link></li>
-          </ul>
-        </li>
-        <li class="nav-item ms-1">
-          <Link to="/cart" class="nav-link active"><CartBadge/>  Cart</Link>
-        </li>
-        <li class="nav-item ms-2 mt-2">
-          <Link to="/sellerDashboard" class="nav-link" aria-disabled="true"><AddBusinessIcon className='me-1 mb-1'/>Become a Seller</Link>
-        </li>
-        <li class="nav-item ms-2 mt-2">
-          <Link to="/aiAdvisor" class="nav-link" aria-disabled="true"><LocalHospitalIcon className='me-1 mb-1'/>Advisor</Link>
-        </li>
-        <li class="nav-item mt-2">
-          <Link to="/customerCare" class="nav-link" aria-disabled="true"><HeadsetMicIcon className='me-1 mb-1'/></Link>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+        <Link to="/" className='nav-brand px-3'>
+          <img
+            style={{ height: "5rem" }}
+            src="media/images/PHARMANEST.svg"
+            alt="Pharmanest Logo"
+          />
+        </Link>
+        <div class=" ms-1">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <form class="d-flex position-relative ms-5" role="search" style={{ width: "40rem" }}>
+              <SearchBox />
+            </form>
+            <ul class="navbar-nav mb-2 ms-2 mt-1">
+              <li class="nav-item dropdown ms-2 mt-1">
+                <p className='dropdown-toggle mt-2' role="button">
+                  <AccountCircleIcon className='me-3 h-icon' sx={{ fontSize: 30 }} />
+                  {isAuthenticated ? (<>{user?.firstName}</>) : (<Link className='link-secondary text-decoration-none' to={"/login"}>Login</Link>)}
+                </p>
+                <ul class="dropdown-menu">
+                  <li><Link class="dropdown-item " to={"/signup"}>New User ? SIgnup</Link></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li><Link class="dropdown-item" to={"/userDashboard"}><AccountCircleIcon className='me-2 h-icon' />My Profile</Link></li>
+                  <li><Link class="dropdown-item" to={"/orders"}> <LocalShippingIcon className='me-2 h-icon' />Orders</Link></li>
+                  <li><Link class="dropdown-item" to={"/wishlist"}><FavoriteBorderIcon className='me-2 h-icon' />Wishlist</Link></li>
+                  <li><Link className='dropdown-item' to={'/'} onClick={handleLogout}><LogoutIcon className='h-icon' />Logout</Link></li>
+                </ul>
+              </li>
+              <li class="nav-item ms-1">
+                <Link to="/cart" class="nav-link active"><CartBadge />  Cart</Link>
+              </li>
+              <li class="nav-item ms-2 mt-2">
+                <Link to="/sellerDashboard" class="nav-link" aria-disabled="true"><AddBusinessIcon className=' mb-1 h-icon' />Become a Seller</Link>
+              </li>
+              <li class="nav-item ms-2 mt-2">
+                <Link to="/aiAdvisor" class="nav-link" aria-disabled="true"><LocalHospitalIcon className=' mb-1 h-icon' />Advisor</Link>
+              </li>
+              <li class="nav-item mt-2">
+                <Link to="/customerCare" class="nav-link" aria-disabled="true"><HeadsetMicIcon className=' mb-1 h-icon' /></Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </>
   )
 }

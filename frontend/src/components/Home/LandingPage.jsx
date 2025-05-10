@@ -6,17 +6,29 @@ import GridLayout from "./GridLayout";
 import GridBottom from "./GridBottom";
 import Navbar from "../Header&Footer/Navbar";
 import Footer from "../Header&Footer/Footer";
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductsByCategory } from '../../features/dataSlice';
 
 export default function LandingPage() {
+  const dispatch = useDispatch();
+  const { categories, loading, error } = useSelector((state) => state.data);
+  useEffect(() => {
+    dispatch(fetchProductsByCategory());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <>
     <Navbar/>
     <Header/>
       <Hero/>
-      <Products/>
+      <Products data={categories[0]?.products || []}/>
       <GridLayout/>
       <GridBottom/>
-    <Footer/>
+   
     </>
   )
 }

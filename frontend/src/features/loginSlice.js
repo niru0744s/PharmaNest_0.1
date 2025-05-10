@@ -11,8 +11,11 @@ export const loginUser = createAsyncThunk(
             console.log(res);
             if (res.data.success === 1) {
                 const { token, ...user } = res.data.updatedUsr;
+                console.log(token);
                 toast.success(res.data.message);
                 localStorage.setItem('token', token);
+                localStorage.setItem("user", JSON.stringify(res.data.updatedUsr));
+                localStorage.setItem("token", res.data.updatedUsr.token);
                 return { token, user };
             } else {
                 toast.error(res.data.message);
@@ -28,8 +31,8 @@ export const loginUser = createAsyncThunk(
 const loginSlice = createSlice({
     name: 'auth',
     initialState: {
-        token: null,
-        user: null,
+        token: localStorage.getItem("token") || null,
+        user: JSON.parse(localStorage.getItem("user")) || null,
         isAuthenticated: false,
         loading: false,
         error: null,
@@ -40,6 +43,7 @@ const loginSlice = createSlice({
             state.user = null;
             state.isAuthenticated = false;
             localStorage.removeItem('token');
+            localStorage.removeItem('user');
         },
         setTokenFromStorage: (state, action) => {
             state.token = action.payload;

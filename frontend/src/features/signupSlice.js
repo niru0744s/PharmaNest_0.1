@@ -60,7 +60,7 @@ export const finalSubmit = createAsyncThunk(
       console.log(res);
       if(res.data.success == 1){
         toast.success(res.data.message);
-        return res.data;
+        return res.data.newUser;
       }else{
         toast.error(res.data.message);
         return rejectWithValue(res.data.message);
@@ -78,7 +78,9 @@ const signupSlice = createSlice({
     step: 1,
     loading: false,
     error: null,
-    userData: null
+    userData: null,
+    user: null,
+    isAuthenticated : false
   },
   reducers: {
     resetSignup: (state) => {
@@ -112,7 +114,9 @@ const signupSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(finalSubmit.fulfilled, (state, action) => {
-        state.step = 4; // for redirect
+        state.step = 4; 
+        state.user = action.payload;
+        state.isAuthenticated = true;
       });
   },
 });

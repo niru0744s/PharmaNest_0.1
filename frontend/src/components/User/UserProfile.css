@@ -1,0 +1,44 @@
+    .sidebar-block {
+    margin-bottom: 1.5rem;
+  }
+  
+  .sidebar-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+  }
+  
+  .sidebar-block p {
+    font-size: 14px;
+    margin: 6px 0;
+    padding-left: 32px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar-block .active-link {
+    color: #2874f0;
+    font-weight: 600;
+  }
+
+  .actv-link{
+    background-color: #4982dd;
+  }
+
+  
+  .address-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+  }
+  
+  .add-new-address button {
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  

@@ -1,9 +1,9 @@
-import React from 'react'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { useEffect } from "react";
 
-const Products = () => {
+const Products = ({data}) => {
   var settings = {
     dots: true,
     infinite: true,
@@ -11,48 +11,18 @@ const Products = () => {
     slidesToShow: 6,
     slidesToScroll: 1,
   };
+
   return (
     <>
-
-    <div className='bg-light m-2' style={{height:"20rem"}}>
-      <h3 className='ms-4 mt-3'>Baby Products & More </h3>
+    <div className='bg-light m-2' style={{height:"17rem"}}>
+      <h3 className="ms-2">Medicines</h3>
       <Slider {...settings}>
-      {data.map((ele)=>(
-      <div class="ms-4" style={{width:"20rem"}}>
-        <img src={ele.image} class="product" alt="..." style={{height:"10rem" , width:"10rem"}}/>
-          <div class="">
-            <p class="">{ele.title}</p>
-            <h5 class="">From -/{ele.price}</h5>
-          </div>
-      </div>
-      ))}
-      </Slider>
-    </div>
-
-    <div className='bg-light m-2' style={{height:"20rem"}}>
-      <h3 className='ms-4 mt-3'>Baby Products & More </h3>
-      <Slider {...settings}>
-      {data.map((ele)=>(
-      <div class="ms-4" style={{width:"20rem"}}>
-        <img src={ele.image} class="product" alt="..." style={{height:"10rem" , width:"10rem"}}/>
-          <div class="">
-            <p class="">{ele.title}</p>
-            <h5 class="">From -/{ele.price}</h5>
-          </div>
-      </div>
-      ))}
-      </Slider>
-    </div>
-
-    <div className='bg-light m-2' style={{height:"20rem"}}>
-      <h3 className='ms-4 mt-3'>Baby Products & More </h3>
-      <Slider {...settings}>
-      {data.map((ele)=>(
-      <div class="ms-4" style={{width:"20rem"}}>
-        <img src={ele.image} class="product" alt="..." style={{height:"10rem" , width:"10rem"}}/>
-          <div class="">
-            <p class="">{ele.title}</p>
-            <h5 class="">From -/{ele.price}</h5>
+      {data.map((ele , idx)=>(
+      <div class="ms-4" style={{width:"20rem"}} key={idx}>
+        <img src={ele.imageUrl} class="product" alt="..." style={{height:"10rem" , width:"10rem"}}/>
+          <div class="mb-0">
+            <p class="mb-0">{ele.name}</p>
+            <h5 class="mb-0">From -/{ele.price}</h5>
           </div>
       </div>
       ))}
@@ -63,53 +33,3 @@ const Products = () => {
 }
 
 export default Products
-
-const data = [{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-},{
-  title:"Baby product",
-  image:"media/headerImg/img7.png",
-  price:"800"
-}]

@@ -2,23 +2,26 @@ import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import ProfileInfo from "./ProfileInfo";
 import "./userProfile.css";
-import { useSelector } from "react-redux";
-import ManageAddress from "./ManageAddress";
+import Navbar from "../Header&Footer/Navbar";
 
-export default function UserDashboard() {
-  const [section, setSection] = useState(["section","manageAddress"]);
-  const user = useSelector((state)=>state.login.user)
+const UserProfile = () => {
+  const [section, setSection] = useState("profile");
+
   return (
+    <>
     <div className="container-fluid user-profile-page">
       <div className="row">
         <div className="col-md-3 sidebar-container">
-          <Sidebar setSection={setSection} section={section} user={user}/>
+          <Sidebar setSection={setSection} section={section} />
         </div>
         <div className="col-md-9">
           {section === "profile" && <ProfileInfo />}
-          {section === "manageAddress" && <ManageAddress/>}
+          {/* Add more sections like <ManageAddress /> etc */}
         </div>
       </div>
     </div>
+    </>
   );
-}
+};
+
+export default UserProfile;

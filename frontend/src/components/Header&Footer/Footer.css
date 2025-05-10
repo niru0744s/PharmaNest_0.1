@@ -1,5 +1,6 @@
 .footerBody{
     align-items: flex-end;
+    background-color: #1A1F36;
 }
 .inp:focus{
     border-color: #a3b493;
@@ -7,12 +8,15 @@
     box-shadow: 0 0 5px rgba(39, 254, 1, 0.5);
 }
 
+.f-links{
+    color:#22C55E ;
+}
+
 .btnn{
     background-color: #219a14;
     color: white;
 }
 .cont{
-    background-color: #93a057;
     height: 2.7rem;
     width: 2.7rem;
     margin-right: 1rem;
@@ -26,5 +30,5 @@
 }
 
 .footer-links  p:hover{
-    color: #ffffff !important;
+    color: #15803D !important;
 }

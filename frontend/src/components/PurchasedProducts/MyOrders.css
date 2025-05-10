@@ -1,0 +1,31 @@
+.filters {
+    font-size: 14px;
+  }
+  
+  .order-item img {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  
+  .status-dot.green {
+    background-color: #28a745;
+  }
+  
+  .status-dot.gray {
+    background-color: #6c757d;
+  }
+  .timeline li {
+    list-style: none;
+    margin-bottom: 6px;
+  }
+  
+  
