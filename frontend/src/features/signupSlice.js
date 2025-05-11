@@ -41,7 +41,7 @@ export const submitOtp = createAsyncThunk(
         return rejectWithValue(res.data.message);
       }
     } catch (err) {
-      console.log(error)
+      console.log(err)
       toast.error("Something went wrong!");
       return rejectWithValue(err.response.data || 'OTP failed');
     }
@@ -60,6 +60,7 @@ export const finalSubmit = createAsyncThunk(
       console.log(res);
       if(res.data.success == 1){
         toast.success(res.data.message);
+        localStorage.setItem('user',JSON.stringify(res.data.newUser))
         return res.data.newUser;
       }else{
         toast.error(res.data.message);

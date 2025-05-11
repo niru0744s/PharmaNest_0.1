@@ -4,12 +4,17 @@ import loginReducer from '../features/loginSlice';
 import dataReducer from '../features/dataSlice';
 import productSlice from '../features/ProductSlice';
 import aiAdvisorReducer from '../features/aiAdvisorSlice';
+import hostAuthReducer from '../features/hostLoginSlices';
+import hostSignupReducer from '../features/hostSingupSlices';
+
 export const store = configureStore({
     reducer :{
         signup:signupReducer,
         login: loginReducer,
         data:dataReducer,
         product:productSlice,
-        aiAdvisor:aiAdvisorReducer
+        aiAdvisor:aiAdvisorReducer,
+        loginHost:hostAuthReducer,
+        signupHost:hostSignupReducer
     }
 });

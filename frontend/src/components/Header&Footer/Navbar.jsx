@@ -17,8 +17,8 @@ import { logout } from '../../features/loginSlice';
 
 export default function Navbar() {
   const dispatch = useDispatch();
-  const isAuthenticated = useSelector((state) => state.login.isAuthenticated);
-  const user = useSelector((state) => state.login.user);
+  const isAuthenticated = Boolean(localStorage.getItem('user'));
+  const user = localStorage.getItem('user');
 
   const handleLogout = () => {
     dispatch(logout());

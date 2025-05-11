@@ -2,7 +2,7 @@ const User = require('../../modules/User');
 const {randomInt} = require('crypto');
 const bcrypt = require('bcrypt');
 const jwtToken = require('../../middleware/tokenVerify');
-const sendEmail = require('./SendEmail');
+const {sendUserEmail} = require('./SendEmail');
 const Address = require("../../modules/Locations");
 
 module.exports.otpSent = async (req,res)=>{
@@ -20,9 +20,9 @@ module.exports.otpSent = async (req,res)=>{
             email:email,
             otp:otp
         }).save();
-        await sendEmail(
+        await sendUserEmail(
             email,
-            'Your OTP Code',
+            'Your User AC Login OTP Code -',
             `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
           );
         setTimeout(async ()=>{

@@ -1,6 +1,6 @@
 import Navbar from '../Header&Footer/Navbar';
 import Footer from '../Header&Footer/Footer';
-import OtpSent from './otpSent';
+import OtpSent from './OtpSent';
 import OtpBox from './OtpBox';
 import Credentials from './Credentials';
 import { useNavigate } from 'react-router-dom';

@@ -2,6 +2,7 @@ const Host = require("../../modules/Host");
 const {randomInt} = require('crypto');
 const bcrypt = require('bcrypt');
 const jwtToken = require('../../middleware/tokenVerify');
+const sendHostEmail = require("./HostEmail");
 
 module.exports.otpSent = async (req,res)=>{
     try {
@@ -18,6 +19,11 @@ module.exports.otpSent = async (req,res)=>{
             email:email,
             otp:otp
         }).save();
+        await sendHostEmail(
+            email,
+            'Your Seller AC Login OTP Code - ',
+            `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
+        )
         setTimeout(async ()=>{
             const newOtp = randomInt(1000,10000);
             await Host.findByIdAndUpdate(newUSr._id,{
@@ -26,7 +32,7 @@ module.exports.otpSent = async (req,res)=>{
         },10*60*1000)
         res.send({
             success:1,
-            message:"OTP sent successfully ! , will valid for 10 min",
+            message:"OTP sent successfully ! , valid for 10 min",
             newUSr
         });
     } catch (error) {
@@ -42,9 +48,7 @@ module.exports.otpVerify = async(req,res)=>{
     try {
     const {id} = req.query;
     const {otp} = req.body;
-    console.log(id , otp);
     const exUser = await Host.findById(id);
-    console.log(exUser);
     if(otp != exUser.otp){
         res.send({
             success:0,
