@@ -1,4 +1,5 @@
 import HeroSection from "./HeroSection";
+import HostFooter from "./HostFooter";
 import HostNavbar from "./HostNavbar";
 import SellerSupportSection from "./SellerSupportSection";
 import TestimonialSlider from "./TestimonialSlider";
@@ -10,6 +11,7 @@ export default function HostLandingPage() {
      <HeroSection/>
      <TestimonialSlider/>
      <SellerSupportSection/>
+     <HostFooter/>
      </>
   )
 }
