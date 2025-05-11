@@ -11,23 +11,23 @@ import {
   selectInput
 } from '../../features/aiAdvisorSlice';
 
-const socket = io('http://localhost:8080');
+// const socket = io('http://localhost:8080');
 
 export default function AiAdvisor() {
 
-  const dispatch = useDispatch();
-  const messages = useSelector(selectMessages);
-  const input = useSelector(selectInput);
+  // const dispatch = useDispatch();
+  // const messages = useSelector(selectMessages);
+  // const input = useSelector(selectInput);
 
-  useEffect(() => {
-    dispatch(fetchMessages());
+  // useEffect(() => {
+  //   dispatch(fetchMessages());
 
-    socket.on('aiReply', (reply) => {
-      dispatch(addMessage(reply));
-    });
+  //   socket.on('aiReply', (reply) => {
+  //     dispatch(addMessage(reply));
+  //   });
 
-    return () => socket.off('aiReply');
-  }, [dispatch]);
+  //   return () => socket.off('aiReply');
+  // }, [dispatch]);
 
   const sendMessage = () => {
     if (!input.trim()) return;
