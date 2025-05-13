@@ -13,9 +13,10 @@ import HostLogin from './components/HostDashboard/HostAuth/HostLogin';
 import Signup from './components/UserAuth/Signup';
 import AccountCenter from './components/User/AccountCenter';
 import AiAdvisor from './components/Advisor/AiAdvisor';
-
+import SellerProducts from './components/HostDashboard/ShowProducts/SellerProducts';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import EditProductForm from './components/HostDashboard/EditProducts/EditProductForm';
 
 function App() {
   return (
@@ -36,6 +37,8 @@ function App() {
         <Route path='/wishlist' element={<Wishlist/>}/>
         <Route path='/sellerDashboard' element={<HostLandingPage/>}/>
         <Route path='/addProducts' element={<AddProuducts/>}/>
+        <Route path='/sellerProduct' element={<SellerProducts/>}/>
+        <Route path="/editProduct/:id" element={<EditProductForm/>}/>
       </Routes>
       </BrowserRouter>
     </>

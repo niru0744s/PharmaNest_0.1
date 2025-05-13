@@ -119,7 +119,8 @@ module.exports.login = async(req,res)=>{
         res.send({
             success:1,
             message:"User login Successfull",
-            updatedUsr
+            updatedUsr,
+            token
         })
     } catch (error) {
         res.send({

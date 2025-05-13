@@ -1,14 +1,15 @@
 const jwt = require('jsonwebtoken');
+const Host = require("../modules/Host");
 
 module.exports.generateToken = (user)=> {
-    const payload = {email: user.email };
+    const payload = {user};
     const options = {
-      expiresIn: '1h', 
+      expiresIn: '10h', 
     };
     return jwt.sign(payload, process.env.JWT_SECRET, options);
 }
 
-module.exports.authenticateToken = (req, res, next)=> {
+module.exports.userMiddleware = (req, res, next)=> {
     const authHeader = req.headers['authorization'];
     if(!authHeader || !authHeader.startsWith('Bearer ')){
       return res.status(401).send({
@@ -32,3 +33,32 @@ module.exports.authenticateToken = (req, res, next)=> {
       })
     }
   }
+
+module.exports.hostMiddleware = async(req,res,next)=>{
+  const authHeader = req.headers['authorization'];
+    if(!authHeader || !authHeader.startsWith('Bearer ')){
+      return res.status(401).send({
+        success:0,
+        message:"No token provided , authorization denied"
+      });
+    }
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token) return res.status(401).json({ error: 'Missing token' });
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        if(decoded.user.operator == "host"){
+          req.user = decoded.user; 
+          next();
+        } else {
+          res.send({
+            message:"You are not the Seller"
+          })
+        }
+    } catch (error) {
+      console.log(error);
+      res.status(401).send({
+        success:0,
+        message:error
+      })
+    }
+}

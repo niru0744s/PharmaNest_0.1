@@ -73,8 +73,8 @@ export default function HostNavbar() {
             </Menu>
           </div>
 
-          <Button color="inherit">products</Button>
-          <Button color="inherit">Add Products</Button>
+          <Button color="inherit"><Link className='nav-link' to={'/sellerProduct'}>products</Link></Button>
+          <Button color="inherit"><Link className='nav-link' to={'/addProducts'}>Add Products</Link></Button>
           <Button color="inherit">Learn</Button>
           <Button color="inherit">Shopsy</Button>
           {!isLoggedIn ? (

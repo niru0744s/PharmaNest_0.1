@@ -44,16 +44,21 @@ module.exports.fetchData = async(req,res)=>{
 
 module.exports.addProduct = async(req,res)=>{
     try {
-        const {name , brand , form , strength , category , price , description , image , quantity} = req.body;
+        const url = req.file.path;
+        const filename = req.file.filename;
+        const {name , brand , form , strength , category , price ,mainPrice, description , quantity} = req.body;
         const initProducts = new Product({
-            name,brand , form , strength , category , price , description , image , quantity , hostId : req.user._id
+            name,brand , form , strength , category,mainPrice, price , description , quantity , hostId : req.user._id
         });
+        initProducts.imageUrl = {url , filename};
         await initProducts.save();
         res.send({
             success:1,
-            message:"Product added successfully "
+            message:"Product added successfully ",
+            initProducts
         })
     } catch (error) {
+        console.log(error);
         res.send({
             success:0,
             message:error
@@ -64,18 +69,26 @@ module.exports.addProduct = async(req,res)=>{
 module.exports.updateproduct = async(req,res)=>{
     try {
         const {id} = req.query;
-        const {name , brand , form , strength , category , price , description , image , quantity} = req.body;
-        await Product.findByIdAndUpdate(id,{
+        console.log(req.body.mainPrice);
+        const {name , brand , form , strength , category ,mainPrice ,  price , description , quantity} = req.body;
+        console.log(req.body , url , filename);
+        const updatedProduct = await Product.findByIdAndUpdate(id,{
             name , 
             brand,
             form,
             strength,
             category,
             price, 
+            mainPrice,
             description ,
-            image,
             quantity
         }) ;
+        if(typeof req.file !== "undefined"){
+            const url = req.file.path;
+            const filename = req.file.filename;
+            updatedProduct.imageUrl = {url , filename};
+            await updatedProduct.save();
+        }
         res.send({
             success:1,
             message:"product has been updated successfully "

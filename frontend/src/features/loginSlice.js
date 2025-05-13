@@ -10,12 +10,11 @@ export const loginUser = createAsyncThunk(
             const res = await axios.post('http://localhost:8080/api/v1/user/auth/login', data);
             console.log(res);
             if (res.data.success === 1) {
-                const { token, ...user } = res.data.updatedUsr;
-                console.log(token);
+                const user  = res.data.updatedUsr;
+                const token = res.data.token;
                 toast.success(res.data.message);
                 localStorage.setItem('token', token);
                 localStorage.setItem("user", JSON.stringify(res.data.updatedUsr));
-                localStorage.setItem("token", res.data.updatedUsr.token);
                 return { token, user };
             } else {
                 toast.error(res.data.message);
