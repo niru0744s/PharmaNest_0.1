@@ -18,11 +18,17 @@ module.exports.userMiddleware = (req, res, next)=> {
       });
     }
     const token = authHeader && authHeader.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'Missing token' });
+    if (!token) return res.status(401).json({ 
+      success:0,
+      message: 'Missing token' 
+    });
   
     try {
       jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(403).json({ error: 'Invalid or expired token' });
+        if (err) return res.status(403).json({
+          success:0,
+          message: 'Invalid or expired token' 
+        });
         req.user = decoded;  // attach the decoded payload to req.user
         next();
       });
@@ -43,7 +49,9 @@ module.exports.hostMiddleware = async(req,res,next)=>{
       });
     }
     const token = authHeader && authHeader.split(' ')[1];
-    if (!token) return res.status(401).json({ error: 'Missing token' });
+    if (!token) return res.status(401).json({ 
+      success:0,
+      message: 'Missing token' });
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
         if(decoded.user.operator == "host"){
@@ -51,11 +59,11 @@ module.exports.hostMiddleware = async(req,res,next)=>{
           next();
         } else {
           res.send({
+            success:0,
             message:"You are not the Seller"
           })
         }
     } catch (error) {
-      console.log(error);
       res.status(401).send({
         success:0,
         message:error

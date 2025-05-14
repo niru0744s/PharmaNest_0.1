@@ -25,10 +25,12 @@ export default function LandingPage() {
     <Navbar/>
     <Header/>
       <Hero/>
-      <Products data={categories[0]?.products || []}/>
-      <GridLayout/>
+      <Products data={categories[0]}/>
+      <Products data={categories[1]}/>
+      <Products data={categories[2]}/>
+      <GridLayout data={categories[3]}/>
       <GridBottom/>
-   
+    <Footer/>
     </>
   )
 }

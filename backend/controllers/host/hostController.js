@@ -86,7 +86,6 @@ module.exports.createPass = async (req, res) => {
             newUser
         })
     } catch (error) {
-        console.log(error)
         res.send({
             success: 0,
             message: error
@@ -116,7 +115,6 @@ module.exports.login = async (req, res) => {
         const updatedUsr = await Host.findByIdAndUpdate(usr._id, {
             token: token
         });
-        console.log(updatedUsr);
         res.send({
             success: 1,
             message: "User login Successfull",
@@ -164,7 +162,6 @@ module.exports.showProducts = async (req, res) => {
             products: products
         })
     } catch (error) {
-        console.log(error)
         res.send({
             success: 0,
             message: error

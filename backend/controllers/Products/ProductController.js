@@ -58,7 +58,6 @@ module.exports.addProduct = async(req,res)=>{
             initProducts
         })
     } catch (error) {
-        console.log(error);
         res.send({
             success:0,
             message:error
@@ -69,9 +68,7 @@ module.exports.addProduct = async(req,res)=>{
 module.exports.updateproduct = async(req,res)=>{
     try {
         const {id} = req.query;
-        console.log(req.body.mainPrice);
         const {name , brand , form , strength , category ,mainPrice ,  price , description , quantity} = req.body;
-        console.log(req.body , url , filename);
         const updatedProduct = await Product.findByIdAndUpdate(id,{
             name , 
             brand,
