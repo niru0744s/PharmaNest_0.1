@@ -7,15 +7,16 @@ import {
   Typography,
   IconButton,
   Box,
-  Button,
+  Button
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { updateWishlist } from "../../features/productActionSlice";
+import { addToWishlist, updateWishlist , addToCart  } from "../../features/productActionSlice";
+import { toast } from "react-toastify";
 
 const Products = ({ data }) => {
   const dispatch = useDispatch();
   const wishlist = useSelector((state) => state.productActions.wishlist);
-
+  const cart = useSelector((state)=> state.productActions.cart);
   const settings = {
     dots: true,
     infinite: true,
@@ -33,8 +34,8 @@ const Products = ({ data }) => {
 
         <Slider {...settings}>
           {data?.products?.map((ele, idx) => {
-            const isLiked = wishlist.includes(ele._id);
-
+           const isLiked = wishlist?.some(item => item._id == ele._id);
+           const isCart = cart?.some(item => item.products == ele._id);
             return (
               <div className="" key={idx}>
                 <Box
@@ -58,8 +59,17 @@ const Products = ({ data }) => {
                   >
                     {/* Like Icon */}
                     <IconButton
-                      onClick={() =>
-                        dispatch(updateWishlist({ productId: ele._id, liked: !isLiked }))
+                      onClick={async () =>{
+                        if(localStorage.getItem('user')){
+                          if(isLiked){
+                          await dispatch(updateWishlist({ productId: ele._id})).unwrap();
+                        }else{
+                          await dispatch(addToWishlist({ productId: ele._id})).unwrap();
+                        }
+                        }else{
+                          toast.error("You have to login first!");
+                        }
+                      }
                       }
                       sx={{
                         position: "absolute",
@@ -96,26 +106,38 @@ const Products = ({ data }) => {
                       className="add-cart-btn"
                       sx={{
                         width: "100%",
-                        backgroundColor: "#1976d2",
-                        color: "white",
                         textAlign: "center",
                         fontSize: 14,
                         fontWeight: 500,
-                        py: 1,
+                        p:1,
                         opacity: 0,
                         transition: "0.3s",
-                        cursor: "pointer",
                         zIndex: 5,
                         borderBottomLeftRadius: "8px",
                         borderBottomRightRadius: "8px",
                       }}
                     >
-                      Add to Cart
+                      <Button
+                      sx={{
+                        width: "80%",
+                        backgroundColor: isCart? "#ccc" : "#1976d2",
+                        color: isCart? "#888":"white",
+                        cursor: isCart? "not-allowed":"pointer",
+                        pointerEvents: isCart? "none" : "auto",
+                      }}
+                      onClick={async()=>{
+                        if(localStorage.getItem('user')){
+                          await dispatch(addToCart({ productId: ele._id})).unwrap();
+                          
+                        }else{
+                          toast.error("You have to login first!");
+                        }
+                      }}
+                      >{isCart? "Already Added" : "Add to cart" }</Button>
                     </Box>
                   </Card>
                 </Box>
               </div>
-
             );
           })}
         </Slider>

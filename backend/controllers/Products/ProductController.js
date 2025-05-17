@@ -16,7 +16,8 @@ module.exports.fetchData = async(req,res)=>{
                     price:      "$price",
                     imageUrl:   "$imageUrl",
                     description:"$description",
-                    quantity:   "$quantity"
+                    quantity:   "$quantity",
+                    mainPrice:  "$mainPrice"
                   }
                 }
               }

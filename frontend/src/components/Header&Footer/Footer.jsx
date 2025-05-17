@@ -16,7 +16,7 @@ export default function Footer() {
                     <MailOutlineIcon fontSize='large' style={{"fontSize":"1.8rem"}}/>
                     <p style={{marginLeft:"10px"}} className='fs-5'>Sent a Message</p>
                     </div>
-                    <form className='needs-validation d-flex' novalidate>
+                    <form className='needs-validation d-flex' noValidate>
                         <input type="email" name="email" id="email" placeholder='Enter your email' className='px-3 me-3 rounded-2 border border-success border inp  form-control' required/>
                         <input type="text" name="text"  placeholder='Sent a Message' className='px-3 me-3 rounded-2 border-success border inp form-control' required/>
                           <button className='px-4 py-2 rounded-3 border border-white btnn'>

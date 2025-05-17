@@ -1,4 +1,3 @@
-import React from 'react'
 import SearchBox from './SearchBox';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -9,33 +8,40 @@ import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
 import CartBadge from './CartBadge';
 import LogoutIcon from '@mui/icons-material/Logout';
 import './Navbar.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/loginSlice';
-
-
+import { toast } from 'react-toastify';
+import logo from '../../../media/images/PHARMANEST.svg';
 
 export default function Navbar() {
   const dispatch = useDispatch();
   const isAuthenticated = Boolean(localStorage.getItem('user'));
-  const user = localStorage.getItem('user');
-
+  const user = JSON.parse(localStorage.getItem('user'));
+  const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logout());
   };
+  const handleClick = ()=>{
+    if(!isAuthenticated){
+      toast.error("You have to Login First");
+    }else{
+      navigate("/userDashboard");
+    }
+  }
   return (
     <>
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <Link to="/" className='nav-brand px-3'>
           <img
             style={{ height: "5rem" }}
-            src="media/images/PHARMANEST.svg"
+            src={logo}
             alt="Pharmanest Logo"
           />
         </Link>
         <div class=" ms-1">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <form class="d-flex position-relative ms-5" role="search" style={{ width: "40rem" }}>
@@ -50,7 +56,7 @@ export default function Navbar() {
                 <ul class="dropdown-menu">
                   <li><Link class="dropdown-item " to={"/signup"}>New User ? SIgnup</Link></li>
                   <li><hr class="dropdown-divider" /></li>
-                  <li><Link class="dropdown-item" to={"/userDashboard"}><AccountCircleIcon className='me-2 h-icon' />My Profile</Link></li>
+                  <li><a onClick={handleClick} class="dropdown-item"><AccountCircleIcon className='me-2 h-icon' />My Profile</a></li>
                   <li><Link class="dropdown-item" to={"/orders"}> <LocalShippingIcon className='me-2 h-icon' />Orders</Link></li>
                   <li><Link class="dropdown-item" to={"/wishlist"}><FavoriteBorderIcon className='me-2 h-icon' />Wishlist</Link></li>
                   <li><Link className='dropdown-item' to={'/'} onClick={handleLogout}><LogoutIcon className='h-icon' />Logout</Link></li>
@@ -62,7 +68,7 @@ export default function Navbar() {
               <li class="nav-item ms-2 mt-2">
                 <Link to="/sellerDashboard" class="nav-link" aria-disabled="true"><AddBusinessIcon className=' mb-1 h-icon' />Become a Seller</Link>
               </li>
-              <li class="nav-item ms-2 mt-2">
+              <li className="nav-item ms-2 mt-2">
                 <Link to="/aiAdvisor" class="nav-link" aria-disabled="true"><LocalHospitalIcon className=' mb-1 h-icon' />Advisor</Link>
               </li>
               <li class="nav-item mt-2">

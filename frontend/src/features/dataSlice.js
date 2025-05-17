@@ -8,7 +8,6 @@ export const fetchProductsByCategory = createAsyncThunk(
     try {
       const res = await axios.get('http://localhost:8080/api/v1/products');
       if(res.data.success == 1){
-        console.log("fetch",res.data.categoryWise)
         return res.data.categoryWise;
       }else{
         toast.error(res.data.message);

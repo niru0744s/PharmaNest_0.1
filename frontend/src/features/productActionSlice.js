@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from '../axiosInstance';
+import { toast } from "react-toastify";
 
 // ================= CART =================
 
@@ -7,8 +8,19 @@ import axiosInstance from '../axiosInstance';
 export const addToCart = createAsyncThunk(
   "productActions/addToCart",
   async (product) => {
-    const res = await axiosInstance.post("/api/cart", product);
-    return res.data;
+    try {
+      const res = await axiosInstance.post(`/user/addCart/${product.productId}`);
+      console.log(res);
+      if(res.data.success == 1){
+        toast.success(res.data.message);
+        return res.data.existingCart;
+      }else{
+        console.log(res.data.message);
+      }
+      } catch (error) {
+      toast.error(error.message);
+      return rejectWithValue(error.message || 'Server error');
+      }
   }
 );
 
@@ -16,8 +28,8 @@ export const addToCart = createAsyncThunk(
 export const updateCart = createAsyncThunk(
   "productActions/updateCart",
   async ({ productId, quantity }) => {
-    const res = await axiosInstance.put(`/api/cart/${productId}`, { quantity });
-    return res.data;
+    const res = await axiosInstance.put(`/user/updateCart/${productId}`, { quantity });
+    return productId;
   }
 );
 
@@ -25,8 +37,13 @@ export const updateCart = createAsyncThunk(
 export const fetchCartProducts = createAsyncThunk(
   "productActions/fetchCart",
   async () => {
-    const res = await axiosInstance.get("/api/cart");
-    return res.data;
+    const res = await axiosInstance.get("/user/fetchCart");
+    if(res.data.success == 1){
+      console.log(res.data.userCart)
+      return res.data.userCart;
+    }else{
+      console.log(res.data.message);
+    }
   }
 );
 
@@ -35,18 +52,41 @@ export const fetchCartProducts = createAsyncThunk(
 // Add to Wishlist
 export const addToWishlist = createAsyncThunk(
   "productActions/addToWishlist",
-  async (productId) => {
-    await axiosInstance.post("/api/wishlist", { productId });
-    return productId;
+  async (productId, { rejectWithValue }) => {
+    console.log(productId);
+    try {
+      const res = await axiosInstance.post(`/user/addWishlist/${productId.productId}`);
+      if (res.data.success == 1) {
+        toast.success(res.data.message);
+        return res.data.wishlist;
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      return rejectWithValue(error.message || 'Server error');
+    }
   }
 );
 
 // Toggle Wishlist (remove)
 export const updateWishlist = createAsyncThunk(
   "productActions/updateWishlist",
-  async (productId) => {
-    await axiosInstance.put(`/api/wishlist/${productId}`);
-    return productId;
+  async (productId, { rejectWithValue }) => {
+    console.log(productId);
+    try {
+      const res = await axiosInstance.delete(`/user/deleteWishlist/${productId.productId}`);
+      console.log(res);
+      if (res.data.success == 1) {
+        toast.success(res.data.message);
+        return productId.productId;
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+      return rejectWithValue(error.message || 'Server error');
+    }
   }
 );
 
@@ -54,8 +94,16 @@ export const updateWishlist = createAsyncThunk(
 export const fetchWishlist = createAsyncThunk(
   "productActions/fetchWishlist",
   async () => {
-    const res = await axiosInstance.get("/api/wishlist");
-    return res.data;
+    try {
+      const res = await axiosInstance.get("/user/fetchWishlist");
+    if(res.data.success == 1){
+      return res.data.wishlist;
+    }else{
+      console.log(res.data.message);
+    }
+    } catch (error) {
+      toast.error(error);
+    }
   }
 );
 
@@ -105,16 +153,17 @@ const productActionsSlice = createSlice({
 
       // === Cart ===
       .addCase(addToCart.fulfilled, (state, action) => {
-        const exists = state.cart.find((item) => item._id === action.payload._id);
-        if (!exists) {
-          state.cart.push(action.payload);
+        const product = action.payload;
+        const exists = state.cart.find(item => item._id === product.products);
+        if(!exists){
+          state.cart.push(product);
         }
+        state.loading = false ;
       })
       .addCase(updateCart.fulfilled, (state, action) => {
-        const idx = state.cart.findIndex((item) => item._id === action.payload._id);
-        if (idx !== -1) {
-          state.cart[idx] = action.payload;
-        }
+        const productId = action.payload.productId;
+        state.cart = state.cart.filter(item => item._id !== productId);
+        state.loading = false;
       })
       .addCase(fetchCartProducts.fulfilled, (state, action) => {
         state.cart = action.payload;
@@ -122,12 +171,17 @@ const productActionsSlice = createSlice({
 
       // === Wishlist ===
       .addCase(addToWishlist.fulfilled, (state, action) => {
-        if (!state.wishlist.includes(action.payload)) {
-          state.wishlist.push(action.payload);
+        const product = action.payload;
+        const exists = state.wishlist.find(item => item._id === product._id);
+        if (!exists) {
+        state.wishlist.push(product);
         }
+        state.loading = false;
       })
       .addCase(updateWishlist.fulfilled, (state, action) => {
-        state.wishlist = state.wishlist.filter((id) => id !== action.payload);
+        const productId = action.payload.productId;
+        state.wishlist = state.wishlist.filter(item => item._id !== productId);
+        state.loading = false;
       })
       .addCase(fetchWishlist.fulfilled, (state, action) => {
         state.wishlist = action.payload;

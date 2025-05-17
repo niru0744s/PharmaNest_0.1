@@ -17,8 +17,25 @@ import SellerProducts from './components/HostDashboard/ShowProducts/SellerProduc
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import EditProductForm from './components/HostDashboard/EditProducts/EditProductForm';
+import ShowAllProducts from './components/ShowAllProducts/ShowAllProducts';
+
+
+import { fetchProductsByCategory } from './features/dataSlice';
+import { fetchWishlist } from './features/productActionSlice';
+import { fetchPurchasedProducts } from './features/productActionSlice';
+import { fetchCartProducts } from './features/productActionSlice';
+import { useEffect } from 'react';
+import { useDispatch , useSelector } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch();
+    useEffect(()=>{
+      dispatch(fetchProductsByCategory());
+      if(localStorage.getItem("user")){
+        dispatch(fetchWishlist());
+        dispatch(fetchCartProducts());
+      }
+    },[]);
   return (
     <>
       <BrowserRouter>
@@ -39,6 +56,7 @@ function App() {
         <Route path='/addProducts' element={<AddProuducts/>}/>
         <Route path='/sellerProduct' element={<SellerProducts/>}/>
         <Route path="/editProduct/:id" element={<EditProductForm/>}/>
+        <Route path="/product/:categoryName" element={<ShowAllProducts/>}/>
       </Routes>
       </BrowserRouter>
     </>

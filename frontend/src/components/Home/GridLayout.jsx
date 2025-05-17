@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Card,
@@ -8,49 +8,57 @@ import {
   IconButton,
   Grid,
   Box,
+  Button
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { updateWishlist } from "../../features/productActionSlice";
+import { addToWishlist, updateWishlist, addToCart } from "../../features/productActionSlice";
 
-export default function GridLayout({data}) {
-    const dispatch = useDispatch();
-    const wishlist = useSelector((state) => state.productActions.wishlist);
-    const limitedProducts = data?.products?.slice(0, 4);
-    return (
-        <Box className="bg-light m-2 p-3 rounded">
+export default function GridLayout({ data }) {
+  const dispatch = useDispatch();
+  const wishlist = useSelector((state) => state.productActions.wishlist);
+  const cart = useSelector((state) => state.productActions.cart);
+  const limitedProducts = data?.products?.slice(0, 4);
+  return (
+    <Box className="bg-light m-2 p-3 rounded" sx={{ width: "33%" }}>
       <Typography variant="h5" className="mb-3 ms-2">
         {data?.category}
       </Typography>
 
       <Grid container spacing={2}>
         {limitedProducts?.map((ele, idx) => {
-          const isLiked = wishlist.includes(ele._id);
-
+          const isLiked = wishlist?.some(item => item._id == ele._id);
+          const isCart = cart?.some(item => item.products == ele._id);
           return (
-            <Grid item xs={12} sm={6} md={3} key={idx}>
+            <Grid item xs={6} key={idx}>
               <Box
                 sx={{
                   position: "relative",
                   ":hover .add-cart-btn": { opacity: 1 },
+
                 }}
               >
                 <Card
                   sx={{
-                    width: "100%",
-                    minHeight: 280,
                     position: "relative",
-                    px: 0,
-                    pt: 1,
-                    pb: 0,
+                    width: 210,
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
                   }}
                 >
-                  {/* ❤️ Wishlist Icon */}
+                  {/* ❤️ Wishlist */}
                   <IconButton
-                    onClick={() =>
-                      dispatch(updateWishlist({ productId: ele._id, liked: !isLiked }))
+                    onClick={async () => {
+                      if (localStorage.getItem('user')) {
+                        if (isLiked) {
+                          await dispatch(updateWishlist({ productId: ele._id })).unwrap();
+                        } else {
+                          await dispatch(addToWishlist({ productId: ele._id })).unwrap();
+                        }
+                      } else {
+                        toast.error("You have to login first!");
+                      }
+                    }
                     }
                     sx={{
                       position: "absolute",
@@ -62,8 +70,6 @@ export default function GridLayout({data}) {
                   >
                     <FavoriteIcon />
                   </IconButton>
-
-                  {/* 🖼️ Product Image */}
                   <CardMedia
                     component="img"
                     height="150"
@@ -71,35 +77,46 @@ export default function GridLayout({data}) {
                     alt={ele.name}
                     sx={{ objectFit: "contain", mb: 1 }}
                   />
-
-                  {/* 📦 Product Info */}
                   <CardContent className="text-center">
                     <Typography variant="body1">{ele.name}</Typography>
                     <Typography variant="h6" color="primary">
                       From ₹{ele.price || 0}
                     </Typography>
                   </CardContent>
-
-                  {/* 🛒 Add to Cart Button */}
                   <Box
-                    className="add-cart-btn"
+                      className="add-cart-btn"
+                      sx={{
+                        width: "100%",
+                        textAlign: "center",
+                        fontSize: 14,
+                        fontWeight: 500,
+                        p:1,
+                        opacity: 0,
+                        transition: "0.3s",
+                        zIndex: 5,
+                        borderBottomLeftRadius: "8px",
+                        borderBottomRightRadius: "8px",
+                      }}
+                    >
+                  <Button
                     sx={{
-                      width: "100%",
-                      backgroundColor: "#1976d2",
-                      color: "white",
-                      textAlign: "center",
-                      fontSize: 14,
-                      fontWeight: 500,
-                      py: 1,
-                      opacity: 0,
-                      transition: "0.3s",
-                      cursor: "pointer",
-                      zIndex: 5,
-                      borderBottomLeftRadius: "8px",
-                      borderBottomRightRadius: "8px",
+                      width: "80%",
+                      backgroundColor: isCart ? "#ccc" : "#1976d2",
+                      color: isCart ? "#888" : "white",
+                      cursor: isCart ? "not-allowed" : "pointer",
+                      pointerEvents: isCart ? "none" : "auto",
+                    }}
+                    onClick={async () => {
+                      if (localStorage.getItem('user')) {
+                        await dispatch(addToCart({ productId: ele._id })).unwrap();
+
+                      } else {
+                        toast.error("You have to login first!");
+                      }
                     }}
                   >
-                    Add to Cart
+                    {isCart? "Already Added" : "Add to cart" }
+                  </Button>
                   </Box>
                 </Card>
               </Box>
@@ -108,55 +125,55 @@ export default function GridLayout({data}) {
         })}
       </Grid>
     </Box>
-    )
+  )
 }
 
 const data = [{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  },{
-    title:"Baby product",
-    image:"media/headerImg/img7.png",
-    price:"800"
-  }]
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}, {
+  title: "Baby product",
+  image: "media/headerImg/img7.png",
+  price: "800"
+}]

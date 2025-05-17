@@ -2,7 +2,11 @@ const jwt = require('jsonwebtoken');
 const Host = require("../modules/Host");
 
 module.exports.generateToken = (user)=> {
-    const payload = {user};
+    const payload = {
+      firstName:user.firstName,
+      email:user.email,
+      _id:user._id
+    };
     const options = {
       expiresIn: '10h', 
     };
@@ -24,14 +28,10 @@ module.exports.userMiddleware = (req, res, next)=> {
     });
   
     try {
-      jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) return res.status(403).json({
-          success:0,
-          message: 'Invalid or expired token' 
-        });
-        req.user = decoded;  // attach the decoded payload to req.user
+      const decode = jwt.verify(token, process.env.JWT_SECRET) 
+      if(!decode) res.send({success:0,message:"Token is Unvalid !"});
+        req.user = decode;
         next();
-      });
     } catch (error) {
       res.status(401).send({
         success:0,
