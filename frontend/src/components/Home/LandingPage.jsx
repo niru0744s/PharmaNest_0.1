@@ -8,8 +8,6 @@ import Navbar from "../Header&Footer/Navbar";
 import Footer from "../Header&Footer/Footer";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductsByCategory } from '../../features/dataSlice';
-import {addToWishlist, updateWishlist , fetchWishlist } from "../../features/productActionSlice";
 import { Box } from "@mui/material";
 
 export default function LandingPage() {

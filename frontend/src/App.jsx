@@ -20,22 +20,34 @@ import EditProductForm from './components/HostDashboard/EditProducts/EditProduct
 import ShowAllProducts from './components/ShowAllProducts/ShowAllProducts';
 
 
-import { fetchProductsByCategory } from './features/dataSlice';
+import { fetchProductsByCategory , fetchAddress } from './features/dataSlice';
 import { fetchWishlist } from './features/productActionSlice';
 import { fetchPurchasedProducts } from './features/productActionSlice';
 import { fetchCartProducts } from './features/productActionSlice';
 import { useEffect } from 'react';
 import { useDispatch , useSelector } from 'react-redux';
+import { logout } from './features/loginSlice';
+import { toast } from 'react-toastify';
+import { isTokenValid } from './utils/checkToken';
 
 function App() {
   const dispatch = useDispatch();
+  const user = useSelector((state)=> state.login.user);
     useEffect(()=>{
       dispatch(fetchProductsByCategory());
+      if (!isTokenValid()) {
+      dispatch(logout());
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      toast.warning("Session expired ! You have to login again");
+      }
       if(localStorage.getItem("user")){
         dispatch(fetchWishlist());
         dispatch(fetchCartProducts());
+        dispatch(fetchPurchasedProducts());
+        dispatch(fetchAddress());
       }
-    },[]);
+    },[user]);
   return (
     <>
       <BrowserRouter>
@@ -43,16 +55,16 @@ function App() {
         <Route path='/' element={<LandingPage/>} />
         <Route path='/login' element={<Login/>} />
         <Route path='/signup' element={<Signup/>} />
-        <Route path='/userDashboard' element={<AccountCenter/>}/>
-        <Route path='/cart' element={<Cart/>}/>
         <Route path='/hostLogin' element={<HostLogin/>}/>
         <Route path='/hostSignup' element={<HostSignup/>}/>
-        <Route path='/orders' element={<PurchasedProducts/>}/>
-        <Route path='/show' element={<ShowPage/>}/>
         <Route path='/aiAdvisor' element={<AiAdvisor/>}/>
+        <Route path='/show/:id' element={<ShowPage/>}/>
         <Route path='/search' element={<SearchEngine/>}/>
-        <Route path='/wishlist' element={<Wishlist/>}/>
         <Route path='/sellerDashboard' element={<HostLandingPage/>}/>
+        <Route path='/userDashboard' element={<AccountCenter/>}/>
+        <Route path='/cart' element={<Cart/>}/>
+        <Route path='/orders' element={<PurchasedProducts/>}/>
+        <Route path='/wishlist' element={<Wishlist/>}/>
         <Route path='/addProducts' element={<AddProuducts/>}/>
         <Route path='/sellerProduct' element={<SellerProducts/>}/>
         <Route path="/editProduct/:id" element={<EditProductForm/>}/>

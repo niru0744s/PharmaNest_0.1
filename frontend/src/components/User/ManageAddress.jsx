@@ -1,133 +1,102 @@
 import React, { useState } from "react";
-import { IconButton, TextField, Menu, MenuItem } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import "./UserProfile.css";
-
-const initialAddresses = [
-  {
-    id: 1,
-    name: "NIRUPAM BHATTACHARYA",
-    phone: "7439893394",
-    address: "M18, Sreenagar West, Sreenagar, Panchpota Mauza, Kolkata, West Bengal - 700094",
-    type: "HOME",
-  },
-  {
-    id: 2,
-    name: "Swarnalika Guha",
-    phone: "8617759533",
-    address: "M-4, Sreenagar West, Sreenagar, Panchpota Mauza, Kolkata, West Bengal - 700094",
-    type: "HOME",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import {
+  TextField,
+  IconButton,
+  Button,
+  Box,
+  Typography
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { addAddress, deleteAddress } from "../../features/dataSlice"; 
 
 const ManageAddress = () => {
-  const [addresses, setAddresses] = useState(initialAddresses);
-  const [editingId, setEditingId] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [newAddress, setNewAddress] = useState(null);
+  const dispatch = useDispatch();
+  const addresses = useSelector((state) => state.data.address); 
 
-  const handleMenuOpen = (event, id) => {
-    setAnchorEl(event.currentTarget);
-    setEditingId(id);
+  const [newAddress, setNewAddress] = useState({
+    name: "",
+    mobileNum: "",
+    address: "",
+    pincode: ""
+  });
+
+  const handleAdd = async () => {
+    const { name, mobileNum, address, pincode } = newAddress;
+    if (!name || !mobileNum || !address || !pincode) return;
+    await dispatch(addAddress(newAddress)).unwrap();
+    setNewAddress({ name: "", mobileNum: "", address: "", pincode: "" });
   };
 
-  const handleEdit = () => {
-    setAnchorEl(null);
-    // Editing is already handled in state
-  };
-
-  const handleSave = (id) => {
-    setAddresses((prev) =>
-      prev.map((addr) => (addr.id === id ? newAddress : addr))
-    );
-    setEditingId(null);
-  };
-
-  const handleCancel = () => {
-    setEditingId(null);
-    setNewAddress(null);
+  const handleDelete = (id) => {
+    dispatch(deleteAddress(id));
   };
 
   return (
     <div className="card p-4 mt-3">
-      <h5>Manage Addresses</h5>
+      <Typography variant="h6" gutterBottom>Manage Addresses</Typography>
 
-      <div className="add-new-address mb-3">
-        <button className="btn btn-outline-primary w-100 text-start">
-          + ADD A NEW ADDRESS
-        </button>
-      </div>
+      {/* Add New Address Form */}
+      <Box className="p-3 mb-3 border">
+        <Box className="d-flex gap-2 mb-2">
+          <TextField
+            label="Name"
+            size="small"
+            fullWidth
+            value={newAddress.name}
+            onChange={(e) =>
+              setNewAddress({ ...newAddress, name: e.target.value })
+            }
+          />
+          <TextField
+            label="mobileNum"
+            size="small"
+            fullWidth
+            value={newAddress.mobileNum}
+            onChange={(e) =>
+              setNewAddress({ ...newAddress, mobileNum: e.target.value })
+            }
+          />
+        </Box>
+        <Box className="d-flex gap-2 mb-2">
+          <TextField
+            label="Address"
+            size="small"
+            fullWidth
+            value={newAddress.address}
+            onChange={(e) =>
+              setNewAddress({ ...newAddress, address: e.target.value })
+            }
+          />
+          <TextField
+            label="Pincode"
+            size="small"
+            fullWidth
+            value={newAddress.pincode}
+            onChange={(e) =>
+              setNewAddress({ ...newAddress, pincode: e.target.value })
+            }
+          />
+        </Box>
+        <Box className="d-flex justify-content-end mt-2">
+          <Button variant="contained" color="primary" onClick={handleAdd}>
+            Add Address
+          </Button>
+        </Box>
+      </Box>
 
+      {/* Show Existing Addresses */}
       {addresses.map((addr) => (
-        <div key={addr.id} className="address-card p-3 mb-3">
-          {editingId === addr.id ? (
-            <>
-              <div className="d-flex gap-2 mb-2">
-                <TextField
-                  label="Name"
-                  size="small"
-                  fullWidth
-                  defaultValue={addr.name}
-                  onChange={(e) =>
-                    setNewAddress({ ...addr, name: e.target.value })
-                  }
-                />
-                <TextField
-                  label="Phone"
-                  size="small"
-                  fullWidth
-                  defaultValue={addr.phone}
-                  onChange={(e) =>
-                    setNewAddress({ ...addr, phone: e.target.value })
-                  }
-                />
-              </div>
-              <TextField
-                label="Address"
-                fullWidth
-                size="small"
-                defaultValue={addr.address}
-                onChange={(e) =>
-                  setNewAddress({ ...addr, address: e.target.value })
-                }
-              />
-              <div className="d-flex justify-content-end gap-2 mt-2">
-  <button
-    className="btn btn-sm btn-outline-secondary"
-    onClick={handleCancel}
-  >
-    Cancel
-  </button>
-  <button
-    className="btn btn-sm btn-success"
-    onClick={() => handleSave(addr.id)}
-  >
-    Save
-  </button>
-</div>
-            </>
-          ) : (
-            <>
-              <div className="d-flex justify-content-between">
-                <div>
-                  <strong>{addr.name}</strong> &nbsp; {addr.phone}
-                  <div className="text-muted mt-1">{addr.address}</div>
-                </div>
-                <IconButton onClick={(e) => handleMenuOpen(e, addr.id)}>
-                  <MoreVertIcon fontSize="small" />
-                </IconButton>
-              </div>
-              <Menu
-                anchorEl={anchorEl}
-                open={editingId === addr.id}
-                onClose={() => setAnchorEl(null)}
-              >
-                <MenuItem onClick={handleEdit}>Edit</MenuItem>
-                <MenuItem disabled>Delete</MenuItem>
-              </Menu>
-            </>
-          )}
-        </div>
+        <Box key={addr._id} className="p-3 mb-3 border d-flex justify-content-between">
+          <Box>
+            <strong>{addr.name}</strong> &nbsp; {addr.mobileNum}
+            <div className="text-muted">{addr.address}</div>
+            <div className="text-muted">Pincode: {addr.pincode}</div>
+          </Box>
+          <IconButton onClick={() => handleDelete(addr._id)}>
+            <DeleteIcon color="error" />
+          </IconButton>
+        </Box>
       ))}
     </div>
   );

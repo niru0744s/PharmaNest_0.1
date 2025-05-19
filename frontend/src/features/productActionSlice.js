@@ -7,10 +7,9 @@ import { toast } from "react-toastify";
 // Add to Cart
 export const addToCart = createAsyncThunk(
   "productActions/addToCart",
-  async (product) => {
+  async ({productId}) => {
     try {
-      const res = await axiosInstance.post(`/user/addCart/${product.productId}`);
-      console.log(res);
+      const res = await axiosInstance.post(`/user/addCart/${productId}`);
       if(res.data.success == 1){
         toast.success(res.data.message);
         return res.data.existingCart;
@@ -28,18 +27,46 @@ export const addToCart = createAsyncThunk(
 export const updateCart = createAsyncThunk(
   "productActions/updateCart",
   async ({ productId, quantity }) => {
-    const res = await axiosInstance.put(`/user/updateCart/${productId}`, { quantity });
-    return productId;
+    try {
+      const res = await axiosInstance.patch(`/user/updateCart/${productId}`, { quantity });
+    if(res.data.success == 1){
+      toast.success(res.data.message);
+      return {productId , quantity};
+    }else{
+      toast.error(res.data.message);
+    }
+    } catch (error) {
+      toast.error(error.message);
+      return rejectWithValue(error.message || 'Server error');
+    }
   }
 );
+
+export const deleteCartItem = createAsyncThunk(
+  "productActions/deletecart",
+  async ( productId) => {
+    try {
+      const res = await axiosInstance.delete(`/user/deletecart/${productId}`);
+    if(res.data.success == 1){
+      toast.success(res.data.message);
+      return productId;
+    }else{
+      toast.error(res.data.message);
+    }
+    } catch (error) {
+      toast.error(error.message);
+      return rejectWithValue(error.message || 'Server error');
+    }
+  }
+)
 
 // Fetch Cart Products
 export const fetchCartProducts = createAsyncThunk(
   "productActions/fetchCart",
   async () => {
     const res = await axiosInstance.get("/user/fetchCart");
+    console.log(res.data.userCart);
     if(res.data.success == 1){
-      console.log(res.data.userCart)
       return res.data.userCart;
     }else{
       console.log(res.data.message);
@@ -53,7 +80,6 @@ export const fetchCartProducts = createAsyncThunk(
 export const addToWishlist = createAsyncThunk(
   "productActions/addToWishlist",
   async (productId, { rejectWithValue }) => {
-    console.log(productId);
     try {
       const res = await axiosInstance.post(`/user/addWishlist/${productId.productId}`);
       if (res.data.success == 1) {
@@ -73,10 +99,8 @@ export const addToWishlist = createAsyncThunk(
 export const updateWishlist = createAsyncThunk(
   "productActions/updateWishlist",
   async (productId, { rejectWithValue }) => {
-    console.log(productId);
     try {
       const res = await axiosInstance.delete(`/user/deleteWishlist/${productId.productId}`);
-      console.log(res);
       if (res.data.success == 1) {
         toast.success(res.data.message);
         return productId.productId;
@@ -96,13 +120,16 @@ export const fetchWishlist = createAsyncThunk(
   async () => {
     try {
       const res = await axiosInstance.get("/user/fetchWishlist");
+      console.log("wishlist",res.data.wishlist);
     if(res.data.success == 1){
       return res.data.wishlist;
     }else{
       console.log(res.data.message);
+      return res.data.wishlist;
     }
     } catch (error) {
-      toast.error(error);
+      toast.error(error.message);
+      return rejectWithValue(error.message || 'Server error');
     }
   }
 );
@@ -112,9 +139,18 @@ export const fetchWishlist = createAsyncThunk(
 // Purchase Product
 export const purchaseProduct = createAsyncThunk(
   "productActions/purchaseProduct",
-  async (purchaseData) => {
-    const res = await axiosInstance.post("/api/purchase", purchaseData);
-    return res.data;
+  async ({finalPrice , cartItemsId}) => {
+    try {
+    const res = await axiosInstance.post("/user/placeOrder",{finalPrice , cartItemsId});
+    if(res.data.success == 1){
+      toast.success(res.data.message);
+    }else{
+      toast.error(res.data.message);
+    }
+    } catch (error) {
+      toast.error(error.message);
+      return rejectWithValue(error.message || 'Server error');
+    }
   }
 );
 
@@ -122,17 +158,34 @@ export const purchaseProduct = createAsyncThunk(
 export const fetchPurchasedProducts = createAsyncThunk(
   "productActions/fetchPurchasedProducts",
   async () => {
-    const res = await axiosInstance.get("/api/purchase");
-    return res.data;
+    try {
+      const res = await axiosInstance.get("/user/fetchOrders");
+      console.log(res.data.allOrders);
+      if(res.data.success == 1){
+        return res.data.allOrders;
+      }
+    } catch (error) {
+      toast.error(error);
+    }
   }
 );
 
 // Cancel Purchased Product
-export const cancelPurchaseProduct = createAsyncThunk(
-  "productActions/cancelPurchaseProduct",
-  async (purchaseId) => {
-    await axiosInstance.delete(`/api/purchase/${purchaseId}`);
-    return purchaseId;
+export const cancelOrder = createAsyncThunk(
+  "productActions/cancelOrder",
+  async (orderId, thunkAPI) => {
+    try {
+      const res = await axiosInstance.put(`/user/cancelOrder/${orderId}`);
+      if(res.data.success == 1){
+        toast.success(res.data.message);
+        return { orderId };
+      }else{
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      toast.error(err);
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
   }
 );
 
@@ -154,7 +207,7 @@ const productActionsSlice = createSlice({
       // === Cart ===
       .addCase(addToCart.fulfilled, (state, action) => {
         const product = action.payload;
-        const exists = state.cart.find(item => item._id === product.products);
+        const exists = state.cart.find(item => item._id == product.products._id);
         if(!exists){
           state.cart.push(product);
         }
@@ -162,45 +215,55 @@ const productActionsSlice = createSlice({
       })
       .addCase(updateCart.fulfilled, (state, action) => {
         const productId = action.payload.productId;
+        const quantity = action.payload.quantity;
+        const itemIndex = state.cart.findIndex(item => item._id == productId);
+        if(itemIndex !== -1){
+          state.cart[itemIndex].quantity = quantity;
+        };
+        state.loading = false;
+      })
+      .addCase(deleteCartItem.fulfilled,(state,action)=>{
+        const productId = action.payload;
+        console.log(state.cart);
         state.cart = state.cart.filter(item => item._id !== productId);
         state.loading = false;
       })
       .addCase(fetchCartProducts.fulfilled, (state, action) => {
         state.cart = action.payload;
+        state.loading = false;
       })
-
       // === Wishlist ===
       .addCase(addToWishlist.fulfilled, (state, action) => {
         const product = action.payload;
-        const exists = state.wishlist.find(item => item._id === product._id);
+        const exists = state.wishlist.find(item => item._id == product._id);
         if (!exists) {
         state.wishlist.push(product);
         }
         state.loading = false;
       })
       .addCase(updateWishlist.fulfilled, (state, action) => {
-        const productId = action.payload.productId;
+        const productId = action.payload;
         state.wishlist = state.wishlist.filter(item => item._id !== productId);
         state.loading = false;
       })
       .addCase(fetchWishlist.fulfilled, (state, action) => {
         state.wishlist = action.payload;
+        state.loading = false;
       })
 
       // === Purchase ===
       .addCase(purchaseProduct.fulfilled, (state, action) => {
-        state.purchases.push(action.payload);
-        // optionally remove from cart if same product
-        state.cart = state.cart.filter((item) => item._id !== action.payload.productId);
+        // state.purchases.push(action.payload);
+        state.cart = [];
+        state.loading = false;
       })
       .addCase(fetchPurchasedProducts.fulfilled, (state, action) => {
         state.purchases = action.payload;
       })
-      .addCase(cancelPurchaseProduct.fulfilled, (state, action) => {
-        state.purchases = state.purchases.filter((p) => p._id !== action.payload);
+      .addCase(cancelOrder.fulfilled, (state, action) => {
+      const idx = state.purchases.findIndex(o => o._id === action.payload.orderId);
+      if (idx !== -1) state.purchases[idx].status = "cancelled";
       })
-
-      // === Common loading and error ===
       .addMatcher((action) => action.type.endsWith("/pending"), (state) => {
         state.loading = true;
         state.error = null;

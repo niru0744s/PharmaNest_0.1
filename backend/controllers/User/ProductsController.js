@@ -2,21 +2,53 @@ const User = require("../../modules/User");
 const Product = require("../../modules/Products");
 const Cart = require("../../modules/CartItems");
 const Orders= require("../../modules/orders");
+const Address = require("../../modules/Locations");
 
 module.exports.placeOrder = async(req,res)=>{
     try {
-        const {cartId} = req.body;
-        const existCart = await Cart.findByIdAndDelete(cartId);
-        const addOrder = new Orders({
-            user:req.user._id,
-            product:existCart
-        });
-        await addOrder.save();
-        res.send({
-            success:1,
-            message:"Order Placed Successfully"
-        });
+        const {finalPrice , cartItemsId} = req.body;
+        const cartItems = await Cart.find({ _id: { $in: cartItemsId } }).populate("products");
+        const allAddress = await Address.find({userId:req.user._id});
+        
+    if (!cartItems.length) {
+      return res.status(400).json({ success: 0, message: "No matching cart items found" });
+    }
+    const orderProducts = cartItems.map(item => ({
+      product: item.products._id,
+      name: item.products.name,
+      quantity: item.quantity,
+    }));
+    const orderDoc = new Orders({
+      user: req.user._id,
+      products: orderProducts,
+      totalAmount: finalPrice,
+      address:allAddress[allAddress.length - 1]._id
+    });
+    await orderDoc.save();
+    for (const item of orderProducts) {
+      await Product.findByIdAndUpdate(item.product, {
+        $inc: { quantity: -item.quantity }
+      });
+    }
+    await Cart.deleteMany({ _id: { $in: cartItemsId } });
+
+    const updateOrderStatus = async (status, delay) => {
+      setTimeout(async () => {
+        await Orders.findByIdAndUpdate(orderDoc._id, { status });
+      }, delay);
+    };
+
+    // 10-minute intervals (in milliseconds)
+    updateOrderStatus("shipped", 10 * 60 * 1000);
+    updateOrderStatus("on_the_way", 20 * 60 * 1000);
+    updateOrderStatus("delivered", 30 * 60 * 1000);
+
+    res.send({
+      success: 1,
+      message: "Order Placed Successfully",
+    });
     } catch (error) {
+      console.log(error);
         res.send({
             success:0,
             message:error
@@ -24,35 +56,59 @@ module.exports.placeOrder = async(req,res)=>{
     }
 }
 
-module.exports.cancelOrder = async(req,res)=>{
-    try {
-        const {orderId} = req.params;
-        await Orders.findByIdAndDelete(orderId);
-        res.send({
-            success:1,
-            message:"Order Cancelled!"
-        })
-    } catch (error) {
-        res.send({
-            success:0,
-            message:error
-        })
+module.exports.cancelOrder = async (req, res) => {
+  try {
+    const { orderId } = req.params;
+
+    const order = await Orders.findOne({
+      _id: orderId,
+      user: req.user._id,
+    });
+
+    if (!order) {
+      return res.status(404).send({
+        success: 0,
+        message: "Order not found",
+      });
     }
+
+    if (order.status === "delivered") {
+      return res.status(400).send({
+        success: 0,
+        message: "Cannot cancel a delivered order",
+      });
+    }
+
+    order.status = "cancelled";
+    await order.save();
+
+    res.send({
+      success: 1,
+      message: "Order cancelled successfully",
+    });
+  } catch (err) {
+    res.send({
+      success: 0,
+      message: err.message,
+    });
+  }
 };
+
 
 module.exports.addCart = async(req,res)=>{
     try {
     const {id} = req.params;
-    let existingCart = await Cart.findOne({ UserId: req.user._id, products: id });
+    let existingCart = await Cart.findOne({ UserId: req.user._id, products: id }).populate("products");
     if (existingCart) {
       existingCart.quantity += 1;
       await existingCart.save();
     } else {
-      existingCart = await Cart.create({
+      const newCart = await Cart.create({
         UserId: req.user._id,
         products: id,
         quantity: 1
       });
+      existingCart = await Cart.findById(newCart._id).populate("products");
     }
     res.send({
         success:1,
@@ -60,7 +116,6 @@ module.exports.addCart = async(req,res)=>{
         existingCart
     });
     } catch (error) {
-        console.log(error);
         res.send({
             success:0,
             message:error
@@ -70,9 +125,9 @@ module.exports.addCart = async(req,res)=>{
 
 module.exports.editCart = async(req,res)=>{
     try {
-        const {cartId} = req.query;
+        const {id} = req.params;
         const {quantity} = req.body;
-        await findByIdAndUpdate(cartId,{
+        await Cart.findByIdAndUpdate(id,{
             quantity:quantity
         });
         res.send({
@@ -81,7 +136,7 @@ module.exports.editCart = async(req,res)=>{
         });
     } catch (error) {
         res.send({
-            success:1,
+            success:0,
             message:error
         })
     }
@@ -89,8 +144,8 @@ module.exports.editCart = async(req,res)=>{
 
 module.exports.deleteCart = async(req,res)=>{
     try {
-        const {cartId} = req.query;
-        await Cart.findByIdAndDelete(cartId);
+        const {id} = req.params;
+        await Cart.findByIdAndDelete(id);
         res.send({
             success:1,
             message:"Product deleted from Cart"
@@ -157,7 +212,7 @@ module.exports.removeWishlist = async (req,res)=>{
         message: "Product not found in wishlist",
       });
     }
-    const updatedUser = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       req.user._id,
       { $pull: { wishlist: id } },
       { new: true }
@@ -177,7 +232,7 @@ module.exports.removeWishlist = async (req,res)=>{
 
 module.exports.showOrders = async(req,res)=>{
     try {
-        const allOrders = await Orders.find({user:req.user._id}).populate("product");
+        const allOrders = await Orders.find({user:req.user._id}).populate("products.product address");
         res.send({
             success:1,
             message:"All orders",
@@ -219,7 +274,8 @@ module.exports.showWishlist = async(req,res)=>{
         if(userWishlist.wishlist.length == 0){
             return res.send({
                 success:0,
-                message:"Your wish list is empty"
+                message:"Your wish list is empty",
+                wishlist:[]
             })
         }
         res.send({

@@ -22,13 +22,6 @@ export default function Navbar() {
   const handleLogout = () => {
     dispatch(logout());
   };
-  const handleClick = ()=>{
-    if(!isAuthenticated){
-      toast.error("You have to Login First");
-    }else{
-      navigate("/userDashboard");
-    }
-  }
   return (
     <>
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -56,7 +49,7 @@ export default function Navbar() {
                 <ul class="dropdown-menu">
                   <li><Link class="dropdown-item " to={"/signup"}>New User ? SIgnup</Link></li>
                   <li><hr class="dropdown-divider" /></li>
-                  <li><a onClick={handleClick} class="dropdown-item"><AccountCircleIcon className='me-2 h-icon' />My Profile</a></li>
+                  <li><Link class="dropdown-item" to={"/userDashboard"}><AccountCircleIcon className='me-2 h-icon' />My Profile</Link></li>
                   <li><Link class="dropdown-item" to={"/orders"}> <LocalShippingIcon className='me-2 h-icon' />Orders</Link></li>
                   <li><Link class="dropdown-item" to={"/wishlist"}><FavoriteBorderIcon className='me-2 h-icon' />Wishlist</Link></li>
                   <li><Link className='dropdown-item' to={'/'} onClick={handleLogout}><LogoutIcon className='h-icon' />Logout</Link></li>

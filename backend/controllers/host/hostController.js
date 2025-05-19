@@ -11,7 +11,7 @@ module.exports.otpSent = async (req, res) => {
         const { email } = req.body;
         const exstUser = await Host.findOne({ email: email });
         if (exstUser) {
-            res.send({
+            return res.send({
                 success: 0,
                 message: "Host is already registered , Try to login !"
             })
@@ -52,7 +52,7 @@ module.exports.otpVerify = async (req, res) => {
         const { otp } = req.body;
         const exUser = await Host.findById(id);
         if (otp != exUser.otp) {
-            res.send({
+            return res.send({
                 success: 0,
                 message: "Wrong OTP , Try again !"
             })
@@ -151,17 +151,19 @@ module.exports.showProducts = async (req, res) => {
             }
         ]);
         if (!products) {
-            res.send({
+            return res.send({
                 success: 2,
                 message: "Add some Products first"
             })
         }
+        console.log(products);
         res.send({
             success: 1,
             message: "Seller Products fetched !",
             products: products
         })
     } catch (error) {
+        console.log(error);
         res.send({
             success: 0,
             message: error

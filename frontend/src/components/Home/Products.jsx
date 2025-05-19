@@ -12,9 +12,11 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { addToWishlist, updateWishlist , addToCart  } from "../../features/productActionSlice";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Products = ({ data }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const wishlist = useSelector((state) => state.productActions.wishlist);
   const cart = useSelector((state)=> state.productActions.cart);
   const settings = {
@@ -23,6 +25,10 @@ const Products = ({ data }) => {
     speed: 500,
     slidesToShow: 6,
     slidesToScroll: 1,
+  };
+
+  const showProduct = (id)=>{
+    navigate(`/show/${id}`);
   };
   return (
     <>
@@ -35,7 +41,7 @@ const Products = ({ data }) => {
         <Slider {...settings}>
           {data?.products?.map((ele, idx) => {
            const isLiked = wishlist?.some(item => item._id == ele._id);
-           const isCart = cart?.some(item => item.products == ele._id);
+           const isCart = cart?.some(item => item.products._id == ele._id);
             return (
               <div className="" key={idx}>
                 <Box
@@ -89,6 +95,7 @@ const Products = ({ data }) => {
                       image={ele.imageUrl?.url}
                       alt={ele.name}
                       sx={{ objectFit: "contain", mb: 1 }}
+                      onClick={()=>{showProduct(ele._id)}}
                     />
 
                     {/* Product Info */}
@@ -128,7 +135,6 @@ const Products = ({ data }) => {
                       onClick={async()=>{
                         if(localStorage.getItem('user')){
                           await dispatch(addToCart({ productId: ele._id})).unwrap();
-                          
                         }else{
                           toast.error("You have to login first!");
                         }

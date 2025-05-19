@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 export const loginUser = createAsyncThunk(
     'auth/loginUser',
     async (data, { rejectWithValue }) => {
-        console.log(data);
         try {
             const res = await axios.post('http://localhost:8080/api/v1/user/auth/login', data);
             console.log(res);

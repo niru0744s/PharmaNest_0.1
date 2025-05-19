@@ -7,6 +7,7 @@ const AuthRoute = require('./routes/userAuth');
 const HostAuth = require("./routes/hostsAuth");
 const ProductRoute = require("./routes/products");
 const userProducts = require("./routes/userProducts");
+const userAddress = require("./routes/userAddress");
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}))
@@ -19,6 +20,7 @@ app.use("/api/v1/user/auth",AuthRoute);
 app.use("/api/v1/host/auth",HostAuth);
 app.use("/api/v1",ProductRoute);
 app.use("/api/v1/user",userProducts);
+app.use("/api/v1/address",userAddress);
 
 async function Main(){
     await mongoose.connect(process.env.MONGO_URI)

@@ -27,7 +27,7 @@ export default function GridLayout({ data }) {
       <Grid container spacing={2}>
         {limitedProducts?.map((ele, idx) => {
           const isLiked = wishlist?.some(item => item._id == ele._id);
-          const isCart = cart?.some(item => item.products == ele._id);
+          const isCart = cart?.some(item => item.products._id == ele._id);
           return (
             <Grid item xs={6} key={idx}>
               <Box

@@ -13,6 +13,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { addToWishlist, updateWishlist, addToCart } from "../../features/productActionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 export default function ProductsPage({ product }) {
   if (!product) return <Typography>No products found.</Typography>;
@@ -27,7 +28,7 @@ export default function ProductsPage({ product }) {
       <Box className="d-flex flex-column gap-4">
         {product.products.map((item, idx) => {
           const isLiked = wishlist.some(ele => ele._id == item._id);
-          const isCart = cart?.some(ele => ele.products == item._id);
+          const isCart = cart?.some(ele => ele.products._id == item._id);
           return (
             <Grid item xs={12} key={idx}>
               <Card className="d-flex flex-row align-items-center p-3" sx={{ position: "relative" }}>
@@ -77,7 +78,7 @@ export default function ProductsPage({ product }) {
                       pointerEvents: isCart ? "none" : "auto",
                     }}
                     onClick={async () => {
-                      if (localStorage.getItem('user')) {
+                      if (localStorage.getItem('token')) {
                         await dispatch(addToCart({ productId: item._id })).unwrap();
 
                       } else {

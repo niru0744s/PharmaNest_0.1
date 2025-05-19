@@ -54,8 +54,9 @@ module.exports.hostMiddleware = async(req,res,next)=>{
       message: 'Missing token' });
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if(decoded.user.operator == "host"){
-          req.user = decoded.user; 
+      const hostData = await Host.findById(decoded._id);
+        if(hostData.operator == "host"){
+          req.user = hostData; 
           next();
         } else {
           res.send({
