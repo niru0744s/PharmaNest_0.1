@@ -6,6 +6,7 @@ import productSlice from '../features/ProductSlice';
 import aiAdvisorReducer from '../features/aiAdvisorSlice';
 import hostAuthReducer from '../features/hostLoginSlices';
 import hostSignupReducer from '../features/hostSingupSlices';
+import productActionReducer from "../features/productActionSlice";
 
 export const store = configureStore({
     reducer :{
@@ -15,6 +16,7 @@ export const store = configureStore({
         product:productSlice,
         aiAdvisor:aiAdvisorReducer,
         loginHost:hostAuthReducer,
-        signupHost:hostSignupReducer
+        signupHost:hostSignupReducer,
+        productActions:productActionReducer
     }
 });

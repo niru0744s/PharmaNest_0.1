@@ -1,92 +1,139 @@
 import React from "react";
-import "./MyOrders.css";
+import { useSelector } from "react-redux";
+import { Card, Typography, Box, Button } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarBorderIcon from "@mui/icons-material/Star";
+import { useDispatch } from "react-redux";
+import { cancelOrder } from "../../features/productActionSlice";
 
-const ShowOrder = ({ order }) => {
-  const {
-    title,
-    image,
-    price,
-    color,
-    size,
-    statusTimeline,
-    shipping,
-    priceBreakdown,
-    rating
-  } = order;
-
+const ShowOrder = () => {
+  const orders = useSelector((state) => state.productActions.purchases); // Adjust slice name
+  const dispatch = useDispatch();
   return (
-    <div className="container row m-5">
-      <div className="col-md-8 card p-4">
-        <div className="d-flex">
-          <img src={image} alt={title} width={100} className="me-3" />
-          <div>
-            <h6>{title}</h6>
-            <p className="text-muted">{size}, {color}</p>
-            <p className="fw-bold">₹{price}</p>
+    <div className="container mt-4">
+      {orders.map((order, i) => (
+        <div key={i} className="row mb-5">
+          {/* LEFT PRODUCT BLOCK */}
+          <div className="col-md-8 card p-4">
+            {order.products.map((item, index) => (
+              <Box key={index} className="d-flex mb-3">
+                <img
+                  src={item.product.imageUrl.url}
+                  alt={item.product.name}
+                  width={100}
+                  className="me-3"
+                />
+                <div>
+                  <Typography variant="subtitle1">{item.product.name}</Typography>
+                  <Typography variant="body2" className="text-muted">
+                    {item.product.brand}, {item.product.category}
+                  </Typography>
+                  <Typography variant="subtitle2" className="fw-bold">
+                    ₹{item.product.price}
+                  </Typography>
+                </div>
+              </Box>
+            ))}
+
+            <div className="alert alert-secondary mt-3 py-2 small">
+              📦 Item was opened and verified at the time of delivery.
+            </div>
+
+            <ul className="timeline mt-3 ps-3">
+              <li>
+                <span className="text-success">✔</span> Order Confirmed,
+                <strong> Apr 03</strong>
+              </li>
+              <li>
+                <span className="text-success">✔</span> Delivered,
+                <strong> Apr 05</strong>
+              </li>
+            </ul>
+
+            <p className="text-primary small cursor-pointer">See All Updates →</p>
+            <p className="text-muted small">Return policy ended on Apr 12</p>
+
+            <div className="d-flex align-items-center gap-1 mt-3">
+              {[...Array(4)].map((_, i) => (
+                <StarIcon color="success" key={i} />
+              ))}
+              <StarBorderIcon />
+              <Button
+                variant="outlined"
+                size="small"
+                className="ms-3"
+              >
+                📷 Add Review
+              </Button>
+            </div>
+
+            <div className="mt-3 text-secondary small">
+              <Button
+                variant="outlined"
+                color="error"
+                size="small"
+                disabled={order.status === "delivered" || order.status === "cancelled"}
+                onClick={() => dispatch(cancelOrder(order._id))} // Use Redux thunk
+              >
+                Cancel Order
+              </Button>
+            </div>
+          </div>
+
+          {/* RIGHT PRICE + SHIPPING BLOCK */}
+          <div className="col-md-4 ps-md-4 mt-4 mt-md-0">
+            <Card className="p-3 mb-3">
+              <Typography variant="subtitle1">📄 Invoice download</Typography>
+            </Card>
+
+            <Card className="p-3 mb-3">
+              <Typography variant="subtitle1">Shipping details</Typography>
+              <Typography variant="body2" className="fw-semibold mb-0">
+                {order.address.name}
+              </Typography>
+              <Typography variant="body2">{order.address.address}</Typography>
+              <Typography variant="body2" className="text-muted">
+                Phone number: {order.address.mobileNum}
+              </Typography>
+            </Card>
+
+            <Card className="p-3">
+              <Typography variant="subtitle1">Price Details</Typography>
+              <ul className="list-unstyled small">
+                <li className="d-flex justify-content-between">
+                  <span>List price</span>
+                  <span>₹7,999</span>
+                </li>
+                <li className="d-flex justify-content-between">
+                  <span>Selling price</span>
+                  <span>₹7,999</span>
+                </li>
+                <li className="d-flex justify-content-between">
+                  <span>Extra Discount</span>
+                  <span className="text-danger">-₹5,500</span>
+                </li>
+                <li className="d-flex justify-content-between">
+                  <span>Special Price</span>
+                  <span>₹2,499</span>
+                </li>
+                <li className="d-flex justify-content-between">
+                  <span>Delivery Charge</span>
+                  <span>Free</span>
+                </li>
+                <li className="d-flex justify-content-between">
+                  <span>Protect Promise Fee</span>
+                  <span>₹9</span>
+                </li>
+                <li className="d-flex justify-content-between fw-bold pt-2 border-top mt-2">
+                  <span>Total Amount</span>
+                  <span>₹{order.totalAmount}</span>
+                </li>
+                <li className="small text-muted mt-2">• UPI: ₹{order.totalAmount}</li>
+              </ul>
+            </Card>
           </div>
         </div>
-
-        <div className="alert alert-secondary mt-3 py-2 small">
-          📦 Item was opened and verified at the time of delivery.
-        </div>
-
-        <ul className="timeline mt-3 ps-3">
-          {statusTimeline.map((step, i) => (
-            <li key={i}>
-              <span className="text-success">✔</span> {step.label}, <strong>{step.date}</strong>
-            </li>
-          ))}
-        </ul>
-
-        <p className="text-primary small cursor-pointer">See All Updates →</p>
-        <p className="text-muted small">Return policy ended on {order.returnPolicyEnd}</p>
-
-        <div className="d-flex align-items-center gap-1 mt-3">
-          {[...Array(5)].map((_, i) =>
-            i < rating ? <StarIcon color="success" key={i} /> : <StarBorderIcon key={i} />
-          )}
-          <button className="btn btn-outline-secondary btn-sm ms-3">
-            📷 Add Review
-          </button>
-        </div>
-
-        <div className="mt-3 text-secondary small">💬 Chat with us</div>
-      </div>
-
-      {/* RIGHT: SHIPPING & PRICING SECTION */}
-      <div className="col-md-4 ps-md-4 mt-4 mt-md-0">
-        <div className="card p-3 mb-3">
-          <h6>📄 Invoice download</h6>
-        </div>
-
-        <div className="card p-3 mb-3">
-          <h6>Shipping details</h6>
-          <p className="fw-semibold mb-0">{shipping.name}</p>
-          <p className="small mb-0">{shipping.address}</p>
-          <p className="small text-muted mb-0">Phone number: {shipping.phone}</p>
-        </div>
-
-        <div className="card p-3">
-          <h6>Price Details</h6>
-          <ul className="list-unstyled small">
-            {priceBreakdown.map((item, i) => (
-              <li key={i} className="d-flex justify-content-between">
-                <span>{item.label}</span>
-                <span className={item.strike ? "text-decoration-line-through" : ""}>
-                  {item.value}
-                </span>
-              </li>
-            ))}
-            <li className="d-flex justify-content-between fw-bold pt-2 border-top mt-2">
-              <span>Total Amount</span>
-              <span>₹{price}</span>
-            </li>
-            <li className="small text-muted mt-2">• UPI: ₹{price}</li>
-          </ul>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
