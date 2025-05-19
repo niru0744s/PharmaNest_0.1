@@ -1,14 +1,14 @@
+import { useLocation, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import {
   TextField, Button, MenuItem, Typography, Grid, Paper
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { submitProduct } from '../../../features/ProductSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import './ProductForm.css';
 import { styled } from '@mui/material/styles';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { editProduct } from '../../../features/ProductSlice';
 
 const categories = [
   "Medicine", "OTC_Medicine", "First_Aid", "Hygiene",
@@ -27,19 +27,22 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const ProductForm = () => {
-  const [formData, setFormData] = useState({
-    name: '', brand: '', form: '', strength: '', category: '',
-    mainPrice: '', price: '', description: '', imageUrl: null, quantity: 0
-  });
-  const [selectedFiles, setSelectedFiles] = useState([]);
+export default function EditProductForm() {
 
+    const { state } = useLocation();
+    const { id } = useParams(); // optional
+    const product = state?.product;
+    const [selectedFiles, setSelectedFiles] = useState([]);
+    const { success, error } = useSelector(state => state.product);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { success, error } = useSelector(state => state.product);
+    const [formData, setFormData] = useState({
+        name: product.name, brand: product.brand, form: product.form, strength: product.strength, category: product.category,
+        mainPrice: product.mainPrice, price: product.price, description: product.description, imageUrl: null, quantity: product.quantity , p_id: product._id
+      });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-  const handleChange = (e) => {
+    const handleChange = (e) => {
     const { name, value, files } = e.target;
 
   if (name === 'imageUrl') {
@@ -59,24 +62,25 @@ const ProductForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const payload = new FormData();
-    Object.entries(formData).forEach(([key, val]) => {
-      payload.append(key, val);
-    });
-    try {
-      await dispatch(submitProduct(payload));
-      navigate('/sellerProduct');
-    } catch (error) {
-      toast.error(error);
-    }
-  };
-
+      e.preventDefault();
+      const payload = new FormData();
+      Object.entries(formData).forEach(([key, val]) => {
+        payload.append(key, val);
+      });
+      try {
+        await dispatch(editProduct({payload , id : product._id}));
+        navigate("/sellerProduct");
+      } catch (error) {
+        toast.error(error);
+      }
+    };
+    
   return (
-    <div className="container">
+    <>
+      <div className="container">
       <div className="form-wrapper">
         <Typography variant="h5" className="text-center mb-4" sx={{ fontWeight: 600 }}>
-          Add a New Product
+          Edit Product
         </Typography>
 
         <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -136,7 +140,6 @@ const ProductForm = () => {
                   type="file"
                   name="imageUrl"
                   onChange={handleChange}
-                  required
                 />
               </Button>
               {selectedFiles.length > 0 && (
@@ -162,7 +165,6 @@ const ProductForm = () => {
         </form>
       </div>
     </div>
-  );
-};
-
-export default ProductForm;
+    </>
+  )
+}

@@ -6,16 +6,27 @@ const newSchema = mongoose.Schema({
     }
     ,status: {
         type: String,
-        enum: ["pending", "shipped", "on_the_way", "delivered", "cancelled", "return"],
+        enum: ["pending", "shipped", "on_the_way", "delivered", "cancelled"],
         default: "pending"
+    },
+    totalAmount:{
+        type:Number,
+        default:0
     }
-    ,product:
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"Cart"
-        }
+    ,products:[
+    {
+      product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      name: String,
+      quantity: Number,
+    }
+  ],
+  address:{
+    type:mongoose.Schema.Types.ObjectId,
+    ref:"Address"
+  }
 },{
     timestamps:true
 });
 
-const Oders = mongoose.model("Orders" , newSchema);
+const Orders = mongoose.model("Orders" , newSchema);
+module.exports = Orders;

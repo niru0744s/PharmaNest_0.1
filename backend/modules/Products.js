@@ -38,8 +38,8 @@ const newSchema = mongoose.Schema({
         required:true,
     },
     imageUrl:{
-        type:String,
-        required:true
+        url:String,
+        filename:String,
     },
     quantity:{
         type:Number,

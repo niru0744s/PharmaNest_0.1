@@ -13,29 +13,7 @@ const newSchema = mongoose.Schema({
         type:Number,
         require:true,
     },
-    locality:{
-        type:String,
-        require:true,
-    },
     address:{
-        type:String,
-        require:true,
-    },
-    city:{
-        type:String,
-        require:true,
-    },
-    state:{
-        type:String,
-        require:true,
-    },
-    landmark:{
-        type:String,
-    },
-    altNumber:{
-        type:Number,
-    },
-    addressType:{
         type:String,
         require:true,
     },

@@ -10,11 +10,12 @@ export const loginHost = createAsyncThunk(
             const res = await axios.post('http://localhost:8080/api/v1/host/auth/login', data);
             console.log(res);
             if(res.data.success === 1){
-              const {token , ...host} = res.data.updatedUsr;
+              const host = res.data.updatedUsr;
+              const token = res.data.token;
               toast.success(res.data.message);
-              localStorage.setItem('token',res.data.updatedUsr.token);
+              localStorage.setItem('token',token);
               localStorage.setItem("host", JSON.stringify(res.data.updatedUsr));
-              return {token , host};
+              return {host};
             }else{
               toast.error(res.data.message);
               return rejectWithValue(res.data.message);

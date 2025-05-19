@@ -1,4 +1,4 @@
-const User = require('../../modules/User');
+const User = require("../../modules/User");
 const {randomInt} = require('crypto');
 const bcrypt = require('bcrypt');
 const jwtToken = require('../../middleware/tokenVerify');
@@ -10,7 +10,7 @@ module.exports.otpSent = async (req,res)=>{
         const {email} = req.body
         const exstUser = await User.findOne({email:email});
         if(exstUser){
-            res.send({
+            return res.send({
                 success:0,
                 message:"User is already registered , Try to login !"
             })
@@ -27,9 +27,12 @@ module.exports.otpSent = async (req,res)=>{
           );
         setTimeout(async ()=>{
             const newOtp = randomInt(1000,10000);
-            await User.findByIdAndUpdate(newUSr._id,{
+            const exUser = await User.findByIdAndUpdate(newUSr._id,{
             otp:newOtp
             });
+            if(!exUser.firstName){
+                await User.findByIdAndDelete(exUser._id);
+            }
         },10*60*1000)
         res.send({
             success:1,
@@ -37,6 +40,7 @@ module.exports.otpSent = async (req,res)=>{
             newUSr
         });
     } catch (error) {
+        console.log(error);
         res.send({
             success:0,
             message:error
@@ -51,7 +55,7 @@ module.exports.otpVerify = async(req,res)=>{
     console.log(otp , id)
     const exUser = await User.findById(id);
     if(otp != exUser.otp){
-        res.send({
+        return res.send({
             success:0,
             message:"Wrong OTP , Try again !"
         })
@@ -80,14 +84,12 @@ module.exports.createPass = async(req,res)=>{
             phoneNumber,
             password:empass
         });
-        console.log(newUser);
         res.send({
             success:1,
             message:"Password has updated !",
             newUser
         })
     } catch (error) {
-        console.log(error)
         res.send({
             success:0,
             message:error
@@ -119,7 +121,8 @@ module.exports.login = async(req,res)=>{
         res.send({
             success:1,
             message:"User login Successfull",
-            updatedUsr
+            updatedUsr,
+            token
         })
     } catch (error) {
         res.send({
@@ -189,21 +192,21 @@ module.exports.changePass = async(req,res)=>{
 
 module.exports.addAddress = async (req,res)=>{
     try {
-        const {name,mobileNumber , pincode , locality , address , city , state , landmark , altNumber , addressType } = req.body;
-        const {userId} = req.query;
-
-        const existUser = await User.findById(userId);
+        let existUser = await User.findById(req.user._id);
+        console.log(existUser);
         let newAddress = new Address(req.body);
-        newAddress.userId = existUser._id;
+        newAddress.userId = req.user._id;
         existUser.locations.push(newAddress);
         await newAddress.save();
         await existUser.save();
         res.send({
             success:1,
             message:"Address Added Successfully",
+            newAddress
         })
 
     } catch (error) {
+        console.log(error);
         res.send({
             success:0,
             message:error
@@ -213,9 +216,9 @@ module.exports.addAddress = async (req,res)=>{
 
 module.exports.deleteAddress = async(req,res)=>{
     try {
-        let {userId , addressId} = req.params;
-        await User.findByIdAndDelete(userId , {$pull:{locations:addressId}});
-        await Address.findByIdAndDelete(addressId); 
+        let {id} = req.params;
+        await User.findByIdAndUpdate(req.user._id , {$pull:{locations:id}});
+        await Address.findByIdAndDelete(id); 
         res.send({
             success:1,
             message:"Address deleted"
@@ -230,11 +233,12 @@ module.exports.deleteAddress = async(req,res)=>{
 
 module.exports.showAddress = async(req,res)=>{
     try {
-        const allAddress = await User.findById(req.user._id).populate("locations");
-        if(allAddress.locations.length == 0){
+        const allAddress = await Address.find({userId : req.user._id});
+        if(allAddress.length == 0){
             return res.send({
-                success:0,
-                message:"You haven't set any address Yet!"
+                success:2,
+                message:"You haven't set any address Yet!",
+                allAddress
             })
         }
         res.send({

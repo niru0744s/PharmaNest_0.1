@@ -22,12 +22,10 @@ const newSchema = mongoose.Schema({
     password:{
         type:String,
     },
-    products:[
-        {
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"product",
-        }
-    ]
+    operator:{
+        type:"String",
+        default:"host",
+    }
 },{
     timestamps:true
 });

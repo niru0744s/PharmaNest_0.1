@@ -33,6 +33,7 @@ export const submitOtp = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const res = await axios.post('http://localhost:8080/api/v1/user/auth/otpSent', data);
+      console.log(res);
       if(res.data.success == 1){
         toast.success(res.data.message);
         return res.data;
