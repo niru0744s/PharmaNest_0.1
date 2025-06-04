@@ -1,15 +1,22 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance';
 
-export const fetchMessages = createAsyncThunk('aiAdvisor/fetchMessages', async () => {
-  const res = await axios.get('/api/conversations');
-  return res.data;
-});
-
-export const postMessage = createAsyncThunk('aiAdvisor/postMessage', async (message, { dispatch }) => {
-  await axios.post('/api/conversations', message);
-  dispatch(addMessage(message));
-});
+export const postMessage = createAsyncThunk(
+  'aiAdvisor/postMessage',
+  async (prompt, { rejectWithValue }) => {
+    console.log(prompt);
+    try {
+      const res = await axiosInstance.post('/user/chatAi',  {userMessage:prompt} );
+      console.log(res);
+      return {
+        user: prompt,
+        ai: res.data.aiReply
+      };
+    } catch (err) {
+      return rejectWithValue("AI error");
+    }
+  }
+);
 
 const aiAdvisorSlice = createSlice({
   name: 'aiAdvisor',
@@ -18,22 +25,28 @@ const aiAdvisorSlice = createSlice({
     input: '',
   },
   reducers: {
-    addMessage: (state, action) => {
-      state.messages.push(action.payload);
-    },
     setInput: (state, action) => {
       state.input = action.payload;
     },
+    addMessage: (state, action) => {
+      state.messages.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchMessages.fulfilled, (state, action) => {
-      state.messages = action.payload;
+    builder.addCase(postMessage.fulfilled, (state, action) => {
+      const { user, ai } = action.payload;
+
+    state.messages.push(
+      { role: 'user', content: user },
+      { role: 'assistant', content: ai }
+    );
+
+    state.input = '';
     });
-  },
+  }
 });
 
-export const { addMessage, setInput } = aiAdvisorSlice.actions;
+export const { setInput, addMessage } = aiAdvisorSlice.actions;
 export const selectMessages = (state) => state.aiAdvisor.messages;
 export const selectInput = (state) => state.aiAdvisor.input;
-
 export default aiAdvisorSlice.reducer;
