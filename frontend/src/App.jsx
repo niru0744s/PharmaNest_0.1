@@ -59,7 +59,7 @@ function App() {
         <Route path='/hostSignup' element={<HostSignup/>}/>
         <Route path='/aiAdvisor' element={<AiAdvisor/>}/>
         <Route path='/show/:id' element={<ShowPage/>}/>
-        <Route path='/search' element={<SearchEngine/>}/>
+        <Route path='/search/:categoryName' element={<SearchEngine/>}/>
         <Route path='/sellerDashboard' element={<HostLandingPage/>}/>
         <Route path='/userDashboard' element={<AccountCenter/>}/>
         <Route path='/cart' element={<Cart/>}/>

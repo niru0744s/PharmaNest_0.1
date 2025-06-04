@@ -10,11 +10,8 @@ const userProducts = require("./routes/userProducts");
 const userAddress = require("./routes/userAddress");
 
 app.use(express.json());
-app.use(express.urlencoded({extended:true}))
-app.use(Cors({
-  origin: "http://localhost:5173", 
-  credentials: true,
-}));
+app.use(express.urlencoded({extended:true}));
+app.use(Cors());
 
 app.use("/api/v1/user/auth",AuthRoute);
 app.use("/api/v1/host/auth",HostAuth);

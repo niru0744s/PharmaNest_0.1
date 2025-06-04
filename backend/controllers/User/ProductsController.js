@@ -48,7 +48,6 @@ module.exports.placeOrder = async(req,res)=>{
       message: "Order Placed Successfully",
     });
     } catch (error) {
-      console.log(error);
         res.send({
             success:0,
             message:error

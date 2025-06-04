@@ -3,6 +3,7 @@ const route = express.Router();
 const userProductController = require('../controllers/User/ProductsController');
 const paymentController = require("../controllers/User/paymentController");
 const middleware = require("../middleware/tokenVerify");
+const chatController = require("../controllers/User/aiChatController");
 
 route.get("/fetchWishlist",middleware.userMiddleware,userProductController.showWishlist);
 route.post('/addWishlist/:id',middleware.userMiddleware,userProductController.addWishlist);
@@ -18,6 +19,7 @@ route.post("/placeOrder",middleware.userMiddleware,userProductController.placeOr
 route.put("/cancelOrder",middleware.userMiddleware,userProductController.cancelOrder);
 route.put("/cancelOrder/:orderId", middleware.userMiddleware, userProductController.cancelOrder);
 
+route.post("/chatAi",middleware.userMiddleware,chatController.handleAIChat);
 
 route.post("/create-razorpay-order",middleware.userMiddleware,paymentController.createOrder);
 module.exports = route;
