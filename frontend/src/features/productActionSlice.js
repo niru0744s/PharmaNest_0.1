@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from '../axiosInstance';
 import { toast } from "react-toastify";
+import { logout } from "./loginSlice";
 
 // ================= CART =================
 
@@ -264,6 +265,11 @@ const productActionsSlice = createSlice({
       const idx = state.purchases.findIndex(o => o._id === action.payload.orderId);
       if (idx !== -1) state.purchases[idx].status = "cancelled";
       })
+      .addCase(logout,(state)=>{
+        state.cart = [];
+        state.wishlist = [];
+        state.purchases = [];
+      })
       .addMatcher((action) => action.type.endsWith("/pending"), (state) => {
         state.loading = true;
         state.error = null;
@@ -275,8 +281,7 @@ const productActionsSlice = createSlice({
           if (action.type.endsWith("/rejected")) {
             state.error = action.error.message;
           }
-        }
-      );
+      });
   },
 });
 

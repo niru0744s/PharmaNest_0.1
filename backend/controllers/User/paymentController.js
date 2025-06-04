@@ -2,8 +2,8 @@
 const Razorpay = require("razorpay");
 
 const instance = new Razorpay({
-  key_id:"rzp_test_zGATeYxiFoQQLt",
-  key_secret:"VxGre58Vfs5bPVdsSWByFV7z",
+  key_id:process.env.Razorpay_KEY_ID,
+  key_secret:process.env.Razorpay_KEY_SECRET,
 });
 
 module.exports.createOrder = async (req, res) => {

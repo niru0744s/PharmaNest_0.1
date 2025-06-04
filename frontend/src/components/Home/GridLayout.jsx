@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { addToWishlist, updateWishlist, addToCart } from "../../features/productActionSlice";
+import { toast } from "react-toastify";
 
 export default function GridLayout({ data }) {
   const dispatch = useDispatch();
