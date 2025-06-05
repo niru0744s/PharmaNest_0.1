@@ -12,13 +12,15 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useSelector, useDispatch } from "react-redux";
-import { updateWishlist , fetchWishlist } from "../../features/productActionSlice";
+import { updateWishlist , fetchWishlist , addToCart } from "../../features/productActionSlice";
 import Navbar from "../Header&Footer/Navbar";
 import Footer from "../Header&Footer/Footer"
+import { toast } from "react-toastify";
 
 export default function Wishlist() {
   const dispatch = useDispatch();
   const  wishlist  = useSelector((state) => state.productActions.wishlist) || [];
+  const cart = useSelector((state)=> state.productActions.cart);
   useEffect(()=>{
     if(localStorage.getItem("user")){
       dispatch(fetchWishlist());
@@ -70,7 +72,15 @@ export default function Wishlist() {
                   <Button
                     variant="contained"
                     startIcon={<ShoppingCartIcon />}
-                    onClick={() => console.log("Add to cart", item._id)}
+                    onClick={async () =>{
+                      if(localStorage.getItem('user')){
+                        await  dispatch(addToCart({ productId: item._id})).unwrap();
+                      }else{
+                        toast.error("You have to login first!");
+                      }
+                    }
+                      
+                    }
                   >
                     Add to Cart
                   </Button>

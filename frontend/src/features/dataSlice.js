@@ -7,7 +7,7 @@ export const fetchProductsByCategory = createAsyncThunk(
   'data/fetchProductsByCategory',
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get('http://localhost:8080/api/v1/products');
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/products`);
       if(res.data.success == 1){
         console.log(res.data.categoryWise);
         return res.data.categoryWise;

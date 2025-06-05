@@ -7,8 +7,7 @@ export const submitOtp = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log("user email -",data);
     try {
-      const res = await axios.post('http://localhost:8080/api/v1/host/auth/otpSent', data);
-      console.log(res);
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/host/auth/otpSent`, data);
       if(res.data.success == 1){
         toast.success(res.data.message);
         return res.data.newUSr;
@@ -29,7 +28,7 @@ export const HostOtpVerify = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log(data);
     try {
-      const res = await axios.post('http://localhost:8080/api/v1/host/auth/otpVerify', data ,{
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/host/auth/otpVerify`, data ,{
         params:{
           id:data.id
         }
@@ -53,7 +52,7 @@ export const finalSubmit = createAsyncThunk(
   'HostSignup/finalSubmit',
   async (data, { rejectWithValue }) => {
     try {
-      const res = await axios.post('http://localhost:8080/api/v1/host/auth/createPass', data.formData ,{
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/host/auth/createPass`, data.formData ,{
         params:{
           id:data.id
         }

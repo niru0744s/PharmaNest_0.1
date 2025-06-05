@@ -6,7 +6,7 @@ export const postMessage = createAsyncThunk(
   async (prompt, { rejectWithValue }) => {
     console.log(prompt);
     try {
-      const res = await axiosInstance.post('/user/chatAi',  {userMessage:prompt} );
+      const res = await axiosInstance.post('/user/chatAi',{userMessage:prompt} );
       console.log(res);
       return {
         user: prompt,
