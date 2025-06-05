@@ -31,7 +31,7 @@ const authSlice = createSlice({
   name: 'hostAuth',
   initialState: {
     token: localStorage.getItem("token") || null,
-    host: JSON.parse(localStorage.getItem("host"))||null,
+    host: localStorage.getItem("host")||null,
     status: 'idle',
     isHostAuthenticated:false,
     error: null,
