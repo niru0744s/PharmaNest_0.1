@@ -14,7 +14,7 @@ import {
   HelpOutline,
   TrackChanges,
 } from "@mui/icons-material";
-import "./userProfile.css";
+import "./UserProfile.css";
 
 const Sidebar = ({ section, setSection , user }) => {
   return (
