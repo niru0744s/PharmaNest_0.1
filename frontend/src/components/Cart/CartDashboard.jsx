@@ -34,7 +34,7 @@ const CartDashboard = () => {
 
   // Step 2: Open Razorpay Checkout
   const options = {
-    key:"rzp_test_zGATeYxiFoQQLt", // test key
+    key:import.meta.env.VITE_RAZORPAY_KEY, // test key
     amount: finalPrice * 100,
     currency,
     name: "PharmaNest",
