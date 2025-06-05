@@ -7,7 +7,7 @@ export const loginHost = createAsyncThunk(
     'auth/loginHost',
     async (data, { rejectWithValue }) => {
         try {
-            const res = await axios.post('http://localhost:8080/api/v1/host/auth/login', data);
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/host/auth/login`, data);
             console.log(res);
             if(res.data.success === 1){
               const host = res.data.updatedUsr;

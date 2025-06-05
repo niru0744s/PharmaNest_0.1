@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import ProfileInfo from "./ProfileInfo";
-import "./userProfile.css";
+import "./UserProfile.css";
 import Navbar from "../Header&Footer/Navbar";
 
 const UserProfile = () => {
