@@ -13,21 +13,21 @@ const Hero = () => {
             </div>
             <div class="carousel-inner">
               <div class="carousel-item active">
-                <img src="media/sliderImg/img1.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
+                <img src="/media/sliderImg/img1.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
                 <div class="carousel-caption d-none d-md-block">
                   <h5>First slide label</h5>
                   <p>Some representative placeholder content for the first slide.</p>
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="media/sliderImg/img2.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
+                <img src="/media/sliderImg/img2.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Second slide label</h5>
                   <p>Some representative placeholder content for the second slide.</p>
                 </div>
               </div>
               <div class="carousel-item">
-                <img src="media/sliderImg/img3.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
+                <img src="/media/sliderImg/img3.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
                 <div class="carousel-caption d-none d-md-block">
                   <h5>Third slide label</h5>
                   <p>Some representative placeholder content for the third slide.</p>
@@ -48,7 +48,7 @@ const Hero = () => {
           <div className="row">
           <div class="mt-5 col-6" style={{ height: "20rem"}} >
             <h3 className='card-title mt-3'>Products</h3>
-            <img src="media/headerImg/img7.png" class="card-img-top product" alt="..." style={{height:"10rem" , width:"100%"}}/>
+            <img src="/media/headerImg/img7.png" class="card-img-top product" alt="..." style={{height:"10rem" , width:"100%"}}/>
               <div class="card-body">
                 <p class="card-text">Baby Products</p>
                 <h5 class="card-title">From -/800</h5>
@@ -56,7 +56,7 @@ const Hero = () => {
           </div>
           <div class="mt-5 col-6" style={{ height: "20rem"}} >
             <h3 className='card-title mt-3'>Products</h3>
-            <img src="media/headerImg/img6.png" class="card-img-top product" alt="..." style={{height:"10rem" , width:"100%"}}/>
+            <img src="/media/headerImg/img6.png" class="card-img-top product" alt="..." style={{height:"10rem" , width:"100%"}}/>
               <div class="card-body">
                 <p class="card-text  ">Health Supplements</p>
                 <h5 class="card-title ">From -/800</h5>

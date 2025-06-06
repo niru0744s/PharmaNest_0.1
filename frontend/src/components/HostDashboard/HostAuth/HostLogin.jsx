@@ -55,7 +55,7 @@ export default function HostLogin() {
           <div className="col-3 bg-primary d-flex align-items-start flex-column" style={{ color: "white" }}>
             <p className="fw-bold fs-3 card-title ms-5 mt-4"> Host Login </p>
             <p className="ms-5 mt-3">Get access to your Products, <br /> Sales & Many more... </p>
-            <img src="media/images/log.png" alt="" style={{ height: "12rem", width: "13rem" }} className="ms-5 mt-auto" />
+            <img src="/media/images/log.png" alt="" style={{ height: "12rem", width: "13rem" }} className="ms-5 mt-auto" />
           </div>
       <div className="col-5 bg-light d-flex align-items-start flex-column">
             <Box
