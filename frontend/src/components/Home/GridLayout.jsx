@@ -151,30 +151,30 @@ const data = [{
   price: "800"
 }, {
   title: "Baby product",
-  image: "media/headerImg/img7.png",
+  image: "/media/headerImg/img7.png",
   price: "800"
 }, {
   title: "Baby product",
-  image: "media/headerImg/img7.png",
+  image: "/media/headerImg/img7.png",
   price: "800"
 }, {
   title: "Baby product",
-  image: "media/headerImg/img7.png",
+  image: "/media/headerImg/img7.png",
   price: "800"
 }, {
   title: "Baby product",
-  image: "media/headerImg/img7.png",
+  image: "/media/headerImg/img7.png",
   price: "800"
 }, {
   title: "Baby product",
-  image: "media/headerImg/img7.png",
+  image: "/media/headerImg/img7.png",
   price: "800"
 }, {
   title: "Baby product",
-  image: "media/headerImg/img7.png",
+  image: "/media/headerImg/img7.png",
   price: "800"
 }, {
   title: "Baby product",
-  image: "media/headerImg/img7.png",
+  image: "/media/headerImg/img7.png",
   price: "800"
 }]
