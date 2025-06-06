@@ -106,7 +106,7 @@ const HostFooter = () => {
                 <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" sx={{ py: 2 }}>
                     <Box display="flex" alignItems="center" gap={1} sx={{ flexGrow: 1 }}>
                         <img
-                            src="media/images/PHARMANEST.png"
+                            src="/media/images/PHARMANEST.png"
                             alt="Pharmanest Seller Hub"
                             style={{ height: 30 }}
                         />

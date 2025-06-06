@@ -9,7 +9,7 @@ export default function GridBottom() {
       <div className="row m-2">
         <div className="col card bg-transparent border-0" style={{ height: "40rem" }}>
           <img
-            src="media/sliderImg/img2.png"
+            src="/media/sliderImg/img2.png"
             className="card-img"
             alt=""
             style={{ height: "100%", width: "100%" }}

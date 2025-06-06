@@ -12,7 +12,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/loginSlice';
 import { toast } from 'react-toastify';
-import logo from '../../../media/images/PHARMANEST.svg';
 
 export default function Navbar() {
   const dispatch = useDispatch();
@@ -28,7 +27,7 @@ export default function Navbar() {
         <Link to="/" className='nav-brand px-3'>
           <img
             style={{ height: "5rem" }}
-            src={logo}
+            src="/media/images/PHARMANEST.svg"
             alt="Pharmanest Logo"
           />
         </Link>
