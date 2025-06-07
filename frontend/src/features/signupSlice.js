@@ -61,7 +61,8 @@ export const finalSubmit = createAsyncThunk(
       console.log(res);
       if(res.data.success == 1){
         toast.success(res.data.message);
-        localStorage.setItem('user',JSON.stringify(res.data.newUser))
+        localStorage.setItem('user',JSON.stringify(res.data.newUser));
+        localStorage.setItem('token',res.data.newUser.token)
         return res.data.newUser;
       }else{
         toast.error(res.data.message);

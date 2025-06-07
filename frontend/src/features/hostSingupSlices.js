@@ -57,10 +57,10 @@ export const finalSubmit = createAsyncThunk(
           id:data.id
         }
       });
-      console.log(res);
       if(res.data.success == 1){
         toast.success(res.data.message);
-        localStorage.setItem('host',JSON.stringify(res.data.updatedUsr))
+        localStorage.setItem('host',JSON.stringify(res.data.updatedUsr));
+        localStorage.setItem('token',res.data.updatedUsr.token);
         return res.data.newUser;
       }else{
         toast.error(res.data.message);

@@ -18,7 +18,6 @@ module.exports.createOrder = async (req, res) => {
     const order = await instance.orders.create(options);
     res.send({ success: 1, order });
   } catch (err) {
-    console.log(err)
     res.status(500).send({ success: 0, message: err.message });
   }
 };
