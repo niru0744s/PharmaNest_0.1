@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 const CartDashboard = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.productActions.cart);
+  const addresses = useSelector((state) => state.data.address); 
   const handleIncrement = (item) => {
     dispatch(updateCart({ productId: item._id, quantity: item.quantity + 1 }));
   };
@@ -23,6 +24,14 @@ const CartDashboard = () => {
   const handleRemove = async (itemId) => {
     await dispatch(deleteCartItem(itemId)).unwrap();
   };
+
+  const handleButtonClick = () => {
+  if (addresses.length > 0) {
+    handlePlaceOrder();
+  } else {
+    toast.error("Add an address first!");
+  }
+};
 
   const handlePlaceOrder = async () => {
   const cartItemsId = cartItems.map(item => item._id);
@@ -128,9 +137,9 @@ const CartDashboard = () => {
             <Typography className="text-success mt-2">
               You will save ₹{(30 + 42).toLocaleString()} on this order
             </Typography>
-            <Button variant="contained" color="warning" className="mt-3 w-100" onClick={handlePlaceOrder}>
+              <Button variant="contained" color="warning" className="mt-3 w-100" onClick={handleButtonClick}>
               Place Order
-            </Button>
+              </Button>
           </Card>
         </div>
           ):(<><h1 className="text-success mt-2 text-center">You haven't select any cart items yet !</h1></>)}

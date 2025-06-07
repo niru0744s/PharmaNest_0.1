@@ -1,4 +1,5 @@
 import React from 'react'
+import GridBottom from './GridBottom'
 
 const Hero = () => {
   return (
@@ -44,25 +45,8 @@ const Hero = () => {
             </button>
           </div>
         </div>
-        <div className="col bg-light">
-          <div className="row">
-          <div class="mt-5 col-6" style={{ height: "20rem"}} >
-            <h3 className='card-title mt-3'>Products</h3>
-            <img src="/media/headerImg/img7.png" class="card-img-top product" alt="..." style={{height:"10rem" , width:"100%"}}/>
-              <div class="card-body">
-                <p class="card-text">Baby Products</p>
-                <h5 class="card-title">From -/800</h5>
-              </div>
-          </div>
-          <div class="mt-5 col-6" style={{ height: "20rem"}} >
-            <h3 className='card-title mt-3'>Products</h3>
-            <img src="/media/headerImg/img6.png" class="card-img-top product" alt="..." style={{height:"10rem" , width:"100%"}}/>
-              <div class="card-body">
-                <p class="card-text  ">Health Supplements</p>
-                <h5 class="card-title ">From -/800</h5>
-              </div>
-          </div>
-          </div>
+        <div className="col-4">
+            <GridBottom/>
         </div>
       </div>
     </div>

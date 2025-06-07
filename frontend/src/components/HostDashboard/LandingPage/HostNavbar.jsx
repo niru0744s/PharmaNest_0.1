@@ -27,10 +27,11 @@ export default function HostNavbar() {
   return (
     <AppBar position="static" color="inherit" elevation={0}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
+        <Link to={"/"} style={{textDecoration:"none" , color:"orange"}}>
         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
           Pharmanest Seller Hub
         </Typography>
-
+        </Link>
         <Box display="flex" gap={2}>
           <div
             onMouseEnter={handleHover}

@@ -46,8 +46,10 @@ export default function Navbar() {
                   {isAuthenticated ? (<>{user?.firstName}</>) : (<Link className='link-secondary text-decoration-none' to={"/login"}>Login</Link>)}
                 </p>
                 <ul class="dropdown-menu">
+                  {isAuthenticated ? (null) : (<>
                   <li><Link class="dropdown-item " to={"/signup"}>New User ? SIgnup</Link></li>
                   <li><hr class="dropdown-divider" /></li>
+                  </>)}
                   <li><Link class="dropdown-item" to={"/userDashboard"}><AccountCircleIcon className='me-2 h-icon' />My Profile</Link></li>
                   <li><Link class="dropdown-item" to={"/orders"}> <LocalShippingIcon className='me-2 h-icon' />Orders</Link></li>
                   <li><Link class="dropdown-item" to={"/wishlist"}><FavoriteBorderIcon className='me-2 h-icon' />Wishlist</Link></li>

@@ -24,7 +24,6 @@ exports.handleAIChat = async (req, res) => {
     const contentType = llmRes.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
       const html = await llmRes.text();
-      console.error("LLM7 HTML error:", html);
       return res.status(500).json({ success: false, message: "LLM7 returned invalid response" });
     }
 
@@ -50,7 +49,6 @@ exports.handleAIChat = async (req, res) => {
     });
 
   } catch (err) {
-    console.error("AI Chat error:", err);
     res.status(500).json({
       success: false,
       message: "AI service failed. Please try again later.",

@@ -78,8 +78,11 @@ module.exports.createPass = async (req, res) => {
         const newUser = await Host.findByIdAndUpdate(id, {
             firstName,
             lastName,
-            password: empass
-        });
+            password: empass,
+        },{ new: true });
+        const token = jwtToken.generateToken(newUser);
+        newUser.token = token;
+        await newUser.save();
         res.send({
             success: 1,
             message: "Password has updated !",
@@ -156,14 +159,12 @@ module.exports.showProducts = async (req, res) => {
                 message: "Add some Products first"
             })
         }
-        console.log(products);
         res.send({
             success: 1,
             message: "Seller Products fetched !",
             products: products
         })
     } catch (error) {
-        console.log(error);
         res.send({
             success: 0,
             message: error

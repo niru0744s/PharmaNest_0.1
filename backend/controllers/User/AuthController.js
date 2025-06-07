@@ -40,7 +40,6 @@ module.exports.otpSent = async (req,res)=>{
             newUSr
         });
     } catch (error) {
-        console.log(error);
         res.send({
             success:0,
             message:error
@@ -52,7 +51,6 @@ module.exports.otpVerify = async(req,res)=>{
     try {
     const {id} = req.query;
     const {otp} = req.body;
-    console.log(otp , id)
     const exUser = await User.findById(id);
     if(otp != exUser.otp){
         return res.send({
@@ -65,6 +63,7 @@ module.exports.otpVerify = async(req,res)=>{
         message:"OTP verification Successfull !"
     });
     } catch (error) {
+        console.log(error);
         res.send({
             success:0,
             message:error
@@ -75,15 +74,17 @@ module.exports.otpVerify = async(req,res)=>{
 module.exports.createPass = async(req,res)=>{
     try {
         const {firstName , lastName , phoneNumber , pass} = req.body;
-        console.log(firstName , lastName , phoneNumber , pass);
         const {id} = req.query;
         const empass = await bcrypt.hash(pass,10);
         const newUser = await User.findByIdAndUpdate(id,{
             firstName,
             lastName,
             phoneNumber,
-            password:empass
-        });
+            password:empass,
+        },{ new: true });
+        const token = jwtToken.generateToken(newUser);
+        newUser.token = token ;
+        await newUser.save();
         res.send({
             success:1,
             message:"Password has updated !",
@@ -153,7 +154,6 @@ module.exports.forgetPass = async(req,res)=>{
             usr
         })
     } catch (error) {
-        console.log(error)
         res.send({
             success:0,
             message:error
@@ -193,7 +193,6 @@ module.exports.changePass = async(req,res)=>{
 module.exports.addAddress = async (req,res)=>{
     try {
         let existUser = await User.findById(req.user._id);
-        console.log(existUser);
         let newAddress = new Address(req.body);
         newAddress.userId = req.user._id;
         existUser.locations.push(newAddress);
@@ -206,7 +205,6 @@ module.exports.addAddress = async (req,res)=>{
         })
 
     } catch (error) {
-        console.log(error);
         res.send({
             success:0,
             message:error

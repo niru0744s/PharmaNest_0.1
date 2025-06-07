@@ -30,7 +30,7 @@ export default function LandingPage() {
       <Box sx={{ display: "flex", flexWrap: "nowrap", gap: 2, overflowX: "auto", px: 2 }}>
       <GridLayout data={categories[6]}/>
       <GridLayout data={categories[1]}/>
-      <GridBottom/>
+      <GridLayout data={categories[2]}/>
       </Box>
     <Footer/>
     </>
