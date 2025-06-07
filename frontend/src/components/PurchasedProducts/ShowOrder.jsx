@@ -40,14 +40,17 @@ const ShowOrder = () => {
             </div>
 
             <ul className="timeline mt-3 ps-3">
+              {order.status == "delivered" ? (<>
               <li>
-                <span className="text-success">✔</span> Order Confirmed,
-                <strong> Apr 03</strong>
+                <span className="text-success">✔</span> Order Confirmed: 
+                <strong> {new Date(order.createdAt).toLocaleDateString('en-IN')}</strong>
               </li>
+              </>):(<>
               <li>
-                <span className="text-success">✔</span> Delivered,
-                <strong> Apr 05</strong>
+                <span className="text-success">✔</span> Order Cancelled: 
+                <strong> {new Date(order.updatedAt).toLocaleString('en-IN')}</strong>
               </li>
+              </>)}
             </ul>
 
             <p className="text-primary small cursor-pointer">See All Updates →</p>
@@ -75,7 +78,7 @@ const ShowOrder = () => {
                 disabled={order.status === "delivered" || order.status === "cancelled"}
                 onClick={() => dispatch(cancelOrder(order._id))} // Use Redux thunk
               >
-                Cancel Order
+                {order.status == "delivered" ? ("cancel order") : ("order cancelled")}
               </Button>
             </div>
           </div>
