@@ -2,12 +2,23 @@ import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import ProfileInfo from "./ProfileInfo";
 import "./UserProfile.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ManageAddress from "./ManageAddress";
+import { useEffect } from "react";
+import { fetchAddress } from "../../features/dataSlice";
+import { toast } from "react-toastify";
 
 export default function UserDashboard() {
   const [section, setSection] = useState(["section","manageAddress"]);
-  const user = useSelector((state)=>state.login.user)
+  const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem('user'));
+  useEffect(()=>{
+    if(user){
+      dispatch(fetchAddress());
+    }else{
+      toast.error("You have to login first.")
+    }
+  })
   return (
     <div className="container-fluid user-profile-page">
       <div className="row">

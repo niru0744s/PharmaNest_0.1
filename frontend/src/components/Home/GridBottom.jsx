@@ -6,16 +6,15 @@ import Button from '@mui/material/Button';
 export default function GridBottom() {
   return (
     <>
-      <div className="row m-2">
-        <div className="col card bg-transparent border-0" style={{ height: "40rem" }}>
+        <div className="card bg-transparent w-100" style={{ height: "26rem" }}>
           <img
             src="/media/sliderImg/img2.png"
-            className="card-img"
-            alt=""
-            style={{ height: "100%", width: "100%" }}
+            alt="ai-img"
+           className="w-100"
+          style={{ objectFit: 'cover' }}
           />
           <div className="card-img-overlay mt-5 ms-4">
-            <h5 className="card-title">AI Advisor</h5>
+            <h5 className="card-title" style={{color:"yellowgreen"}}>AI Advisor</h5>
             <Link to="/aiAdvisor" style={{ textDecoration: 'none' }}>
               <Button
                 variant="contained"
@@ -28,7 +27,6 @@ export default function GridBottom() {
             </Link>
           </div>
         </div>
-      </div>
     </>
   );
 }

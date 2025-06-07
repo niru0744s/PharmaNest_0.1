@@ -45,7 +45,6 @@ function App() {
         dispatch(fetchWishlist());
         dispatch(fetchCartProducts());
         dispatch(fetchPurchasedProducts());
-        dispatch(fetchAddress());
       }
     },[user]);
   return (
