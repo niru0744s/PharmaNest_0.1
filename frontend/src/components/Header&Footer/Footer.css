@@ -28,7 +28,11 @@
     margin-left: 5px;
     margin-top: 6px;
 }
+.footer-links p {
+  cursor: pointer;
+}
 
 .footer-links  p:hover{
-    color: #15803D !important;
+     text-decoration: underline;
+  color: #03AFAF;
 }
