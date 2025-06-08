@@ -27,10 +27,8 @@ export default function Wishlist() {
     }
   },[dispatch])
   return (
-    <>
-    <Navbar/>
     <Box className="container py-4">
-      <Typography variant="h4" className="mb-4 text-center">
+      <Typography variant="h4" className="mb-2 text-center bg-light py-2">
         Your Wishlist
       </Typography>
 
@@ -38,7 +36,9 @@ export default function Wishlist() {
         <Typography className="text-center">No products in wishlist.</Typography>
       ) : (
         <Stack spacing={4}>
-          {wishlist.map((item, idx) => (
+          {wishlist.map((item, idx) =>{
+          const isCart = cart?.some(ele=> ele.products._id == item._id);
+          return (
             <Card key={idx} sx={{ display: "flex", p: 2, position: "relative" }}>
               {/* Product Image */}
               <CardMedia
@@ -66,11 +66,10 @@ export default function Wishlist() {
                   )}
                   <span style={{ color: "#1976d2" }}>From ₹{item.price}</span>
                 </Typography>
-
-                {/* Buttons */}
                 <Box className="d-flex gap-2 mt-3">
                   <Button
                     variant="contained"
+                    disabled={isCart}
                     startIcon={<ShoppingCartIcon />}
                     onClick={async () =>{
                       if(localStorage.getItem('user')){
@@ -99,11 +98,9 @@ export default function Wishlist() {
                 </Box>
               </CardContent>
             </Card>
-          ))}
+          )})}
         </Stack>
       )}
     </Box>
-    <Footer/>
-    </>
   );
 }
