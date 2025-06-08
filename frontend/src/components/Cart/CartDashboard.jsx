@@ -78,7 +78,7 @@ const CartDashboard = () => {
 
   return (
     <Box className="container mt-4">
-      <Typography variant="h5" gutterBottom>Cart Summary</Typography>
+      <Typography variant="h4" className='bg-light py-2 my-2 rounded-1 text-center'>Cart Products</Typography>
       <div className="row">
         <div className="col-md-8">
           {cartItems.map((item) => (
