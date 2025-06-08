@@ -8,3 +8,9 @@
   .h-icon{
     color: #0072CE !important;
   }
+
+@media (max-width: 768px) {
+  .navbar-brand img {
+    height: 2.5rem;
+  }
+}
