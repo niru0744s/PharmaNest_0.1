@@ -1,19 +1,20 @@
 import React from "react";
 
 const ProfileInfo = () => {
+
+  const user = JSON.parse(localStorage.getItem('user'));
   return (
     <div className="card p-4 mt-3">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h5>Personal Information</h5>
-        <span className="text-primary cursor-pointer">Edit</span>
       </div>
 
       <div className="row mb-3">
         <div className="col">
-          <input className="form-control" value="Nirupam" disabled />
+          <input className="form-control" value={user.firstName} disabled />
         </div>
         <div className="col">
-          <input className="form-control" value="Bhattacharya" disabled />
+          <input className="form-control" value={user.lastName} disabled />
         </div>
       </div>
 
@@ -26,17 +27,15 @@ const ProfileInfo = () => {
       <div className="mb-3">
         <div className="d-flex justify-content-between align-items-center">
           <h6>Email Address</h6>
-          <span className="text-primary cursor-pointer">Edit</span>
         </div>
-        <input className="form-control" value="nirupambhattacharya100@gmail.com" disabled />
+        <input className="form-control" value={user.email} disabled />
       </div>
 
       <div>
         <div className="d-flex justify-content-between align-items-center">
           <h6>Mobile Number</h6>
-          <span className="text-primary cursor-pointer">Edit</span>
         </div>
-        <input className="form-control" value="+917439893394" disabled />
+        <input className="form-control" value={user.phoneNumber} disabled />
       </div>
     </div>
   );

@@ -7,9 +7,12 @@ import ManageAddress from "./ManageAddress";
 import { useEffect } from "react";
 import { fetchAddress } from "../../features/dataSlice";
 import { toast } from "react-toastify";
+import Wishlist from "../Wishlist/Wishlist";
+import CartDashboard from "../Cart/CartDashboard";
+import ShowOrder from "../PurchasedProducts/ShowOrder";
 
 export default function UserDashboard() {
-  const [section, setSection] = useState(["section","manageAddress"]);
+  const [section, setSection] = useState("profile");
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem('user'));
   useEffect(()=>{
@@ -28,6 +31,9 @@ export default function UserDashboard() {
         <div className="col-md-9">
           {section === "profile" && <ProfileInfo />}
           {section === "manageAddress" && <ManageAddress/>}
+          {section === "wishlist" && <Wishlist/> }
+          {section === "cart" && <CartDashboard/>}
+          {section === "orders" && <ShowOrder/>}
         </div>
       </div>
     </div>

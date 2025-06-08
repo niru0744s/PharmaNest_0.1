@@ -40,14 +40,40 @@ const ShowOrder = () => {
             </div>
 
             <ul className="timeline mt-3 ps-3">
-              <li>
-                <span className="text-success">✔</span> Order Confirmed,
-                <strong> Apr 03</strong>
-              </li>
-              <li>
-                <span className="text-success">✔</span> Delivered,
-                <strong> Apr 05</strong>
-              </li>
+              {order.status === "pending" && (
+                <li>
+                  <span className="text-success">✔</span> Order placed at:
+                  <strong>{new Date(order.createdAt).toLocaleString('en-IN')}</strong>
+                </li>
+              )}
+
+              {order.status === "shipped" && (
+                <li>
+                  <span className="text-success">✔</span> Order Shipped at:
+                  <strong>{new Date(order.updatedAt).toLocaleString('en-IN')}</strong>
+                </li>
+              )}
+
+              {order.status === "on_the_way" && (
+                <li>
+                  <span className="text-success">✔</span> Order Out for delivery at:
+                  <strong>{new Date(order.updatedAt).toLocaleString('en-IN')}</strong>
+                </li>
+              )}
+
+              {order.status === "delivered" && (
+                <li>
+                  <span className="text-success">✔</span> Order Delivered at:
+                  <strong>{new Date(order.updatedAt).toLocaleString('en-IN')}</strong>
+                </li>
+              )}
+
+              {order.status === "cancelled" && (
+                <li>
+                  <span className="text-success">✔</span> Order Cancelled at:
+                  <strong>{new Date(order.updatedAt).toLocaleString('en-IN')}</strong>
+                </li>
+              )}
             </ul>
 
             <p className="text-primary small cursor-pointer">See All Updates →</p>
@@ -75,7 +101,7 @@ const ShowOrder = () => {
                 disabled={order.status === "delivered" || order.status === "cancelled"}
                 onClick={() => dispatch(cancelOrder(order._id))} // Use Redux thunk
               >
-                Cancel Order
+                {order.status == "cancelled" ? ("order cancelled") : ("cancel order")}
               </Button>
             </div>
           </div>

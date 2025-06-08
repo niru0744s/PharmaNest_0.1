@@ -5,7 +5,6 @@ import Cart from './components/Cart/Cart';
 import PurchasedProducts from './components/PurchasedProducts/PurchasedProducts';
 import ShowPage from './components/ShowProducts/ShowPage';
 import SearchEngine from './components/SearchedProducts/SearchEngine';
-import Wishlist from './components/Wishlist/Wishlist';
 import HostLandingPage from './components/HostDashboard/LandingPage/HostLandingPage';
 import AddProuducts from './components/HostDashboard/AddProducts/AddProuducts';
 import HostSignup from './components/HostDashboard/HostAuth/HostSignup';
@@ -29,6 +28,7 @@ import { useDispatch , useSelector } from 'react-redux';
 import { logout } from './features/loginSlice';
 import { toast } from 'react-toastify';
 import { isTokenValid } from './utils/checkToken';
+import WishlistCombo from './components/Wishlist/WishlistCombo';
 
 function App() {
   const dispatch = useDispatch();
@@ -63,7 +63,7 @@ function App() {
         <Route path='/userDashboard' element={<AccountCenter/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/orders' element={<PurchasedProducts/>}/>
-        <Route path='/wishlist' element={<Wishlist/>}/>
+        <Route path='/wishlist' element={<WishlistCombo/>}/>
         <Route path='/addProducts' element={<AddProuducts/>}/>
         <Route path='/sellerProduct' element={<SellerProducts/>}/>
         <Route path="/editProduct/:id" element={<EditProductForm/>}/>

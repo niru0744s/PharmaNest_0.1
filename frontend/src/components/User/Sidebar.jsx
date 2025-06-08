@@ -15,6 +15,8 @@ import {
   TrackChanges,
 } from "@mui/icons-material";
 import "./UserProfile.css";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 const Sidebar = ({ section, setSection , user }) => {
   return (
@@ -36,7 +38,7 @@ const Sidebar = ({ section, setSection , user }) => {
       <div className="sidebar-block border bg-light p-3 m-0">
         <div className="sidebar-title">
           <Home fontSize="small" className="me-2" />
-          MY ORDERS
+          MY ACCOUNT
         </div>
       </div>
 
@@ -46,11 +48,11 @@ const Sidebar = ({ section, setSection , user }) => {
           <AccountCircle fontSize="small" className="me-2" />
           ACCOUNT SETTINGS
         </div>
-        <p onClick={() => setSection("profile")} className={section === "profile" ? "actv-link" : ""}>
+        <p onClick={() => setSection("profile")} className={section === "profile" ? "actv-link rounded-2" : ""}>
           <Person fontSize="medium" className="me-2" />
           Profile Information
         </p>
-        <p onClick={() => setSection("manageAddress")} className={section === "manageAddress" ? "actv-link" : ""}>
+        <p onClick={() => setSection("manageAddress")} className={section === "manageAddress" ? "actv-link rounded-2" : ""}>
           <LocationOn fontSize="medium" className="me-2" />
           Manage Addresses
         </p>
@@ -77,10 +79,19 @@ const Sidebar = ({ section, setSection , user }) => {
           <Folder fontSize="small" className="me-2" />
           MY STUFF
         </div>
-        <p><Reviews fontSize="small" className="me-2" /> My Coupons</p>
+        <p onClick={() => setSection("cart")} className={section === "cart" ? "actv-link rounded-2" : ""}>
+          <ShoppingCartIcon fontSize="small" className="me-2" /> 
+          My Cart
+        </p>
+        <p onClick={() => setSection("wishlist")} className={section === "wishlist" ? "actv-link rounded-2" : ""}>
+          <Favorite fontSize="small" className="me-2" />
+          My Wishlist
+        </p>
+        <p onClick={() => setSection("orders")} className={section === "orders" ? "actv-link rounded-2" : ""}>
+          <LocalShippingIcon fontSize="small" className="me-2" />
+          My Orders
+        </p>
         <p><Reviews fontSize="small" className="me-2" /> My Reviews & Ratings</p>
-        <p><Notifications fontSize="small" className="me-2" /> All Notifications</p>
-        <p><Favorite fontSize="small" className="me-2" /> My Wishlist</p>
       </div>
 
       {/* LOGOUT */}
