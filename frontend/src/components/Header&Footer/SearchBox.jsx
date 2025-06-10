@@ -9,20 +9,14 @@ import { useNavigate } from 'react-router-dom';
 export default function SearchBox() {
   const [search , setSearch] = useState("");
   const { categories, loading, error } = useSelector((state) => state.data);
-  const products = categories.map((e)=>{
-  return e.category
-  });
+  const products = categories.flatMap((category) =>
+  category.products.map((item) => item.name)
+);
   const navigate = useNavigate();
-  const handleInput = (e, newInputValue) => {
-    e.preventDefault();
-    console.log(newInputValue);
-    setSearch(newInputValue);
-};
-
-
   const handleEnter = (matched) => {
-    console.log(matched);
-    navigate(`/search/${matched}`);
+    const allProducts = categories.flatMap((category) => category.products);
+    const id= allProducts.find((item) => item.name === matched)?._id || null;
+    navigate(`/show/${id}`);
 };
 
 
@@ -35,14 +29,13 @@ export default function SearchBox() {
   inputValue={search}
   onInputChange={(event, newInputValue) => {
     setSearch(newInputValue);
-    console.log("Typed:", newInputValue);
   }}
   onChange={(event, value) => {
     // Handles mouse click or option selection
     setSearch(value); // update the input with selected value
     handleEnter(value);
   }}
-  sx={{ width: { xs: '50%', md: 800 } }}
+  sx={{ width: { xs: '100%', md: 700 } }}
   size="small"
   onKeyDown={(e) => {
     if (e.key === "Enter") {
@@ -53,7 +46,7 @@ export default function SearchBox() {
   renderInput={(params) => (
     <TextField
       {...params}
-      placeholder="Search for Medicines, Equipments and More"
+      placeholder="Search"
       InputProps={{
         ...params.InputProps,
         startAdornment: (

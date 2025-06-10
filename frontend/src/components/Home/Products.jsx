@@ -7,7 +7,8 @@ import {
   Typography,
   IconButton,
   Box,
-  Button
+  Button,
+  responsiveFontSizes
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { addToWishlist, updateWishlist , addToCart  } from "../../features/productActionSlice";
@@ -22,9 +23,39 @@ const Products = ({ data }) => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 6,
     slidesToScroll: 1,
+    responsive: [
+    {
+      breakpoint: 1200,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 576,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
   };
 
   const showProduct = (id)=>{
@@ -36,14 +67,14 @@ const Products = ({ data }) => {
         className="bg-light m-2 p-3 rounded"
         style={{ position: "relative", minHeight: "22rem" }}
       >
-        <h3 className="ms-2 mb-3">{data?.category}</h3>
+        <h3 className="ms-2 mb-3 text-center" style={{color:"#1976d2"}}>{data?.category}</h3>
 
         <Slider {...settings}>
           {data?.products?.map((ele, idx) => {
            const isLiked = wishlist?.some(item => item._id == ele._id);
            const isCart = cart?.some(item => item.products._id == ele._id);
             return (
-              <div className="" key={idx}>
+              <div className="d-flex justify-content-center" key={idx}>
                 <Box
                   sx={{
                     position: "relative",
@@ -100,7 +131,7 @@ const Products = ({ data }) => {
 
                     {/* Product Info */}
                     <CardContent className="text-center">
-                      <Typography variant="body1" className="mb-1">
+                      <Typography variant="body1" className="mb-1" color="secondary">
                         {ele.name}
                       </Typography>
                       <Typography variant="h6" color="primary">
