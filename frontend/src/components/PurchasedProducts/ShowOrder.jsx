@@ -107,7 +107,7 @@ const ShowOrder = () => {
           </div>
 
           {/* RIGHT PRICE + SHIPPING BLOCK */}
-          <div className="col-md-4 ps-md-4 mt-4 mt-md-0">
+          <div className="col-md-4 d-none d-md-block ps-md-4 mt-4 mt-md-0">
             <Card className="p-3 mb-3">
               <Typography variant="subtitle1">📄 Invoice download</Typography>
             </Card>
