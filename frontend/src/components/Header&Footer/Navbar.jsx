@@ -25,30 +25,34 @@ export default function Navbar() {
     <>
    <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
-        <Link to="/" className="navbar-brand px-3">
+        <Link to="/" className="navbar-brand px-lg-3">
           <img src="/media/images/PHARMANEST.svg" alt="Pharmanest Logo" style={{ height: "5rem" }} />
         </Link>
+        <form className="d-flex" role="search" style={{width:"40%"}}>
+            <SearchBox />
+        </form>
         <button
-          className="navbar-toggler d-lg-none"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasNavbar"
+          style={{
+          padding: "0.25rem 0.5rem",  
+          fontSize: "0.8rem",
+          border: "1px"            
+          }}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
         <div className="collapse navbar-collapse d-none d-lg-flex">
-          <form className="d-flex ms-5" role="search" style={{ width: "40%" }}>
-            <SearchBox />
-          </form>
-
           {/* Links */}
-          <ul className="navbar-nav align-items-center flex-row gap-3 ms-4">
+          <ul className="navbar-nav align-items-center flex-row gap-2 ms-4">
             <li className="nav-item dropdown">
-              <span className="dropdown-toggle nav-link" data-bs-toggle="dropdown" role="button">
+               <p className='dropdown-toggle mt-2' role="button">
                 <AccountCircleIcon className="me-1 h-icon" />
-                {isAuthenticated ? user?.firstName : <Link to="/login" className='link-secondary text-decoration-none'>Login</Link>}
-              </span>
+                {isAuthenticated ? (<>{user?.firstName}</>) : (<Link className='link-secondary text-decoration-none' to={"/login"}>Login</Link>)}
+              </p>
               <ul className="dropdown-menu">
                 {!isAuthenticated && (
                   <>
@@ -76,19 +80,16 @@ export default function Navbar() {
             <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
           </div>
           <div className="offcanvas-body">
-            <form className="d-flex mb-3" role="search">
-              <SearchBox />
-            </form>
             <ul className="navbar-nav">
               <li className="nav-item"><Link to="/cart" className="nav-link"><CartBadge /> Cart</Link></li>
               <li className="nav-item ms-2"><Link to="/sellerDashboard" className="nav-link"><AddBusinessIcon className="me-1 h-icon" />Become a Seller</Link></li>
               <li className="nav-item ms-2"><Link to="/aiAdvisor" className="nav-link"><LocalHospitalIcon className="me-1 h-icon" />Advisor</Link></li>
               <li className="nav-item ms-2"><Link to="/customerCare" className="nav-link"><HeadsetMicIcon className="me-1 h-icon" />Customer Care</Link></li>
               <li className="nav-item dropdown mt-2 ms-2">
-                <span className="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+                <p className='dropdown-toggle mt-2' role="button">
                   <AccountCircleIcon className="h-icon"/>
                   {isAuthenticated ? user?.firstName : <Link to="/login" className='link-secondary text-decoration-none ms-1'>Login</Link>}
-                </span>
+                </p>
                 <ul className="dropdown-menu">
                   {!isAuthenticated && (
                     <>

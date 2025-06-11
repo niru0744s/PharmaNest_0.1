@@ -13,6 +13,7 @@ import {
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { addToWishlist, updateWishlist, addToCart } from "../../features/productActionSlice";
 import { toast } from "react-toastify";
+import './Home.css';
 
 export default function GridLayout({ data }) {
   const dispatch = useDispatch();
@@ -20,34 +21,33 @@ export default function GridLayout({ data }) {
   const cart = useSelector((state) => state.productActions.cart);
   const limitedProducts = data?.products?.slice(0, 4);
   return (
-    <Box className="bg-light m-2 p-3 rounded" sx={{ width: "33%" }}>
-      <Typography variant="h5" className="mb-3 ms-2">
+    <div className="bg-light m-2 p-3 rounded g-cont">
+      <Typography variant="h5" className="mb-3 ms-2 text-center fw-bold" color="#1976d2">
         {data?.category}
       </Typography>
 
-      <Grid container spacing={2}>
+      <div className="row">
         {limitedProducts?.map((ele, idx) => {
           const isLiked = wishlist?.some(item => item._id == ele._id);
           const isCart = cart?.some(item => item.products._id == ele._id);
           return (
-            <Grid item xs={6} key={idx}>
+            <div className="col-6 col-sm-6 col-md-6 col-lg-6 mt-1" key={idx}>
               <Box
                 sx={{
                   position: "relative",
                   ":hover .add-cart-btn": { opacity: 1 },
-
                 }}
               >
                 <Card
                   sx={{
                     position: "relative",
-                    width: 210,
+                    width: "100%",
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "space-between",
+                    alignItems: "center",
                   }}
                 >
-                  {/* ❤️ Wishlist */}
                   <IconButton
                     onClick={async () => {
                       if (localStorage.getItem('user')) {
@@ -59,8 +59,7 @@ export default function GridLayout({ data }) {
                       } else {
                         toast.error("You have to login first!");
                       }
-                    }
-                    }
+                    }}
                     sx={{
                       position: "absolute",
                       top: 5,
@@ -73,58 +72,67 @@ export default function GridLayout({ data }) {
                   </IconButton>
                   <CardMedia
                     component="img"
-                    height="150"
                     image={ele.imageUrl?.url}
                     alt={ele.name}
-                    sx={{ objectFit: "contain", mb: 1 }}
+                    sx={{
+                      objectFit: "contain",
+                      height: { xs: "8rem", sm: 140 },
+                      width: { xs: "7rem", sm: "8rem", md: "10rem" },
+                      mt: 2,
+                      mb: 1,
+                    }}
                   />
-                  <CardContent className="text-center">
-                    <Typography variant="body1">{ele.name}</Typography>
-                    <Typography variant="h6" color="primary">
+                  <CardContent className="text-center" sx={{ px: 1 }}>
+                    <Typography variant="body2" fontSize={{xs: 10}}>{ele.name}</Typography>
+                    <Typography
+                      variant="h6"
+                      color="primary"
+                      fontSize={{ xs: 14, sm: 16 }}
+                    >
                       From ₹{ele.price || 0}
                     </Typography>
                   </CardContent>
                   <Box
-                      className="add-cart-btn"
-                      sx={{
-                        width: "100%",
-                        textAlign: "center",
-                        fontSize: 14,
-                        fontWeight: 500,
-                        p:1,
-                        opacity: 0,
-                        transition: "0.3s",
-                        zIndex: 5,
-                        borderBottomLeftRadius: "8px",
-                        borderBottomRightRadius: "8px",
-                      }}
-                    >
-                  <Button
+                    className="add-cart-btn"
                     sx={{
-                      width: "80%",
-                      backgroundColor: isCart ? "#ccc" : "#1976d2",
-                      color: isCart ? "#888" : "white",
-                      cursor: isCart ? "not-allowed" : "pointer",
-                      pointerEvents: isCart ? "none" : "auto",
-                    }}
-                    onClick={async () => {
-                      if (localStorage.getItem('user')) {
-                        await dispatch(addToCart({ productId: ele._id })).unwrap();
-
-                      } else {
-                        toast.error("You have to login first!");
-                      }
+                      width: "100%",
+                      textAlign: "center",
+                      fontSize: 14,
+                      fontWeight: 500,
+                      p: 1,
+                      opacity: 0,
+                      transition: "0.3s",
+                      zIndex: 5,
+                      borderBottomLeftRadius: "8px",
+                      borderBottomRightRadius: "8px",
                     }}
                   >
-                    {isCart? "Already Added" : "Add to cart" }
-                  </Button>
+                    <Button
+                      sx={{
+                        width: "80%",
+                        backgroundColor: isCart ? "#ccc" : "#1976d2",
+                        color: isCart ? "#888" : "white",
+                        cursor: isCart ? "not-allowed" : "pointer",
+                        pointerEvents: isCart ? "none" : "auto",
+                        fontSize: { xs: 12, sm: 14 },
+                      }}
+                      onClick={async () => {
+                        if (localStorage.getItem('user')) {
+                          await dispatch(addToCart({ productId: ele._id })).unwrap();
+                        } else {
+                          toast.error("You have to login first!");
+                        }
+                      }}
+                    >
+                      {isCart ? "Already Added" : "Add to cart"}
+                    </Button>
                   </Box>
                 </Card>
               </Box>
-            </Grid>
+            </div>
           );
         })}
-      </Grid>
-    </Box>
+      </div>
+    </div>
   )
 }

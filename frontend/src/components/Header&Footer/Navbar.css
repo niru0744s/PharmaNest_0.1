@@ -13,4 +13,7 @@
   .navbar-brand img {
     height: 2.5rem;
   }
+  .offcanvas {
+    max-width: 70%;
+  }
 }
