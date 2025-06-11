@@ -29,6 +29,7 @@ import { logout } from './features/loginSlice';
 import { toast } from 'react-toastify';
 import { isTokenValid } from './utils/checkToken';
 import WishlistCombo from './components/Wishlist/WishlistCombo';
+import CustomerCareDashboard from './components/CustomerCare/CustomerCareDashboard';
 
 function App() {
   const dispatch = useDispatch();
@@ -68,6 +69,7 @@ function App() {
         <Route path='/sellerProduct' element={<SellerProducts/>}/>
         <Route path="/editProduct/:id" element={<EditProductForm/>}/>
         <Route path="/product/:categoryName" element={<ShowAllProducts/>}/>
+        <Route path='/customerCare' element={<CustomerCareDashboard/>}/>
       </Routes>
       </BrowserRouter>
     </>
