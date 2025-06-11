@@ -4,8 +4,8 @@ import GridBottom from './GridBottom'
 const Hero = () => {
   return (
     <div className='m-2 my-3 overflow-hidden'>
-      <div className='row'>
-        <div className='col-8'>
+      <div className='row gap-1'>
+        <div className='col-lg-7'>
           <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-indicators">
               <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -45,8 +45,8 @@ const Hero = () => {
             </button>
           </div>
         </div>
-        <div className="col-4">
-            <GridBottom/>
+        <div className="col-lg-4">
+          <GridBottom/>
         </div>
       </div>
     </div>

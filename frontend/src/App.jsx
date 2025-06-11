@@ -29,6 +29,7 @@ import { logout } from './features/loginSlice';
 import { toast } from 'react-toastify';
 import { isTokenValid } from './utils/checkToken';
 import WishlistCombo from './components/Wishlist/WishlistCombo';
+import CustomerCareDashboard from './components/CustomerCare/CustomerCareDashboard';
 
 function App() {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ function App() {
       dispatch(logout());
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      toast.warning("Session expired ! You have to login again");
+      toast.warning("You are logged out !");
       }
       if(localStorage.getItem("user")){
         dispatch(fetchWishlist());
@@ -60,7 +61,7 @@ function App() {
         <Route path='/show/:id' element={<ShowPage/>}/>
         <Route path='/search/:categoryName' element={<SearchEngine/>}/>
         <Route path='/sellerDashboard' element={<HostLandingPage/>}/>
-        <Route path='/userDashboard' element={<AccountCenter/>}/>
+       <Route path='/userDashboard' element={<AccountCenter/>}/>
         <Route path='/cart' element={<Cart/>}/>
         <Route path='/orders' element={<PurchasedProducts/>}/>
         <Route path='/wishlist' element={<WishlistCombo/>}/>
@@ -68,6 +69,7 @@ function App() {
         <Route path='/sellerProduct' element={<SellerProducts/>}/>
         <Route path="/editProduct/:id" element={<EditProductForm/>}/>
         <Route path="/product/:categoryName" element={<ShowAllProducts/>}/>
+        <Route path='/customerCare' element={<CustomerCareDashboard/>}/>
       </Routes>
       </BrowserRouter>
     </>

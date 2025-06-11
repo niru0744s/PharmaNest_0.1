@@ -21,6 +21,28 @@
   transform: scale(1.1);
 }
 
+.product{
+  height: 47%;
+  width: 47%;
+}
+
 .c-text > div > p{
   color: #0072CE;
+}
+
+.g-cont{
+  max-width: 32%;
+}
+
+@media (max-width: 576px) {
+  .product{
+    height: 40%;
+    width: 40%;
+  }
+  .p-text{
+    font-size: 0.6rem;
+  }
+  .g-cont{
+    max-width: 100%;
+  }
 }

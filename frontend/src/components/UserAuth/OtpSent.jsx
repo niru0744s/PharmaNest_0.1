@@ -33,24 +33,57 @@ export default function OtpSent() {
     }
   }
   return (
-    <div>
-      <Box
-        sx={{ '& > :not(style)': { width: '45ch' } }}
-        noValidate
-        component="form"
-        onSubmit={handleSubmit}
-        autoComplete="off"
+    <div className="w-100 px-3 d-flex flex-column align-items-center">
+  <Box
+    component="form"
+    onSubmit={handleSubmit}
+    noValidate
+    autoComplete="off"
+    sx={{ width: '100%', maxWidth: '500px', mt: 6 }}
+  >
+    {/* Email Field */}
+    <TextField
+      id="standard-basic"
+      label="Enter Email"
+      type="email"
+      name="email"
+      variant="standard"
+      autoComplete='on'
+      value={formData.email}
+      onChange={handleInput}
+      required
+      fullWidth
+    />
 
+    {/* Terms Text */}
+    <p className='mt-4' style={{ fontSize: "0.8rem" }}>
+      By Continuing, you agree to PharmaNest's{' '}
+      <a className='link text-decoration-none'>Terms of Use</a> and{' '}
+      <a className='link text-decoration-none'>Privacy Policy</a>
+    </p>
+
+    {/* Continue Button */}
+    <Button
+      variant="contained"
+      color="warning"
+      type="submit"
+      fullWidth
+      sx={{ textTransform: 'none', mt: 3 }}
+    >
+      Continue
+    </Button>
+    {/* Existing User Button */}
+    <Link to="/login" style={{ textDecoration: 'none' }}>
+      <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        sx={{ textTransform: 'none', mt: 2 }}
       >
-        <TextField id="standard-basic" label="Enter Email" type='email' name='email' variant="standard" className='ms-5' sx={{ mt: 18 }} value={formData.email} onChange={handleInput} required />
-        <p className='ms-5 mt-5' style={{ fontSize: "0.8rem" }}>By Continuning, you agree to PharmaNest's <a className='link text-decoration-none'>Terms of Use</a> and <a className='link text-decoration-none'>Privacy Policy</a> </p>
-        <Stack direction="row" sx={{ mt: 5, width: "100%" }} className='ms-5'>
-          <Button variant="contained" sx={{ textTransform: "none", width: "100%" }} color="warning" type='submit'>Continue</Button>
-        </Stack>
-      </Box>
-      <Stack direction="row" sx={{ mt: 2, textTransform: "none", width: '50ch' }} className='ms-5'>
-        <Link style={{ display: "block", width: "100%" }} to={"/login"}><Button variant="contained" sx={{ textTransform: "none" }} style={{ width: "90%" }}>Existing User? Log in </Button></Link>
-      </Stack>
-    </div>
+        Existing User? Log in
+      </Button>
+    </Link>
+  </Box>
+</div>
   )
 }
