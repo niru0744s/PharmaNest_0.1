@@ -60,10 +60,7 @@ export default function Customer() {
       </div>
 
       {/* Contact Options */}
-      <Typography variant="h4" className="my-4" style={{ color: '#2e7d32' }}>
-        Contact Options
-      </Typography>
-      <Grid container spacing={3} className="mb-5">
+      <Grid container spacing={3} className="mb-5" justifyContent={'center'}>
         <Grid item xs={12} md={4}>
           <Card className="h-100">
             <CardContent className="text-center">
@@ -73,7 +70,6 @@ export default function Customer() {
               <Button 
                 variant="contained" 
                 color="primary"
-                href="tel:+18005551524"
               >
                 +1 (800) 555-1524
               </Button>
@@ -89,7 +85,6 @@ export default function Customer() {
               <Button 
                 variant="contained" 
                 color="primary"
-                onClick={() => alert('Live chat initiated')}
               >
                 Start Chat
               </Button>
@@ -105,9 +100,9 @@ export default function Customer() {
               <Button 
                 variant="contained" 
                 color="primary"
-                href="mailto:support@pharmanest.com"
+                href="mailto:pharmanest002@gmail.com"
               >
-                support@pharmanest.com
+                pharmanest002@gmail.com
               </Button>
             </CardContent>
           </Card>
@@ -162,7 +157,7 @@ export default function Customer() {
           <Box component="form" className="p-3">
             <Grid container spacing={3}>
               {/* First Name and Last Name in 2x2 grid */}
-              <Grid item xs={6} md={6}>
+              <Grid item size={6}>
                 <TextField
                   fullWidth
                   label="First Name"
@@ -170,7 +165,7 @@ export default function Customer() {
                   required
                 />
               </Grid>
-              <Grid item xs={6} md={6}>
+              <Grid item size={6}>
                 <TextField
                   fullWidth
                   label="Last Name"
@@ -180,7 +175,7 @@ export default function Customer() {
               </Grid>
               
               {/* Email and Subject in 2x2 grid */}
-              <Grid item xs={6} md={6}>
+              <Grid item size={6}>
                 <TextField
                   fullWidth
                   label="Email Address"
@@ -189,7 +184,7 @@ export default function Customer() {
                   required
                 />
               </Grid>
-              <Grid item xs={6} md={6}>
+              <Grid item size={6}>
                 <TextField
                   fullWidth
                   label="Subject"
@@ -199,7 +194,7 @@ export default function Customer() {
               </Grid>
               
               {/* Full-width Message field at bottom */}
-              <Grid item xs={12}>
+              <Grid item size={12}>
                 <TextField
                   fullWidth
                   label="Message"
