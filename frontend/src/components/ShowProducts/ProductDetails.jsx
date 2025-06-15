@@ -1,16 +1,28 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Button, Stack, Checkbox } from "@mui/material";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
+import { 
+  Button, 
+  Typography, 
+  Divider,
+  Chip,
+  Rating,
+  Box,
+  Stack,
+  IconButton
+} from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import StoreIcon from "@mui/icons-material/Store";
 import {
   addToWishlist,
   updateWishlist,
   addToCart,
-  purchaseProduct,
 } from "../../features/productActionSlice";
+import { toast } from "react-toastify";
+import './ProductDetails.css';
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -26,107 +38,124 @@ export default function ProductDetails() {
 
   const isWishlisted = Array.isArray(wishlist) && wishlist.some(item => item?._id === id);
   const isInCart = Array.isArray(cart) && cart.some(item => item?.products?._id === id);
+  const discountPercentage = product?.mainPrice 
+    ? Math.round(((product.mainPrice - product.price) / product.mainPrice) * 100)
+    : 0;
 
   const handleWishlist = () => {
     if (!product) return;
     if (isWishlisted) {
       dispatch(updateWishlist({productId:id}));
+      toast.success("Removed from wishlist");
     } else {
       dispatch(addToWishlist({ productId: product._id }));
+      toast.success("Added to wishlist");
     }
   };
 
-  if (!product) return <p>Product not found</p>;
+  const handleAddToCart = () => {
+    if (!isInCart) {
+      dispatch(addToCart({ productId: product._id, quantity: 1 }));
+      toast.success("Added to cart");
+    }
+  };
+
+  if (!product) return (
+    <Box className="product-not-found">
+      <Typography variant="h5">Product not found</Typography>
+    </Box>
+  );
 
   return (
-    <div className="container bg-light p-4 mt-4 rounded">
-      <div className="row">
-        {/* LEFT - PRODUCT IMAGE */}
-        <div className="col-md-5 d-flex justify-content-center align-items-center">
-  <div className="position-relative">
-    {/* Heart icon overlay */}
-    <Checkbox
-      icon={<FavoriteBorder />}
-      checkedIcon={<Favorite />}
-      checked={isWishlisted}
-      onChange={() => handleWishlist()}
-      sx={{
-        color: isWishlisted ? "red" : "grey",
-        position: "absolute",
-        top: 10,
-        right: 10,
-        zIndex: 10,
-        backgroundColor: "white",
-        borderRadius: "50%",
-        boxShadow: "0 0 5px rgba(0,0,0,0.15)"
-      }}
-    />
+    <Box className="product-detail-container">
+      {/* Product Image Section */}
+      <Box className="product-image-container">
+        <img 
+          src={product?.imageUrl?.url || '/placeholder-product.png'} 
+          alt={product?.name} 
+          className="product-image"
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = '/placeholder-product.png';
+          }}
+        />
+        <IconButton 
+          className={`wishlist-button ${isWishlisted ? 'active' : ''}`}
+          onClick={handleWishlist}
+        >
+          {isWishlisted ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+        </IconButton>
+      </Box>
 
-    {/* Product image */}
-    <img
-      src={product?.imageUrl?.url}
-      alt={product?.name}
-      className="img-fluid border"
-      style={{ height: "300px", width: "300px", objectFit: "contain" }}
-    />
-  </div>
-</div>
+      {/* Product Details Section */}
+      <Box className="product-detail-content">
+        <Typography variant="h4" className="product-title">
+          {product?.name || "Surgical Tape"}
+        </Typography>
+        <Typography variant="body1" className="product-description">
+          {product?.description || "Hypoallergenic tape for securing dressings."}
+        </Typography>
 
+        {/* Rating and Reviews */}
+        <Box className="rating-container">
+          <Box className="rating-box">
+            <Typography variant="h5" className="rating-value">4.1</Typography>
+            <Rating value={4.1} precision={0.1} readOnly size="small" />
+            <Typography variant="body2" className="rating-count">76 ratings</Typography>
+          </Box>
+          <Divider orientation="vertical" flexItem />
+          <Typography variant="body2" className="reviews-text">
+            731,021 Ratings & 40,745 Reviews
+          </Typography>
+        </Box>
 
-        {/* RIGHT - DETAILS */}
-        <div className="col-md-7">
-          <h4 className="fw-bold">{product?.name || "Wet Wipes"}</h4>
-          <p className="text-muted mb-1">(Pack of 50, Pampers)</p>
+        {/* Price Section */}
+        <Box className="price-container">
+          <Typography variant="h3" className="current-price">₹765</Typography>
+          <Stack direction="row" spacing={1} alignItems="center">
+            <Typography variant="body1" className="original-price">₹820</Typography>
+            <Chip label="7% OFF" size="small" className="discount-chip" />
+          </Stack>
+        </Box>
 
-          {/* Rating */}
-          <span className="badge bg-success me-2">4.1★</span>
-          <span className="text-muted small">7,31,021 Ratings & 40,745 Reviews</span>
+        <Divider className="divider" />
 
-          <hr />
+        {/* Delivery Info */}
+        <Box className="delivery-info">
+          <LocalShippingIcon fontSize="small" />
+          <Typography variant="body2">
+            <strong>Delivery:</strong> Secure delivery in 2-3 days
+          </Typography>
+        </Box>
 
-          {/* Pricing */}
-          <h5 className="text-success fw-bold">
-            ₹{product?.price || 110}
-            <small className="text-decoration-line-through text-muted ms-2">
-              ₹{product?.mainPrice || 130}
-            </small>
-            <span className="text-success ms-2">80% off</span>
-          </h5>
-          <p className="text-muted small">Secure delivery in 2 Days</p>
-          <p className="text-warning fw-bold">
-            Or Pay ₹60 + <span className="text-warning">50 🪙</span>
-          </p>
+        {/* Add to Cart Button */}
+        <Button
+          variant="contained"
+          fullWidth
+          className="add-to-cart-btn"
+          startIcon={<AddShoppingCartIcon />}
+          onClick={handleAddToCart}
+          disabled={isInCart}
+        >
+          {isInCart ? "ADDED TO CART" : "ADD TO CART"}
+        </Button>
 
-          {/* Action Buttons */}
-          <div className="d-flex gap-3 mt-3">
-  <Button
-    variant="contained"
-    color="success"
-    disabled={cart.some(item => item.products._id === product._id)}
-    onClick={() =>
-      dispatch(addToCart({ productId: product._id, quantity: 1 }))
-    }
-  >
-    {cart.some(item => item.products._id === product._id) ? "IN CART" : "ADD TO CART"}
-  </Button>
-</div>
+        <Divider className="divider" />
 
-          {/* Extra info */}
-          <hr />
-          <h6>Product Details</h6>
-          <ul className="list-unstyled small">
-            <li>Brand: Pampers</li>
-            <li>Pack: 50 wet wipes</li>
-            <li>Fragrance: Aloe Vera</li>
-            <li>Usage: Suitable for baby skin</li>
-          </ul>
-
-          <h6>Seller Info</h6>
-          <p className="small">
-            Sold by <strong>HealthPlus Distributors</strong> (4.7★, 12,000 ratings)
-          </p>
-        </div>
-      </div>
-    </div>
+        {/* Seller Info */}
+        <Box className="seller-info">
+          <StoreIcon fontSize="small" />
+          <Box>
+            <Typography variant="subtitle1"><strong>Seller Information</strong></Typography>
+            <Typography variant="body2">
+              Sold by <strong>HealthPlus Distributors</strong> (4.7★, 12,000 ratings)
+            </Typography>
+            <Typography variant="body2">
+              Genuine products sourced directly from manufacturers
+            </Typography>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 }

@@ -1,51 +1,97 @@
-import React from 'react'
+import { useState, useEffect } from 'react';
+import './Carousel.css';
 import GridBottom from './GridBottom'
 
 const Hero = () => {
+   const [activeIndex, setActiveIndex] = useState(0);
+  
+  const slides = [
+    {
+      image: "/media/sliderImg/img1.png",
+      title: "Premium Healthcare Products",
+      description: "Discover our curated collection of medical essentials",
+      cta: "Shop Now"
+    },
+    {
+      image: "/media/sliderImg/img2.png",
+      title: "Trusted Medical Supplies",
+      description: "Quality products for your health and wellness",
+      cta: "Explore"
+    },
+    {
+      image: "/media/sliderImg/img3.png",
+      title: "24/7 Customer Support",
+      description: "Our team is always ready to assist you",
+      cta: "Contact Us"
+    }
+  ];
+
+  // Auto-rotate slides every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % slides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [slides.length]);
+
+  const goToSlide = (index) => {
+    setActiveIndex(index);
+  };
+
+  const goToPrev = () => {
+    setActiveIndex((prevIndex) => (prevIndex - 1 + slides.length) % slides.length);
+  };
+
+  const goToNext = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % slides.length);
+  };
+
   return (
     <div className='m-2 my-3 overflow-hidden'>
-      <div className='row gap-1'>
-        <div className='col-lg-7'>
-          <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-              <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
-            </div>
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <img src="/media/sliderImg/img1.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>First slide label</h5>
-                  <p>Some representative placeholder content for the first slide.</p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <img src="/media/sliderImg/img2.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>Second slide label</h5>
-                  <p>Some representative placeholder content for the second slide.</p>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <img src="/media/sliderImg/img3.png" class="d-block w-100 " alt="..." style={{ height: "30rem" }} />
-                <div class="carousel-caption d-none d-md-block">
-                  <h5>Third slide label</h5>
-                  <p>Some representative placeholder content for the third slide.</p>
-                </div>
+      <div className='row'>
+        <div className="col-lg-7">
+      <div className="enhanced-carousel">
+        <div className="carousel-inner">
+          {slides.map((slide, index) => (
+            <div 
+              key={index}
+              className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
+              style={{ backgroundImage: `url(${slide.image})` }}
+            >
+              <div className="carousel-overlay"></div>
+              <div className="carousel-caption">
+                <h3>{slide.title}</h3>
+                <p>{slide.description}</p>
+                <button className="carousel-cta">{slide.cta}</button>
               </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
+          ))}
         </div>
-        <div className="col-lg-4">
+
+        {/* Indicators */}
+        <div className="carousel-indicators">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              className={index === activeIndex ? 'active' : ''}
+              onClick={() => goToSlide(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Navigation arrows */}
+        <button className="carousel-control prev" onClick={goToPrev}>
+          <span className="carousel-control-icon">‹</span>
+          <span className="visually-hidden">Previous</span>
+        </button>
+        <button className="carousel-control next" onClick={goToNext}>
+          <span className="carousel-control-icon">›</span>
+          <span className="visually-hidden">Next</span>
+        </button>
+      </div>
+    </div>
+        <div className="col-lg-5">
           <GridBottom/>
         </div>
       </div>

@@ -39,7 +39,7 @@ export default function Signup() {
   return (
     <>
       <Navbar />
-      <div className="container">
+      <div className="container m-lg-5">
         <div className="row" style={{ height: "36rem" }}>
           <div className="col-2 d-none d-md-block"></div>
           <div className="col-3 d-none d-md-block bg-primary d-flex align-items-start flex-column" style={{ color: "white" }}>
