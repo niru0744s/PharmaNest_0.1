@@ -37,23 +37,18 @@ const CartDashboard = () => {
   const cartItemsId = cartItems.map(item => item._id);
   const finalPrice = (totalPrice - 30 - 42);
 
-  // Step 1: Create Razorpay Order from backend
-  const res = await axiosInstance.post("/user/create-razorpay-order", { amount: finalPrice * 100 }); // In paise
+  const res = await axiosInstance.post("/user/create-razorpay-order", { amount: finalPrice * 100 });
   const { id: order_id, currency } = res.data;
 
-  // Step 2: Open Razorpay Checkout
   const options = {
-    key:import.meta.env.VITE_RAZORPAY_KEY, // test key
+    key:import.meta.env.VITE_RAZORPAY_KEY, 
     amount: finalPrice * 100,
     currency,
     name: "PharmaNest",
     description: "Purchase Medicines",
     order_id,
     handler: async function (response) {
-      // Razorpay payment succeeded
       toast.success("Payment successful!");
-
-      // Step 3: Place the order in your DB
       await dispatch(purchaseProduct({ finalPrice, cartItemsId })).unwrap();
     },
     prefill: {

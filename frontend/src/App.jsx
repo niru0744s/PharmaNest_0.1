@@ -40,7 +40,6 @@ function App() {
       dispatch(logout());
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      toast.warning("You are logged out !");
       }
       if(localStorage.getItem("user")){
         dispatch(fetchWishlist());

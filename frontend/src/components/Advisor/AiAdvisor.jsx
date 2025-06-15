@@ -21,7 +21,7 @@ const AiAdvisor = () => {
   <>
   <Navbar/>
   <Box className="container mt-4 my-5">
-    <Card className="shadow-lg">
+    <Card className="shadow-lg" style={{height:"30rem"}}>
       <CardContent>
         <Typography variant="h5" gutterBottom className="text-center mb-3">
           💬 Ask Medicine Advisor
@@ -59,7 +59,7 @@ const AiAdvisor = () => {
           ))}
         </Box>
 
-        <Stack direction="row" spacing={2} className="align-items-center">
+        <Stack direction="row" spacing={2} className="align-items-bottom">
           <TextField
             fullWidth
             label="Ask something..."

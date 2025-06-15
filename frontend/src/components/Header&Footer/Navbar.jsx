@@ -20,6 +20,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const handleLogout = () => {
     dispatch(logout());
+    toast.success("You are logged out !")
   };
   return (
     <>

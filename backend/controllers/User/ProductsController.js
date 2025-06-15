@@ -3,6 +3,7 @@ const Product = require("../../modules/Products");
 const Cart = require("../../modules/CartItems");
 const Orders= require("../../modules/orders");
 const Address = require("../../modules/Locations");
+const { sendUserEmail } = require("./SendEmail");
 
 module.exports.placeOrder = async(req,res)=>{
     try {
@@ -42,7 +43,7 @@ module.exports.placeOrder = async(req,res)=>{
     updateOrderStatus("shipped", 10 * 60 * 1000);
     updateOrderStatus("on_the_way", 20 * 60 * 1000);
     updateOrderStatus("delivered", 30 * 60 * 1000);
-
+    await sendUserEmail(req.user.email,"You order has been placed!");
     res.send({
       success: 1,
       message: "Order Placed Successfully",
