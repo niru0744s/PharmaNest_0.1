@@ -8,12 +8,49 @@ import Navbar from "../Header&Footer/Navbar";
 import Footer from "../Header&Footer/Footer";
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Box } from "@mui/material";
-
+import { Box,  } from "@mui/material";
+import { Skeleton } from '@mui/material';
 export default function LandingPage() {
-  const { categories, loading, error } = useSelector((state) => state.data);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+    const { categories, loading, error } = useSelector((state) => state.data);
+  
+if (loading) return (
+  <>
+    <Navbar />
+    <Box sx={{ p: 3 }}>
+      {/* Hero Skeleton */}
+      <Skeleton variant="rectangular" width="100%" height={400} sx={{ mb: 4 }} />
+      
+      {/* Product Section Skeletons */}
+      {[1, 2, 3].map((item) => (
+        <Box key={item} sx={{ mb: 4 }}>
+          <Skeleton variant="text" width="30%" height={40} sx={{ mb: 2 }} />
+          <Box sx={{ display: 'flex', gap: 2 }}>
+            {[1, 2, 3, 4].map((product) => (
+              <Skeleton key={product} variant="rectangular" width={250} height={300} />
+            ))}
+          </Box>
+        </Box>
+      ))}
+    </Box>
+    <Footer />
+  </>
+);
+  
+  if (error) return (
+    <>
+      <Navbar />
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        height: '50vh',
+        color: 'error.main'
+      }}>
+        <Typography variant="h6">Error: {error}</Typography>
+      </Box>
+      <Footer />
+    </>
+  );
   return (
     <>
     <Navbar/>
