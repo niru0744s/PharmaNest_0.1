@@ -1,0 +1,115 @@
+/* Cart.css */
+.cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.cart-header {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #2c3e50;
+}
+
+.cart-content {
+  width: 100%;
+}
+
+.cart-item-card {
+  margin-bottom: 1.5rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.cart-item-image {
+  width: 100%;
+  height: 180px;
+  object-fit: contain;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-btn {
+  transition: background-color 0.2s ease;
+}
+
+.quantity-btn:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.remove-btn {
+  transition: all 0.2s ease;
+}
+
+.remove-btn:hover {
+  background-color: rgba(255, 0, 0, 0.08);
+}
+
+.price-details-card {
+  padding: 1.5rem;
+  position: sticky;
+  top: 20px;
+}
+
+.price-detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+}
+
+.discount-icon {
+  color: #4caf50;
+  margin-right: 5px;
+}
+
+.delivery-icon {
+  color: #2196f3;
+  margin-right: 5px;
+}
+
+.divider {
+  margin: 1rem 0 !important;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.total-amount {
+  font-weight: bold;
+}
+
+.savings-badge {
+  background-color: #e8f5e9 !important;
+  color: #2e7d32 !important;
+  font-weight: bold !important;
+}
+
+.place-order-btn {
+  transition: all 0.3s ease !important;
+}
+
+.place-order-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.empty-cart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  text-align: center;
+}

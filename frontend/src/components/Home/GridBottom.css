@@ -1,0 +1,109 @@
+.grid-bottom-card {
+    position: relative;
+    height: 30rem;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.grid-bottom-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+
+.card-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover 10%;
+    transition: transform 0.5s ease;
+}
+
+.grid-bottom-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+}
+
+.card-content {
+    position: absolute;
+    bottom: 2rem;
+    left: 2rem;
+    color: white;
+    max-width: 80%;
+    z-index: 2;
+}
+
+.card-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #a5d6a7 !important; /* Soft green color */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+}
+
+.card-description {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+.card-link {
+    text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .grid-bottom-card {
+        height: 22rem;
+    }
+    
+    .card-content {
+        bottom: 1.5rem;
+        left: 1.5rem;
+    }
+    
+    .card-title {
+        font-size: 1.8rem;
+    }
+    
+    .card-description {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .grid-bottom-card {
+        height: 18rem;
+    }
+    
+    .card-content {
+        bottom: 1rem;
+        left: 1rem;
+        max-width: 90%;
+    }
+    
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .card-description {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+}

@@ -1,114 +1,440 @@
-import SearchBox from './SearchBox';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import HeadsetMicIcon from '@mui/icons-material/HeadsetMic';
-import CartBadge from './CartBadge';
-import LogoutIcon from '@mui/icons-material/Logout';
-import './Navbar.css'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { styled, alpha } from '@mui/material/styles';
+import { AppBar, Toolbar, Box, IconButton, Menu, MenuItem, Badge, Tooltip } from '@mui/material';
+import { 
+  AccountCircle as AccountCircleIcon,
+  LocalShipping as LocalShippingIcon,
+  FavoriteBorder as FavoriteBorderIcon,
+  AddBusiness as AddBusinessIcon,
+  LocalHospital as LocalHospitalIcon,
+  HeadsetMic as HeadsetMicIcon,
+  Logout as LogoutIcon,
+  ShoppingCart as ShoppingCartIcon,
+  Menu as MenuIcon,
+  Close as CloseIcon
+} from '@mui/icons-material';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../features/loginSlice';
 import { toast } from 'react-toastify';
+import SearchBox from './SearchBox';
+import CartBadge from './CartBadge';
+import './Navbar.css';
+
+// Styled components with error boundaries
+const StyledToolbar = styled(Toolbar)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: '0.5rem 1rem',
+  [theme.breakpoints.up('md')]: {
+    padding: '0.5rem 2rem',
+  },
+}));
+
+const NavLinks = styled(Box)(({ theme }) => ({
+  display: 'none',
+  alignItems: 'center',
+  gap: '1.5rem',
+  [theme.breakpoints.up('md')]: {
+    display: 'flex',
+  },
+}));
+
+const NavLink = styled(Link)(({ theme }) => ({
+  color: 'white',
+  textDecoration: 'none',
+  position: 'relative',
+  padding: '0.5rem 0',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.3rem',
+  fontSize: '0.9rem',
+  fontWeight: '500',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    color: alpha(theme.palette.common.white, 0.8),
+    '&::after': {
+      width: '100%',
+      backgroundColor: '#4ecdc4',
+    },
+  },
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    width: '0',
+    height: '2px',
+    backgroundColor: 'transparent',
+    transition: 'all 0.3s ease',
+  },
+  '&.active': {
+    '&::after': {
+      width: '100%',
+      backgroundColor: '#4ecdc4',
+    },
+  },
+}));
+
+const UserMenuButton = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.3rem',
+  cursor: 'pointer',
+  color: 'white',
+  padding: '0.5rem 0.8rem',
+  borderRadius: '4px',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.1),
+  },
+}));
+
+const MobileMenu = styled(Box)(({ theme }) => ({
+  position: 'fixed',
+  top: 0,
+  right: 0,
+  width: '280px',
+  height: '100vh',
+  backgroundColor: '#2c3e50',
+  zIndex: 1200,
+  padding: '1.5rem',
+  transform: 'translateX(100%)',
+  transition: 'transform 0.3s ease-in-out',
+  '&.open': {
+    transform: 'translateX(0)',
+  },
+}));
+
+const MobileNavLink = styled(Link)(({ theme }) => ({
+  color: 'white',
+  textDecoration: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  gap: '0.8rem',
+  padding: '0.8rem 0',
+  borderBottom: `1px solid ${alpha(theme.palette.common.white, 0.1)}`,
+  fontSize: '1rem',
+  transition: 'all 0.2s ease',
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.1),
+    paddingLeft: '0.5rem',
+  },
+}));
+
+const SearchContainer = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: '4px',
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    boxShadow: '0 0 0 2px rgba(78, 205, 196, 0.2)',
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
 
 export default function Navbar() {
   const dispatch = useDispatch();
-  const isAuthenticated = Boolean(localStorage.getItem('user'));
-  const user = JSON.parse(localStorage.getItem('user'));
+  const location = useLocation();
   const navigate = useNavigate();
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  // Error handling for user data
+  let isAuthenticated = false;
+  let user = null;
+  let cartItems = 0;
+
+  try {
+    isAuthenticated = Boolean(localStorage.getItem('user'));
+    user = JSON.parse(localStorage.getItem('user') || 'null');
+    cartItems = useSelector(state => state.cart?.items?.length) || 0;
+  } catch (error) {
+    console.error("Error reading user data:", error);
+    // Clear invalid user data
+    localStorage.removeItem('user');
+  }
+
   const handleLogout = () => {
-    dispatch(logout());
-    toast.success("You are logged out !")
+    try {
+      dispatch(logout());
+      toast.success("You are logged out!");
+      navigate('/');
+      handleMenuClose();
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Failed to logout. Please try again.");
+    }
   };
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
+
   return (
-    <>
-   <nav className="navbar navbar-expand-lg bg-body-tertiary">
-      <div className="container-fluid">
-        <Link to="/" className="navbar-brand px-lg-3">
-          <img src="/media/images/PHARMANEST.svg" alt="Pharmanest Logo" style={{ height: "5rem" }} />
+    <AppBar position="sticky" sx={{ backgroundColor: '#2c3e50', boxShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+      <StyledToolbar>
+        {/* Logo with error boundary */}
+        <Link to="/">
+          <img 
+            src="/media/images/newLogo.png" 
+            alt="Pharmanest Logo" 
+            style={{ height: "3.5rem", marginRight: '1rem' }} 
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = '/media/images/placeholder-logo.svg';
+            }}
+          />
         </Link>
-        <form className="d-flex" role="search" style={{width:"40%"}}>
+
+        {/* Search Box - Hidden on mobile */}
+        <Box sx={{ display: { xs: 'none', md: 'block' }, flex: 1, maxWidth: '600px', mx: 2 }}>
+          
             <SearchBox />
-        </form>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar"
-          style={{
-          padding: "0.25rem 0.5rem",  
-          fontSize: "0.8rem",
-          border: "1px"            
+          
+        </Box>
+
+        {/* Desktop Navigation */}
+        <NavLinks>
+            <NavLink 
+              to="/cart" 
+              className={location.pathname === '/cart' ? 'active' : ''}
+              title='cart'
+            >
+              <CartBadge/>
+              Cart
+            </NavLink>
+
+          <NavLink 
+            to="/sellerDashboard" 
+            className={location.pathname === '/sellerDashboard' ? 'active' : ''}
+            title='Seller'
+          >
+            <AddBusinessIcon fontSize="small" />
+            Sell
+          </NavLink>
+
+          <NavLink 
+            to="/aiAdvisor" 
+            className={location.pathname === '/aiAdvisor' ? 'active' : ''}
+            title='AI Advisor'
+          >
+            <LocalHospitalIcon fontSize="small" />
+            Advisor
+          </NavLink>
+
+          <NavLink 
+            to="/customerCare" 
+            className={location.pathname === '/customerCare' ? 'active' : ''}
+            title='Help center'
+          >
+            <HeadsetMicIcon fontSize="small" />
+            Help
+          </NavLink>
+
+          {/* User Dropdown with error handling */}
+          <UserMenuButton onClick={handleMenuOpen}>
+            <AccountCircleIcon fontSize="small" />
+            {isAuthenticated && user?.firstName ? user.firstName : 'Account'}
+          </UserMenuButton>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            PaperProps={{
+              style: {
+                backgroundColor: '#34495e',
+                color: 'white',
+                margin: "0",
+                padding: "0",
+                minWidth: '150px',
+              },
+            }}
+          >
+            {!isAuthenticated && (
+              <>
+                <MenuItem 
+                  onClick={handleMenuClose} 
+                  component={Link} 
+                  to="/login"
+                  sx={{ '&:hover': { backgroundColor: alpha('#ffffff', 0.1) } }}
+                >
+                  Login
+                </MenuItem>
+                <MenuItem divider sx={{ '&.MuiDivider-root': { backgroundColor: alpha('#ffffff', 0.1) } }} />
+              </>
+            )}
+            <MenuItem 
+              onClick={handleMenuClose} 
+              component={Link} 
+              to="/userDashboard"
+              sx={{ '&:hover': { backgroundColor: alpha('#ffffff', 0.1) } }}
+            >
+              <AccountCircleIcon fontSize="small" sx={{ mr: 1 }} />
+              My Profile
+            </MenuItem>
+            <MenuItem 
+              onClick={handleMenuClose} 
+              component={Link} 
+              to="/orders"
+              sx={{ '&:hover': { backgroundColor: alpha('#ffffff', 0.1) } }}
+            >
+              <LocalShippingIcon fontSize="small" sx={{ mr: 1 }} />
+              Orders
+            </MenuItem>
+            <MenuItem 
+              onClick={handleMenuClose} 
+              component={Link} 
+              to="/wishlist"
+              sx={{ '&:hover': { backgroundColor: alpha('#ffffff', 0.1) } }}
+            >
+              <FavoriteBorderIcon fontSize="small" sx={{ mr: 1 }} />
+              Wishlist
+            </MenuItem>
+            {isAuthenticated && (
+              <MenuItem 
+                onClick={handleLogout}
+                sx={{ '&:hover': { backgroundColor: alpha('#ffffff', 0.1) } }}
+              >
+                <LogoutIcon fontSize="small" sx={{ mr: 1 }} />
+                Logout
+              </MenuItem>
+            )}
+          </Menu>
+        </NavLinks>
+
+        {/* Mobile Menu Button */}
+        <IconButton
+          size="large"
+          edge="end"
+          color="inherit"
+          aria-label="menu"
+          onClick={toggleMobileMenu}
+          sx={{ 
+            display: { md: 'none' },
+            transition: 'transform 0.3s ease',
+            '&:hover': {
+              transform: 'scale(1.1)',
+              backgroundColor: alpha('#ffffff', 0.1),
+            }
           }}
         >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+          {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+        </IconButton>
+      </StyledToolbar>
 
-        <div className="collapse navbar-collapse d-none d-lg-flex">
-          {/* Links */}
-          <ul className="navbar-nav align-items-center flex-row gap-2 ms-4">
-            <li className="nav-item dropdown">
-               <p className='dropdown-toggle mt-2' role="button">
-                <AccountCircleIcon className="me-1 h-icon" />
-                {isAuthenticated ? (<>{user?.firstName}</>) : (<Link className='link-secondary text-decoration-none' to={"/login"}>Login</Link>)}
-              </p>
-              <ul className="dropdown-menu">
-                {!isAuthenticated && (
-                  <>
-                    <li><Link className="dropdown-item" to="/signup">New User? Signup</Link></li>
-                    <li><hr className="dropdown-divider" /></li>
-                  </>
-                )}
-                <li><Link className="dropdown-item" to="/userDashboard"><AccountCircleIcon className='me-2 h-icon'/>My Profile</Link></li>
-                <li><Link className="dropdown-item" to="/orders"><LocalShippingIcon className="me-2 h-icon" />Orders</Link></li>
-                <li><Link className="dropdown-item" to="/wishlist"><FavoriteBorderIcon className="me-2 h-icon" />Wishlist</Link></li>
-                <li><Link className="dropdown-item" to="/" onClick={handleLogout}><LogoutIcon className="me-2 h-icon" />Logout</Link></li>
-              </ul>
-            </li>
-            <li className="nav-item"><Link to="/cart" className="nav-link"><CartBadge className="me-1 h-icon" /> Cart</Link></li>
-            <li className="nav-item"><Link to="/sellerDashboard" className="nav-link"><AddBusinessIcon className="me-1 h-icon" />Become a Seller</Link></li>
-            <li className="nav-item"><Link to="/aiAdvisor" className="nav-link"><LocalHospitalIcon className="me-1 h-icon" />Advisor</Link></li>
-            <li className="nav-item"><Link to="/customerCare" className="nav-link"><HeadsetMicIcon className="me-1 h-icon" />Customer Care</Link></li>
-          </ul>
-        </div>
+      {/* Mobile Search - Only visible on mobile */}
+      <Box sx={{ 
+        display: { xs: 'block', md: 'none' }, 
+        p: 2, 
+        backgroundColor: '#34495e',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          backgroundColor: alpha('#34495e', 0.9),
+        }
+      }}>
+        <SearchContainer>
+          <SearchBox />
+        </SearchContainer>
+      </Box>
 
-        {/* Mobile View - Offcanvas */}
-        <div className="offcanvas offcanvas-end d-lg-none" tabIndex="-1" id="offcanvasNavbar">
-          <div className="offcanvas-header">
-            <h5 className="offcanvas-title">Nav Menu</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="offcanvas"></button>
-          </div>
-          <div className="offcanvas-body">
-            <ul className="navbar-nav">
-              <li className="nav-item"><Link to="/cart" className="nav-link"><CartBadge /> Cart</Link></li>
-              <li className="nav-item ms-2"><Link to="/sellerDashboard" className="nav-link"><AddBusinessIcon className="me-1 h-icon" />Become a Seller</Link></li>
-              <li className="nav-item ms-2"><Link to="/aiAdvisor" className="nav-link"><LocalHospitalIcon className="me-1 h-icon" />Advisor</Link></li>
-              <li className="nav-item ms-2"><Link to="/customerCare" className="nav-link"><HeadsetMicIcon className="me-1 h-icon" />Customer Care</Link></li>
-              <li className="nav-item dropdown mt-2 ms-2">
-                <p className='dropdown-toggle mt-2' role="button">
-                  <AccountCircleIcon className="h-icon"/>
-                  {isAuthenticated ? user?.firstName : <Link to="/login" className='link-secondary text-decoration-none ms-1'>Login</Link>}
-                </p>
-                <ul className="dropdown-menu">
-                  {!isAuthenticated && (
-                    <>
-                      <li><Link className="dropdown-item" to="/signup">Signup</Link></li>
-                      <li><hr className="dropdown-divider" /></li>
-                    </>
-                  )}
-                  <li><Link className="dropdown-item" to="/userDashboard">Profile</Link></li>
-                  <li><Link className="dropdown-item" to="/orders">Orders</Link></li>
-                  <li><Link className="dropdown-item" to="/wishlist">Wishlist</Link></li>
-                  <li><Link className="dropdown-item" to="/" onClick={handleLogout}>Logout</Link></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </nav>
-</>
-  )
+      {/* Mobile Menu */}
+      <MobileMenu className={mobileMenuOpen ? 'open' : ''}>
+        <Box display="flex" justifyContent="flex-end" mb={3}>
+          <IconButton 
+            onClick={toggleMobileMenu} 
+            sx={{ 
+              color: 'white',
+              transition: 'transform 0.3s ease',
+              '&:hover': {
+                transform: 'rotate(90deg)',
+              }
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+
+        <Box display="flex" flexDirection="column">
+          <MobileNavLink to="/cart">
+            {cartItems > 0 ? (
+              <Badge badgeContent={cartItems} color="error">
+                <ShoppingCartIcon />
+              </Badge>
+            ) : (
+              <ShoppingCartIcon className="empty-cart-icon" />
+            )}
+            Cart
+          </MobileNavLink>
+
+          <MobileNavLink to="/sellerDashboard">
+            <AddBusinessIcon />
+            Become a Seller
+          </MobileNavLink>
+
+          <MobileNavLink to="/aiAdvisor">
+            <LocalHospitalIcon />
+            Advisor
+          </MobileNavLink>
+
+          <MobileNavLink to="/customerCare">
+            <HeadsetMicIcon />
+            Customer Care
+          </MobileNavLink>
+
+          <Box mt={2}>
+            <MobileNavLink to={isAuthenticated ? "/userDashboard" : "/login"}>
+              <AccountCircleIcon />
+              {isAuthenticated && user?.firstName ? user.firstName : 'Login'}
+            </MobileNavLink>
+
+            {isAuthenticated && (
+              <>
+                <MobileNavLink to="/orders">
+                  <LocalShippingIcon />
+                  Orders
+                </MobileNavLink>
+                <MobileNavLink to="/wishlist">
+                  <FavoriteBorderIcon />
+                  Wishlist
+                </MobileNavLink>
+                <MobileNavLink to="/" onClick={handleLogout}>
+                  <LogoutIcon />
+                  Logout
+                </MobileNavLink>
+              </>
+            )}
+
+            {!isAuthenticated && (
+              <MobileNavLink to="/signup">
+                <AccountCircleIcon />
+                Sign Up
+              </MobileNavLink>
+            )}
+          </Box>
+        </Box>
+      </MobileMenu>
+    </AppBar>
+  );
 }

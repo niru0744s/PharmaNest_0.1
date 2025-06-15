@@ -1,39 +1,66 @@
-import './Home.css'
+import './Header.css';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
-  return (
-    <div className='m-2 bg-light' style={{overflow:"hidden"}}>
-      <div className="row container ms-lg-5 c-text">
-        <Link className="col text-decoration-none" to={"/product/Medicine"}>
-        <img src="/media/headerImg/img1.png" alt="" className='product'/>
-        <p className='fw-bold p-text'>Medicines</p>
-        </Link>
-        <Link className="col text-decoration-none" to={"/product/OTC_Medicine"}>
-        <img src="/media/headerImg/img2.png" alt="" className='product'/>
-        <p className='fw-bold p-text'>OTC Medicines</p>
-        </Link>
-        <Link className="col text-decoration-none" to={"/product/First_Aid"}>
-        <img src="/media/headerImg/img3.png" alt="" className='product'/>
-        <p className='fw-bold p-text'>First Aid</p>
-        </Link>
-        <Link className="col text-decoration-none" to={"/product/Hygiene"}>
-        <img src="/media/headerImg/img4.png" alt="" className='product'/>
-        <p className='fw-bold p-text'>Hygiene</p>
-        </Link>
-        <Link className="col text-decoration-none" to={"/product/Baby_product"}>
-        <img src="/media/headerImg/img7.png" alt="" className='product'/>
-        <p className='fw-bold p-text'>Baby Products</p>
-        </Link>
-        <Link className="col text-decoration-none" to={"/product/Supplements"}>
-        <img src="/media/headerImg/img6.png" alt="" className='product'/>
-        <p className='fw-bold p-text'>Supplements</p>
-        </Link>
-        <Link className="col text-decoration-none" to={"/product/Test_kits"}>
-        <img src="/media/headerImg/img5.png" alt="" style={{height:"47%", width:"47%"}} className='product'/>
-        <p className='fw-bold p-text'>Test Kits</p>
-        </Link>
-      </div>
-    </div>
-  )
+    return (
+        <div className="header-container">
+            <div className="header-grid">
+                <Link className="header-category" to="/product/Medicine">
+                    <div className="category-icon">
+                        <img src="/media/headerImg/img1.png" alt="Medicines" />
+                    </div>
+                    <p className="category-title">Medicines</p>
+                    <div className="hover-indicator"></div>
+                </Link>
+
+                <Link className="header-category" to="/product/OTC_Medicine">
+                    <div className="category-icon">
+                        <img src="/media/headerImg/img2.png" alt="OTC Medicines" />
+                    </div>
+                    <p className="category-title">OTC Medicines</p>
+                    <div className="hover-indicator"></div>
+                </Link>
+
+                <Link className="header-category" to="/product/First_Aid">
+                    <div className="category-icon">
+                        <img src="/media/headerImg/img3.png" alt="First Aid" />
+                    </div>
+                    <p className="category-title">First Aid</p>
+                    <div className="hover-indicator"></div>
+                </Link>
+
+                <Link className="header-category" to="/product/Hygiene">
+                    <div className="category-icon">
+                        <img src="/media/headerImg/img4.png" alt="Hygiene" />
+                    </div>
+                    <p className="category-title">Hygiene</p>
+                    <div className="hover-indicator"></div>
+                </Link>
+
+                <Link className="header-category" to="/product/Baby_product">
+                    <div className="category-icon">
+                        <img src="/media/headerImg/img7.png" alt="Baby Products" />
+                    </div>
+                    <p className="category-title">Baby Products</p>
+                    <div className="hover-indicator"></div>
+                </Link>
+
+                <Link className="header-category" to="/product/Supplements">
+                    <div className="category-icon">
+                        <img src="/media/headerImg/img6.png" alt="Supplements" />
+                    </div>
+                    <p className="category-title">Supplements</p>
+                    <div className="hover-indicator"></div>
+                </Link>
+
+                <Link className="header-category" to="/product/Test_kits">
+                    <div className="category-icon">
+                        <img src="/media/headerImg/img5.png" alt="Test Kits" style={{ height: "47%", width: "47%" }} />
+                    </div>
+                    <p className="category-title">Test Kits</p>
+                    <div className="hover-indicator"></div>
+                </Link>
+            </div>
+        </div>
+    );
 }
