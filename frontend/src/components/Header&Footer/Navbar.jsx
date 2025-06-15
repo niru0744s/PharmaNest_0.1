@@ -285,6 +285,8 @@ export default function Navbar() {
                 <MenuItem divider sx={{ '&.MuiDivider-root': { backgroundColor: alpha('#ffffff', 0.1) } }} />
               </>
             )}
+            {isAuthenticated && (
+            <>
             <MenuItem 
               onClick={handleMenuClose} 
               component={Link} 
@@ -312,7 +314,7 @@ export default function Navbar() {
               <FavoriteBorderIcon fontSize="small" sx={{ mr: 1 }} />
               Wishlist
             </MenuItem>
-            {isAuthenticated && (
+            
               <MenuItem 
                 onClick={handleLogout}
                 sx={{ '&:hover': { backgroundColor: alpha('#ffffff', 0.1) } }}
@@ -320,6 +322,7 @@ export default function Navbar() {
                 <LogoutIcon fontSize="small" sx={{ mr: 1 }} />
                 Logout
               </MenuItem>
+              </>
             )}
           </Menu>
         </NavLinks>
