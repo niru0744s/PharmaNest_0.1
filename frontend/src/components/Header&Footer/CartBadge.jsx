@@ -17,9 +17,9 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 export default function CartBadge() {
   const cartItems = useSelector((state) => state.productActions.cart);
     return (
-        <IconButton aria-label="cart" className='me-1'>
+        <IconButton aria-label="cart" className=''>
           <StyledBadge badgeContent={cartItems.length} color="secondary">
-            <ShoppingCartIcon className='h-icon'/>
+            <ShoppingCartIcon style={{color:"white"}}/>
           </StyledBadge>
         </IconButton>
       );

@@ -8,24 +8,33 @@ import {
   IconButton,
   Box,
   Button,
-  responsiveFontSizes
+  Chip,
+  Rating,
+  Skeleton
 } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { addToWishlist, updateWishlist, addToCart } from "../../features/productActionSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import "./Products.css";
 
-const Products = ({ data }) => {
+const Products = ({ data, loading = false }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const wishlist = useSelector((state) => state.productActions.wishlist);
   const cart = useSelector((state) => state.productActions.cart);
+
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
-    slidesToShow: 6, // Keep 6 slides on desktop (unchanged)
+    speed: 500,
+    slidesToShow: 6,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     responsive: [
       {
         breakpoint: 1200,
@@ -51,10 +60,10 @@ const Products = ({ data }) => {
       {
         breakpoint: 576,
         settings: {
-          slidesToShow: 2, // Show 3 slides on mobile (576px and below)
+          slidesToShow: 1.5,
           slidesToScroll: 1,
-          arrows: false, // Hide arrows on mobile for cleaner look
-          dots: false // Optionally hide dots on smallest screens
+          arrows: false,
+          dots: false
         }
       }
     ]
@@ -63,150 +72,121 @@ const Products = ({ data }) => {
   const showProduct = (id) => {
     navigate(`/show/${id}`);
   };
+
   return (
-    <>
-      <div
-        className="bg-light m-2 p-3 rounded"
-        style={{ position: "relative", minHeight: { xs: "auto", sm: "22rem" } }}
-      >
-        <h3 className="ms-2 mb-3 text-center" style={{ color: "#1976d2" }}>{data?.category}</h3>
-        <Box sx={{
-          width: "100%",
-          padding: { xs: "0 3px", sm: 0 }, 
-          ".slick-slide": {
-            padding: { xs: "0 4px", sm: "0 8px" } 
-          },
-          ".slick-list": {
-            margin: { xs: "0 -4px", sm: "0 -8px"}
-          },
-        }}>
-          <Slider {...settings}>
-            {data?.products?.map((ele, idx) => {
-              const isLiked = wishlist?.some(item => item._id == ele._id);
-              const isCart = cart?.some(item => item.products._id == ele._id);
-              return (
-                <div className="d-flex justify-content-center" key={idx}>
-                  <Box
-                    sx={{
-                      position: "relative",
-                      ":hover .add-cart-btn": { opacity: 1 },
-                      
+    <Box className="product-carousel-container">
+      <Typography variant="h4" className="section-title" gutterBottom>
+        {data?.category}
+      </Typography>
+      
+      <Box className="slider-container">
+        <Slider {...settings}>
+          {(loading ? Array.from(new Array(6)) : data?.products)?.map((ele, idx) => (
+            <div key={idx} className="product-card-wrapper">
+              {loading ? (
+                <Skeleton variant="rectangular" width="100%" height={320} />
+              ) : (
+                <Card className="product-card" elevation={3}>
+                  {/* Product Badges */}
+                  <Box className="product-badges">
+                    {ele.isNew && <Chip label="New" size="small" className="new-badge" />}
+                    {ele.discount > 0 && (
+                      <Chip 
+                        label={`${ele.discount}% OFF`} 
+                        size="small" 
+                        className="discount-badge"
+                      />
+                    )}
+                  </Box>
+
+                  {/* Wishlist Button */}
+                  <IconButton
+                    className={`wishlist-btn ${wishlist?.some(item => item._id === ele._id) ? 'active' : ''}`}
+                    onClick={async () => {
+                      if (localStorage.getItem('user')) {
+                        if (wishlist?.some(item => item._id === ele._id)) {
+                          await dispatch(updateWishlist({ productId: ele._id })).unwrap();
+                        } else {
+                          await dispatch(addToWishlist({ productId: ele._id })).unwrap();
+                        }
+                      } else {
+                        toast.error("Please login to add to wishlist");
+                      }
                     }}
                   >
-                    <Card
-                      sx={{
-                        width: { xs: 160, sm: 220 },
-                        minHeight: { xs: 220, sm: 280 },
-                        position: "relative",
-                        px: 0,
-                        pt: 1,
-                        pb: 0,
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent: "space-between",
-                        
-                      }}
+                    {wishlist?.some(item => item._id === ele._id) ? (
+                      <FavoriteIcon className="filled-heart" />
+                    ) : (
+                      <FavoriteBorderIcon className="outline-heart" />
+                    )}
+                  </IconButton>
+
+                  {/* Product Image */}
+                  <CardMedia
+                    component="img"
+                    className="product-image"
+                    image={ele.imageUrl?.url || '/placeholder-product.jpg'}
+                    alt={ele.name}
+                    onClick={() => showProduct(ele._id)}
+                  />
+
+                  {/* Product Info */}
+                  <CardContent className="product-info">
+                    <Typography 
+                      variant="subtitle1" 
+                      className="product-name" 
+                      onClick={() => showProduct(ele._id)}
                     >
-                      {/* Like Icon */}
-                      <IconButton
-                        onClick={async () => {
-                          if (localStorage.getItem('user')) {
-                            if (isLiked) {
-                              await dispatch(updateWishlist({ productId: ele._id })).unwrap();
-                            } else {
-                              await dispatch(addToWishlist({ productId: ele._id })).unwrap();
-                            }
-                          } else {
-                            toast.error("You have to login first!");
-                          }
-                        }}
-                        sx={{
-                          position: "absolute",
-                          top: 5,
-                          right: 5,
-                          color: isLiked ? "red" : "grey",
-                          zIndex: 2,
-                        }}
-                      >
-                        <FavoriteIcon sx={{ fontSize: { xs: 20, sm: 24 } }} />
-                      </IconButton>
-
-                      {/* Product Image */}
-                      <CardMedia
-                        component="img"
-                        height={window.innerWidth < 600 ? "80" : "150"}
-                        image={ele.imageUrl?.url}
-                        alt={ele.name}
-                        sx={{ objectFit: "contain", mb: 1 }}
-                        onClick={() => { showProduct(ele._id) }}
-                      />
-
-                      {/* Product Info */}
-                      <CardContent className="text-center" sx={{ p: { xs: 1, sm: 2 } }}>
-                        <Typography
-                          variant="body1"
-                          className="mb-1"
-                          color="secondary"
-                          sx={{ fontSize: { xs: '0.8rem', sm: '1rem' } }}
-                        >
-                          {ele.name}
+                      {ele.name}
+                    </Typography>
+                    
+                    <Rating 
+                      value={ele.rating || 4} 
+                      precision={0.5} 
+                      readOnly 
+                      size="small" 
+                      className="product-rating"
+                    />
+                    
+                    <Box className="price-container">
+                      {ele.discount > 0 && (
+                        <Typography variant="body2" className="original-price">
+                          ₹{ele.price}
                         </Typography>
-                        <Typography
-                          variant="h6"
-                          color="primary"
-                          sx={{ fontSize: { xs: '1rem', sm: '1.25rem' } }}
-                        >
-                          From ₹{ele.price}
-                        </Typography>
-                      </CardContent>
+                      )}
+                      <Typography variant="h6" className="current-price">
+                        ₹{ele.discount > 0 
+                          ? Math.round(ele.price * (1 - ele.discount/100))
+                          : ele.price}
+                      </Typography>
+                    </Box>
+                  </CardContent>
 
-                      {/* Add to Cart Button */}
-                      <Box
-                        className="add-cart-btn"
-                        sx={{
-                          width: "100%",
-                          textAlign: "center",
-                          fontSize: 14,
-                          fontWeight: 500,
-                          p: { xs: 0.5, sm: 1 },
-                          opacity: 0,
-                          transition: "0.3s",
-                          zIndex: 5,
-                          borderBottomLeftRadius: "8px",
-                          borderBottomRightRadius: "8px",
-                        }}
-                      >
-                        <Button
-                          sx={{
-                            width: {xs:"70%" , sm:"80%"},
-                            backgroundColor: isCart ? "#ccc" : "#1976d2",
-                            color: isCart ? "#888" : "white",
-                            cursor: isCart ? "not-allowed" : "pointer",
-                            pointerEvents: isCart ? "none" : "auto",
-                            fontSize: { xs: '0.7rem', sm: '0.875rem' },
-                            py: { xs: 0.5, sm: 1 },
-                          }}
-                          onClick={async () => {
-                            if (localStorage.getItem('user')) {
-                              await dispatch(addToCart({ productId: ele._id })).unwrap();
-                            } else {
-                              toast.error("You have to login first!");
-                            }
-                          }}
-                        >
-                          {isCart ? "Already Added" : "Add to cart"}
-                        </Button>
-                      </Box>
-                    </Card>
-                  </Box>
-                </div>
-              );
-            })}
-          </Slider>
-        </Box>
-      </div>
-    </>
-  )
-}
+                  {/* Add to Cart Button */}
+                  <Button
+                    className={`add-to-cart-btn ${cart?.some(item => item.products._id === ele._id) ? 'added' : ''}`}
+                    variant="contained"
+                    startIcon={<ShoppingCartIcon />}
+                    onClick={async () => {
+                      if (localStorage.getItem('user')) {
+                        await dispatch(addToCart({ productId: ele._id })).unwrap();
+                        toast.success("Added to cart!");
+                      } else {
+                        toast.error("Please login to add to cart");
+                      }
+                    }}
+                    disabled={cart?.some(item => item.products._id === ele._id)}
+                  >
+                    {cart?.some(item => item.products._id === ele._id) ? "Added" : "Add to Cart"}
+                  </Button>
+                </Card>
+              )}
+            </div>
+          ))}
+        </Slider>
+      </Box>
+    </Box>
+  );
+};
 
-export default Products
+export default Products;

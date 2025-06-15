@@ -5,113 +5,135 @@ import {
   CardMedia,
   CardContent,
   Typography,
-  IconButton,
   Button,
   Stack,
+  Chip,
+  Divider
 } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useSelector, useDispatch } from "react-redux";
-import { updateWishlist , fetchWishlist , addToCart } from "../../features/productActionSlice";
-import Navbar from "../Header&Footer/Navbar";
-import Footer from "../Header&Footer/Footer"
+import { updateWishlist, fetchWishlist, addToCart } from "../../features/productActionSlice";
 import { toast } from "react-toastify";
+import "./Wishlist.css";
 
 export default function Wishlist() {
   const dispatch = useDispatch();
-  const  wishlist  = useSelector((state) => state.productActions.wishlist) || [];
-  const cart = useSelector((state)=> state.productActions.cart);
-  useEffect(()=>{
-    if(localStorage.getItem("user")){
+  const wishlist = useSelector((state) => state.productActions.wishlist) || [];
+  const cart = useSelector((state) => state.productActions.cart);
+
+  useEffect(() => {
+    if (localStorage.getItem("user")) {
       dispatch(fetchWishlist());
     }
-  },[dispatch])
+  }, [dispatch]);
+
   return (
-    <Box className="container py-4">
-      <Typography variant="h4" className="mb-2 text-center bg-light py-2">
+    <Box className="wishlist-container">
+      <Typography variant="h4" className="wishlist-title">
         Your Wishlist
       </Typography>
 
-      {wishlist.length ==  0 ? (
-        <Typography className="text-center">No products in wishlist.</Typography>
+      {wishlist.length === 0 ? (
+        <Box className="wishlist-empty-container">
+          <FavoriteIcon className="wishlist-empty-icon" />
+          <Typography variant="h6" className="wishlist-empty-text">
+            Your wishlist is empty
+          </Typography>
+          <Typography variant="body2" className="wishlist-empty-subtext">
+            Save your favorite products by clicking the heart icon
+          </Typography>
+        </Box>
       ) : (
-        <Stack spacing={4}>
-          {wishlist.map((item, idx) =>{
-          const isCart = cart?.some(ele=> ele.products._id == item._id);
-          return (
-            <Card
-  key={idx}
-  sx={{
-    display: "flex",
-    flexDirection: { xs: "column", sm: "column", md: "row" }, // Image on top for xs/sm, row for md+
-    p: 2,
-    position: "relative",
-  }}
->
-  {/* Product Image */}
-  <CardMedia
-    component="img"
-    image={item.imageUrl?.url || "/placeholder.png"}
-    alt={item.name}
-    sx={{
-      width: { xs: "100%", md: 150 },
-      height: { xs: 200, md: 150 },
-      objectFit: "contain",
-      borderRadius: 2,
-      alignSelf: { xs: "center", md: "flex-start" },
-    }}
-  />
+        <Stack spacing={3}>
+          {wishlist.map((item, idx) => {
+            const isCart = cart?.some(ele => ele.products._id === item._id);
+            const discountPercentage = item.mainPrice 
+              ? Math.round(((item.mainPrice - item.price) / item.mainPrice) * 100)
+              : 0;
 
-  {/* Product Details */}
-  <CardContent sx={{ flex: 1, ml: { md: 3 }, mt: { xs: 2, md: 0 } }}>
-    <Typography variant="h6">{item.name}</Typography>
-    <Typography variant="body2"><strong>Brand:</strong> {item.brand}</Typography>
-    <Typography variant="body2"><strong>Form:</strong> {item.form}</Typography>
-    <Typography variant="body2"><strong>Strength:</strong> {item.strength}</Typography>
-    <Typography variant="body2"><strong>Quantity:</strong> {item.quantity}</Typography>
-    <Typography variant="body2" className="mt-2"><strong>Description:</strong> {item.description}</Typography>
+            return (
+              <Card key={idx} className="wishlist-item mt-4">
+                <CardMedia
+                  component="img"
+                  image={item.imageUrl?.url || "/placeholder.png"}
+                  alt={item.name}
+                  className="wishlisted-item-image"
+                  style={{width:"20%"}}
+                />
 
-    {/* Price Display */}
-    <Typography variant="h6" className="mt-2">
-      {item.mainPrice && (
-        <span style={{ textDecoration: "line-through", marginRight: 8 }}>
-          ₹{item.mainPrice}
-        </span>
-      )}
-      <span style={{ color: "#1976d2" }}>From ₹{item.price}</span>
-    </Typography>
+                <CardContent className="wishlist-item-content">
+                  <Typography variant="h6" className="wishlist-item-name">
+                    {item.name}
+                  </Typography>
+                  <Typography variant="body2" className="wishlist-item-detail">
+                    <strong>Brand:</strong> {item.brand}
+                  </Typography>
+                  <Typography variant="body2" className="wishlist-item-detail">
+                    <strong>Form:</strong> {item.form}
+                  </Typography>
+                  <Typography variant="body2" className="wishlist-item-detail">
+                    <strong>Strength:</strong> {item.strength}
+                  </Typography>
+                  <Typography variant="body2" className="wishlist-item-detail">
+                    <strong>Quantity:</strong> {item.quantity}
+                  </Typography>
 
-    <Box className="d-flex gap-2 mt-3 flex-wrap">
-      <Button
-        variant="contained"
-        disabled={isCart}
-        startIcon={<ShoppingCartIcon />}
-        onClick={async () => {
-          if (localStorage.getItem('user')) {
-            await dispatch(addToCart({ productId: item._id })).unwrap();
-          } else {
-            toast.error("You have to login first!");
-          }
-        }}
-      >
-        Add to Cart
-      </Button>
-      <Button
-        variant="outlined"
-        startIcon={<FavoriteIcon />}
-        color="error"
-        onClick={async () => {
-          await dispatch(updateWishlist({ productId: item._id })).unwrap();
-          dispatch(fetchWishlist());
-        }}
-      >
-        Remove
-      </Button>
-    </Box>
-  </CardContent>
-</Card>
+                  <Divider className="wishlist-divider" />
 
-          )})}
+                  <Box className="wishlist-price-container">
+                    {item.mainPrice && (
+                      <Typography variant="body2" className="wishlist-original-price">
+                        ₹{item.mainPrice}
+                      </Typography>
+                    )}
+                    <Typography variant="h6" className="wishlist-current-price">
+                      ₹{item.price}
+                    </Typography>
+                    {discountPercentage > 0 && (
+                      <Chip 
+                        label={`${discountPercentage}% OFF`} 
+                        size="small" 
+                        className="wishlist-discount-chip"
+                      />
+                    )}
+                  </Box>
+
+                  <Box className="wishlist-actions">
+                    <Button
+                      variant="contained"
+                      className="wishlist-cart-btn"
+                      startIcon={<ShoppingCartIcon />}
+                      onClick={async () => {
+                        if (localStorage.getItem('user')) {
+                          await dispatch(addToCart({ productId: item._id }));
+                          toast.success("Added to cart!");
+                        } else {
+                          toast.error("You have to login first!");
+                        }
+                      }}
+                      disabled={isCart}
+                    >
+                      {isCart ? "In Cart" : "Add to Cart"}
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      className="wishlist-remove-btn"
+                      startIcon={<FavoriteIcon />}
+                      color="error"
+                      onClick={async () => {
+                        await dispatch(updateWishlist({ productId: item._id }));
+                        toast.success("Removed from wishlist");
+                        dispatch(fetchWishlist());
+                      }}
+                    >
+                      Remove
+                    </Button>
+                  </Box>
+                </CardContent>
+              </Card>
+            );
+          })}
         </Stack>
       )}
     </Box>
