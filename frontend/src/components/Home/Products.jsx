@@ -170,7 +170,6 @@ const Products = ({ data, loading = false }) => {
                     onClick={async () => {
                       if (localStorage.getItem('user')) {
                         await dispatch(addToCart({ productId: ele._id })).unwrap();
-                        toast.success("Added to cart!");
                       } else {
                         toast.error("Please login to add to cart");
                       }
