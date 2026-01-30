@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const jwtToken = require('../../middleware/tokenVerify');
 const sendHostEmail = require("./HostEmail");
 const mongoose = require('mongoose');
+const VerificationToken = require("../../modules/VerificationToken");
 
 module.exports.otpSent = async (req, res) => {
     try {
@@ -16,7 +17,7 @@ module.exports.otpSent = async (req, res) => {
                 message: "Host is already registered , Try to login !"
             })
         }
-        const otp = randomInt(1000, 10000);
+        const otp = randomInt(100000, 1000000);
         const newUSr = await new Host({
             email: email,
             otp: otp
@@ -27,7 +28,7 @@ module.exports.otpSent = async (req, res) => {
             `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
         )
         setTimeout(async () => {
-            const newOtp = randomInt(1000, 10000);
+            const newOtp = randomInt(100000, 1000000);
             await Host.findByIdAndUpdate(newUSr._id, {
                 otp: newOtp
             });
@@ -40,7 +41,7 @@ module.exports.otpSent = async (req, res) => {
     } catch (error) {
         res.send({
             success: 0,
-            message: error
+            message: error.message || error
         })
     }
 }
@@ -64,7 +65,7 @@ module.exports.otpVerify = async (req, res) => {
     } catch (error) {
         res.send({
             success: 0,
-            message: error
+            message: error.message || error
         })
     }
 }
@@ -79,19 +80,52 @@ module.exports.createPass = async (req, res) => {
             firstName,
             lastName,
             password: empass,
-        },{ new: true });
-        const token = jwtToken.generateToken(newUser);
-        newUser.token = token;
-        await newUser.save();
+        }, { new: true });
+
+        // Generate verification token and send email
+        const verificationToken = await VerificationToken.generateToken(newUser._id, 'Host', newUser.email);
+        const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+
+        const verificationEmail = `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #4CAF50;">Welcome to PharmaNest, ${firstName}!</h2>
+                <p>Thank you for registering as a seller. Please verify your email address to activate your account.</p>
+                <div style="margin: 30px 0;">
+                    <a href="${verificationUrl}" 
+                       style="background-color: #4CAF50; color: white; padding: 12px 30px; 
+                              text-decoration: none; border-radius: 5px; display: inline-block;">
+                        Verify Email Address
+                    </a>
+                </div>
+                <p style="color: #666; font-size: 12px;">This link will expire in 24 hours.</p>
+                <p style="color: #999; font-size: 12px;">Note: Your seller account will be reviewed after email verification.</p>
+            </div>
+        `;
+
+        await sendHostEmail(newUser.email, 'Verify Your PharmaNest Seller Account', verificationEmail);
+
+        // Generate access and refresh tokens
+        const { accessToken, refreshToken } = await jwtToken.generateTokens(newUser, 'Host');
+
         res.send({
             success: 1,
-            message: "Password has updated !",
-            newUser
+            message: "Registration successful! Please check your email to verify your account.",
+            seller: {
+                id: newUser._id,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                email: newUser.email,
+                role: newUser.role,
+                isVerified: newUser.isVerified,
+                isApproved: newUser.isApproved
+            },
+            accessToken,
+            refreshToken
         })
     } catch (error) {
         res.send({
             success: 0,
-            message: error
+            message: error.message || error
         })
     }
 }
@@ -114,35 +148,55 @@ module.exports.login = async (req, res) => {
                 message: "Wrong Password"
             })
         }
-        const token = jwtToken.generateToken(usr);
-        const updatedUsr = await Host.findByIdAndUpdate(usr._id, {
-            token: token
-        });
+
+        // Check if email is verified
+        if (!usr.isVerified) {
+            return res.status(403).send({
+                success: 0,
+                message: "Please verify your email address before logging in. Check your inbox for the verification link.",
+                needsVerification: true,
+                email: usr.email
+            })
+        }
+
+        // Note: Seller approval check can be added here if needed
+        // For now, sellers can login after email verification
+
+        // Generate access and refresh tokens
+        const { accessToken, refreshToken } = await jwtToken.generateTokens(usr, 'Host');
+
         res.send({
             success: 1,
-            message: "User login Successfull",
-            updatedUsr,
-            token
+            message: "Seller login successful",
+            seller: {
+                id: usr._id,
+                firstName: usr.firstName,
+                lastName: usr.lastName,
+                email: usr.email,
+                role: usr.role
+            },
+            accessToken,
+            refreshToken
         })
     } catch (error) {
         res.send({
             success: 0,
-            message: error
+            message: error.message || error
         })
     }
 }
 
 module.exports.showProducts = async (req, res) => {
     try {
-        const hostId = new mongoose.Types.ObjectId(req.user._id); 
+        const hostId = new mongoose.Types.ObjectId(req.user._id);
         const products = await Products.aggregate([
             {
-                $match: { hostId } 
+                $match: { hostId } // Filter by seller first
             },
             {
                 $group: {
                     _id: "$category",
-                    products: { $push: "$$ROOT" } 
+                    products: { $push: "$$ROOT" }
                 }
             },
             {
@@ -153,10 +207,11 @@ module.exports.showProducts = async (req, res) => {
                 }
             }
         ]);
-        if (!products) {
+        if (!products || products.length === 0) {
             return res.send({
                 success: 2,
-                message: "Add some Products first"
+                message: "Add some Products first",
+                products: []
             })
         }
         res.send({
@@ -167,7 +222,162 @@ module.exports.showProducts = async (req, res) => {
     } catch (error) {
         res.send({
             success: 0,
-            message: error
+            message: error.message || error
         })
     }
 }
+
+module.exports.register = async (req, res) => {
+    try {
+        const { firstName, lastName, email, phoneNumber, password } = req.body;
+        const exstUser = await Host.findOne({ email });
+        if (exstUser) {
+            return res.send({
+                success: 0,
+                message: "Seller is already registered, Try to login!"
+            });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new Host({
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            password: hashedPassword,
+            isVerified: false
+        });
+        await newUser.save();
+        const verificationToken = await VerificationToken.generateToken(newUser._id, 'Host', newUser.email);
+        const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
+        const verificationEmail = `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2 style="color: #4CAF50;">Welcome to PharmaNest, ${firstName}!</h2>
+                <p>Thank you for registering as a seller. Please verify your email address to activate your account.</p>
+                <div style="margin: 30px 0;">
+                    <a href="${verificationUrl}" 
+                       style="background-color: #4CAF50; color: white; padding: 12px 30px; 
+                              text-decoration: none; border-radius: 5px; display: inline-block;">
+                        Verify Email Address
+                    </a>
+                </div>
+                <p style="color: #666; font-size: 12px;">This link will expire in 24 hours.</p>
+            </div>
+        `;
+        await sendHostEmail(newUser.email, 'Verify Your PharmaNest Seller Account', verificationEmail);
+        const { accessToken, refreshToken } = await jwtToken.generateTokens(newUser, 'Host');
+        res.send({
+            success: 1,
+            message: "Registration successful! Please check your email to verify your account.",
+            seller: {
+                id: newUser._id,
+                firstName: newUser.firstName,
+                lastName: newUser.lastName,
+                email: newUser.email,
+                role: newUser.role,
+                isVerified: newUser.isVerified,
+                isApproved: newUser.isApproved
+            },
+            accessToken,
+            refreshToken
+        });
+    } catch (error) {
+        console.error('Host registration error:', error);
+        res.send({
+            success: 0,
+            message: error.message || 'Registration failed'
+        });
+    }
+};
+
+module.exports.forgetPass = async (req, res) => {
+    try {
+        const { email } = req.body;
+        const otp = randomInt(100000, 1000000);
+        const usr = await Host.findOneAndUpdate({ email }, {
+            $set: {
+                otp: otp
+            }
+        })
+        if (!usr) {
+            return res.send({
+                success: 0,
+                message: "Wrong email."
+            })
+        }
+
+        await sendHostEmail(
+            email,
+            'Your Seller Password Reset OTP - Pharmanest',
+            `<h2>Your OTP to reset password is: <b>${otp}</b></h2>
+             <p>This OTP is valid for 10 minutes. If you didn't request this, please ignore this email.</p>`
+        );
+
+        res.send({
+            success: 1,
+            message: "OTP sent successfully to your merchant email",
+            usr
+        })
+    } catch (error) {
+        res.send({
+            success: 0,
+            message: error.message || error
+        })
+    }
+}
+
+module.exports.changePass = async (req, res) => {
+    try {
+        const { otp, pass } = req.body;
+        const { id } = req.query;
+        const usr = await Host.findById(id);
+        if (!usr) {
+            return res.send({
+                success: 0,
+                message: "Merchant account not found!"
+            })
+        }
+        if (Number(otp) === usr.otp) {
+            const empass = await bcrypt.hash(pass, 10);
+            await Host.findByIdAndUpdate(id, {
+                password: empass,
+                otp: null // Clear OTP after use
+            });
+            res.send({
+                success: 1,
+                message: "Merchant password has updated successfully"
+            })
+        } else {
+            res.send({
+                success: 0,
+                message: "Invalid OTP"
+            })
+        }
+    } catch (error) {
+        res.send({
+            success: 0,
+            message: error.message || error
+        })
+    }
+}
+
+module.exports.getProfile = async (req, res) => {
+    try {
+        const host = await Host.findById(req.user._id).select('-password -otp');
+        if (!host) {
+            return res.status(404).send({
+                success: 0,
+                message: "Seller not found"
+            });
+        }
+        res.send({
+            success: 1,
+            message: "Seller profile retrieved",
+            seller: host
+        });
+    } catch (error) {
+        res.status(500).send({
+            success: 0,
+            message: error.message || "Failed to fetch profile"
+        });
+    }
+};

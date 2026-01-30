@@ -1,10 +1,4 @@
-// backend/controllers/paymentController.js
-const Razorpay = require("razorpay");
-
-const instance = new Razorpay({
-  key_id:process.env.RAZORPAY_KEY_ID,
-  key_secret:process.env.RAZORPAY_KEY_SECRET,
-});
+const instance = require('../../config/razorpay');
 
 module.exports.createOrder = async (req, res) => {
   try {

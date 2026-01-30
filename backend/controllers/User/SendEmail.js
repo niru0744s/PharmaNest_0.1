@@ -6,22 +6,24 @@ const sendUserEmail = async (to, subject, htmlContent) => {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL,    
-        pass: process.env.APP_PASS,    
+        user: process.env.EMAIL,
+        pass: process.env.APP_PASS,
       },
     });
 
     const mailOptions = {
-      from: '"Your App Name" <your-email@gmail.com>',
+      from: `"PharmaNest" <${process.env.EMAIL}>`,
       to,
       subject,
       html: htmlContent,
     };
 
     const info = await transporter.sendMail(mailOptions);
+    return info;
   } catch (err) {
-    res.send({message:err})
+    console.error('Error sending email:', err);
+    throw err;
   }
 };
 
-module.exports = {sendUserEmail};
+module.exports = { sendUserEmail };
