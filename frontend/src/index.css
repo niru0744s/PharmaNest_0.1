@@ -1,5 +1,85 @@
-body{
-  padding: 0;
-  margin: 0;
-  background-color: rgb(208, 213, 217);
+@import "tailwindcss";
+
+@theme {
+    --color-brand-primary: hsl(210, 100%, 50%);
+    --color-brand-secondary: hsl(150, 60%, 45%);
+    --color-brand-accent: hsl(12, 90%, 60%);
+
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+    :root {
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.3);
+        --premium-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 10px -3px rgba(0, 0, 0, 0.02);
+    }
+
+    body {
+        @apply text-slate-900 selection:bg-blue-100;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    }
+}
+
+@layer components {
+    .glass-effect {
+        @apply bg-white/70 backdrop-blur-md border border-white/20;
+    }
+
+    .modern-gradient {
+        @apply bg-gradient-to-br from-blue-600 via-emerald-600 to-emerald-500;
+    }
+
+    .premium-card {
+        @apply bg-white rounded-2xl border border-slate-100 shadow-sm transition-all duration-300;
+    }
+
+    .premium-card:hover {
+        @apply shadow-xl border-blue-100/50 -translate-y-1;
+    }
+
+    .shimmer {
+        @apply relative overflow-hidden bg-slate-100;
+    }
+
+    .shimmer::after {
+        @apply absolute inset-0 -translate-x-full;
+        content: "";
+        background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent);
+        animation: shimmer 1.5s infinite;
+    }
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Smooth page transitions base */
+.page-enter {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.page-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 400ms, transform 400ms;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    @apply bg-slate-200 rounded-full hover:bg-slate-300 transition-colors;
 }

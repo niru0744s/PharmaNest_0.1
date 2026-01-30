@@ -1,0 +1,106 @@
+﻿
+D:\My_Passion\Production_app\Pharmanest\frontend\src\components\product\ProductCard.tsx
+   6:30  error  'Clock' is defined but never used            @typescript-eslint/no-unused-vars
+   6:37  error  'Info' is defined but never used             @typescript-eslint/no-unused-vars
+   8:18  error  'AnimatePresence' is defined but never used  @typescript-eslint/no-unused-vars
+  33:18  error  'error' is defined but never used            @typescript-eslint/no-unused-vars
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\components\product\ReviewForm.tsx
+  16:50  error  'productId' is defined but never used     @typescript-eslint/no-unused-vars
+  37:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\contexts\AuthContext.tsx
+   12:22  error    Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+   55:25  error    Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+   62:35  error    Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+   72:25  error    Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+   91:25  error    Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  121:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\contexts\CartContext.tsx
+  15:26  error    Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+  25:14  warning  Fast refresh only works when a file only exports components. Use a new file to share constants or functions between components  react-refresh/only-export-components
+  54:33  error    Unexpected any. Specify a different type                                                                                        @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\Checkout.tsx
+   11:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   62:51  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   83:47  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  121:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\Login.tsx
+  20:18  error  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\ProductDetail.tsx
+   35:8   warning  React Hook useEffect has a missing dependency: 'loadProduct'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+   54:9   error    Unnecessary try/catch wrapper                                                                                   no-useless-catch
+   80:18  error    'error' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+   96:18  error    'error' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+  110:18  error    'error' is defined but never used                                                                               @typescript-eslint/no-unused-vars
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\Products.tsx
+  28:8   warning  React Hook useEffect has missing dependencies: 'loadProducts' and 'performSearch'. Either include them or remove the dependency array  react-hooks/exhaustive-deps
+  67:25  error    Unexpected any. Specify a different type                                                                                               @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\Register.tsx
+  31:18  error  'error' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\SellerLogin.tsx
+  22:23  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\VerifyEmail.tsx
+  37:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\host\BulkOperations.tsx
+  37:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\host\SellerDashboard.tsx
+   11:5   error  'Box' is defined but never used           @typescript-eslint/no-unused-vars
+   21:5   error  'BarChart' is defined but never used      @typescript-eslint/no-unused-vars
+   22:5   error  'Bar' is defined but never used           @typescript-eslint/no-unused-vars
+   26:40  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   27:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   28:52  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  220:60  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\user\OrderDetails.tsx
+    4:24  error  'Order' is defined but never used           @typescript-eslint/no-unused-vars
+    5:66  error  'FaMapMarkerAlt' is defined but never used  @typescript-eslint/no-unused-vars
+    9:40  error  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+  150:60  error  Unexpected any. Specify a different type    @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\user\OrderHistory.tsx
+  4:43  error  'FaFilter' is defined but never used  @typescript-eslint/no-unused-vars
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\user\UserDashboard.tsx
+  18:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  35:54  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\user\UserProfile.tsx
+   47:25  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+   72:18  error  'error' is defined but never used         @typescript-eslint/no-unused-vars
+   83:22  error  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  206:55  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\pages\user\Wishlist.tsx
+  10:56  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  39:18  error  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  44:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\services\api.ts
+  29:49  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\services\authService.ts
+  12:61  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\services\productService.ts
+   38:84  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  112:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  118:64  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  124:66  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+D:\My_Passion\Production_app\Pharmanest\frontend\src\services\wishlistService.ts
+  6:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 59 problems (55 errors, 4 warnings)
+

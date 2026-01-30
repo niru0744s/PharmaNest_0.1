@@ -11,15 +11,17 @@ const sendHostEmail = async (to, subject, htmlContent) => {
     });
 
     const mailOptions = {
-      from: '"Your App Name" <your-email@gmail.com>',
+      from: `"PharmaNest" <${process.env.EMAIL}>`,
       to,
       subject,
       html: htmlContent,
     };
 
     const info = await transporter.sendMail(mailOptions);
+    return info;
   } catch (err) {
-    res.send({message:err})
+    console.error('Error sending host email:', err);
+    throw err;
   }
 };
 
