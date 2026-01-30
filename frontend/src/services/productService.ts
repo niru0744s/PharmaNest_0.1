@@ -166,10 +166,5 @@ export const productService = {
     async deleteProduct(id: string): Promise<{ success: number; message: string }> {
         const response = await api.delete(`/deleteProduct?id=${id}`);
         return response.data;
-    },
-
-    async updateBulkPrices(updates: { id: string, price: number, mainPrice: number }[]): Promise<{ success: number; message: string }> {
-        const response = await api.patch('/updateBulkPrices', { updates });
-        return response.data;
     }
 };
