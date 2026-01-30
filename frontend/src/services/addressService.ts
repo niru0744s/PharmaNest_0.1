@@ -6,6 +6,7 @@ export interface Address {
     mobileNum: string;
     address: string;
     pincode: string;
+    userId?: string;
 }
 
 export const addressService = {
