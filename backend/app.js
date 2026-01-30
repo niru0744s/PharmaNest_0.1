@@ -1,6 +1,9 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
+
+// Trust proxy for Render/proxies to make rate limiting work correctly
+app.set('trust proxy', 1);
 const Cors = require('cors');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
