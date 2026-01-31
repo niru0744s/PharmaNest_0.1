@@ -65,7 +65,9 @@ const MyConsultations = () => {
                 ) : consultations.length > 0 ? (
                     <div className="grid grid-cols-1 gap-6">
                         {consultations.map((item, idx) => {
-                            const isDoctor = item.doctorId?.userId?._id === user?._id;
+                            const isDoctor =
+                                item.doctorId?.userId?._id?.toString() === user?._id?.toString() ||
+                                item.doctorId?.userId === user?._id?.toString();
                             return (
                                 <motion.div
                                     initial={{ opacity: 0, x: -20 }}
@@ -177,6 +179,7 @@ const MyConsultations = () => {
                                     isDoctor={activeSession.doctorId?.userId?._id === user?._id}
                                     currentUserId={user?._id || ''}
                                     currentUserName={user?.firstName || 'User'}
+                                    currentUserImage={user?.profileImage?.url}
                                     onClose={() => {
                                         setActiveSession(null);
                                         fetchConsultations();
@@ -186,7 +189,11 @@ const MyConsultations = () => {
                                 <VideoCall
                                     roomName={activeSession.roomName}
                                     consultationId={activeSession._id}
-                                    isDoctor={activeSession.doctorId?.userId?._id === user?._id}
+                                    isDoctor={
+                                        activeSession.doctorId?.userId?._id?.toString() === user?._id?.toString() ||
+                                        activeSession.doctorId?.userId === user?._id?.toString()
+                                    }
+                                    type={activeSession.type}
                                     onEndCall={() => {
                                         setActiveSession(null);
                                         fetchConsultations();

@@ -64,7 +64,7 @@ exports.getUserConsultations = async (req, res, next) => {
         const consultations = await Consultation.find(query)
             .populate({
                 path: 'doctorId',
-                populate: { path: 'userId', select: 'firstName lastName email' }
+                populate: { path: 'userId', select: '_id firstName lastName email' }
             })
             .populate('userId', 'firstName lastName email')
             .sort({ scheduledDate: -1 });

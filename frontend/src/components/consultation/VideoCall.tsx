@@ -19,14 +19,15 @@ interface VideoCallProps {
     roomName: string;
     consultationId: string;
     isDoctor: boolean;
+    type: 'video' | 'voice' | 'chat';
     onEndCall: () => void;
 }
 
-const VideoCall = ({ roomName, consultationId, isDoctor, onEndCall }: VideoCallProps) => {
+const VideoCall = ({ roomName, consultationId, isDoctor, type, onEndCall }: VideoCallProps) => {
     const [localStream, setLocalStream] = useState<MediaStream | null>(null);
     const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
     const [isMuted, setIsMuted] = useState(false);
-    const [isVideoOff, setIsVideoOff] = useState(false);
+    const [isVideoOff, setIsVideoOff] = useState(type === 'voice');
     const [showPrescriptionModal, setShowPrescriptionModal] = useState(false);
 
     const pc = useRef<RTCPeerConnection | null>(null);
@@ -42,99 +43,123 @@ const VideoCall = ({ roomName, consultationId, isDoctor, onEndCall }: VideoCallP
     };
 
     useEffect(() => {
-        // 1. Initialize Socket
+        // 1. Initialize Socket and Peer Connection immediately
         socket.current = io(SOCKET_URL);
-        socket.current.emit('join_room', roomName);
+        const peerConnection = new RTCPeerConnection(configuration);
+        pc.current = peerConnection;
 
-        // 2. Get Local Media
-        const startLocalStream = async () => {
+        // Cleanup function for tracks and connections
+        const cleanup = () => {
+            console.log("Cleaning up WebRTC session...");
+
+            // Explicitly stop all tracks in the local stream
+            if (pc.current) {
+                pc.current.getSenders().forEach(sender => {
+                    if (sender.track) sender.track.stop();
+                });
+                pc.current.close();
+            }
+
+            socket.current?.disconnect();
+        };
+
+        // 2. Setup Signaling Handlers BEFORE anything else
+        socket.current.on('webrtc_offer', async (data) => {
+            console.log("Received Offer");
+            if (peerConnection.signalingState !== 'stable') return;
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
+            const answer = await peerConnection.createAnswer();
+            await peerConnection.setLocalDescription(answer);
+            socket.current?.emit('webrtc_answer', { roomName, answer });
+        });
+
+        socket.current.on('webrtc_answer', async (data) => {
+            console.log("Received Answer");
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+        });
+
+        socket.current.on('webrtc_ice_candidate', async (data) => {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+            } catch (e) {
+                console.error('Error adding received ice candidate', e);
+            }
+        });
+
+        // 3. Setup Internal PeerConnection Listeners
+        peerConnection.onicecandidate = (event) => {
+            if (event.candidate) {
+                socket.current?.emit('webrtc_ice_candidate', {
+                    roomName,
+                    candidate: event.candidate
+                });
+            }
+        };
+
+        peerConnection.ontrack = (event) => {
+            console.log("Received remote track");
+            setRemoteStream(event.streams[0]);
+            if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
+        };
+
+        // 4. Reactive handler for new users joining
+        socket.current.on('user_joined', async () => {
+            console.log("Another user joined - Creating offer");
+            const offer = await peerConnection.createOffer();
+            await peerConnection.setLocalDescription(offer);
+            socket.current?.emit('webrtc_offer', { roomName, offer });
+        });
+
+        // 5. Initialize Media and THEN Join Room
+        const startSession = async () => {
+            try {
+                // Determine constraints based on call type
+                const constraints = {
+                    video: type === 'video',
+                    audio: true
+                };
+
+                console.log(`Requesting media with:`, constraints);
+                const stream = await navigator.mediaDevices.getUserMedia(constraints);
                 setLocalStream(stream);
                 if (localVideoRef.current) localVideoRef.current.srcObject = stream;
 
-                // 3. Initialize WebRTC after stream is ready
-                initWebRTC(stream);
+                // Add active tracks to the peer connection
+                stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+
+                // 6. FINALLY, join the room after EVERYTHING is ready
+                console.log("Joining room...");
+                socket.current?.emit('join_room', roomName);
+
             } catch (err) {
                 console.error("Error accessing media devices.", err);
             }
         };
 
-        const initWebRTC = (stream: MediaStream) => {
-            pc.current = new RTCPeerConnection(configuration);
-
-            // Add tracks to connection
-            stream.getTracks().forEach(track => pc.current?.addTrack(track, stream));
-
-            // Handle ICE candidates
-            pc.current.onicecandidate = (event) => {
-                if (event.candidate) {
-                    socket.current?.emit('webrtc_ice_candidate', {
-                        roomName,
-                        candidate: event.candidate
-                    });
-                }
-            };
-
-            // Handle remote stream
-            pc.current.ontrack = (event) => {
-                setRemoteStream(event.streams[0]);
-                if (remoteVideoRef.current) remoteVideoRef.current.srcObject = event.streams[0];
-            };
-
-            // 4. Signaling Event Handlers
-            socket.current?.on('user_joined', async () => {
-                const offer = await pc.current?.createOffer();
-                await pc.current?.setLocalDescription(offer);
-                socket.current?.emit('webrtc_offer', { roomName, offer });
-            });
-
-            socket.current?.on('webrtc_offer', async (data) => {
-                if (pc.current) {
-                    await pc.current.setRemoteDescription(new RTCSessionDescription(data.offer));
-                    const answer = await pc.current.createAnswer();
-                    await pc.current.setLocalDescription(answer);
-                    socket.current?.emit('webrtc_answer', { roomName, answer });
-                }
-            });
-
-            socket.current?.on('webrtc_answer', async (data) => {
-                if (pc.current) {
-                    await pc.current.setRemoteDescription(new RTCSessionDescription(data.answer));
-                }
-            });
-
-            socket.current?.on('webrtc_ice_candidate', async (data) => {
-                if (pc.current) {
-                    try {
-                        await pc.current.addIceCandidate(new RTCIceCandidate(data.candidate));
-                    } catch (e) {
-                        console.error('Error adding received ice candidate', e);
-                    }
-                }
-            });
-        };
-
-        startLocalStream();
+        startSession();
 
         return () => {
-            localStream?.getTracks().forEach(track => track.stop());
-            pc.current?.close();
-            socket.current?.disconnect();
+            cleanup();
         };
-    }, [roomName]);
+    }, [roomName, type]);
 
     const handleMute = () => {
         if (localStream) {
-            localStream.getAudioTracks()[0].enabled = isMuted;
-            setIsMuted(!isMuted);
+            const track = localStream.getAudioTracks()[0];
+            if (track) {
+                track.enabled = isMuted;
+                setIsMuted(!isMuted);
+            }
         }
     };
 
     const handleVideoToggle = () => {
-        if (localStream) {
-            localStream.getVideoTracks()[0].enabled = isVideoOff;
-            setIsVideoOff(!isVideoOff);
+        if (localStream && type === 'video') {
+            const track = localStream.getVideoTracks()[0];
+            if (track) {
+                track.enabled = isVideoOff;
+                setIsVideoOff(!isVideoOff);
+            }
         }
     };
 
@@ -247,8 +272,8 @@ const ControlBtn = ({ icon: Icon, active, onClick }: any) => (
         whileTap={{ scale: 0.9 }}
         onClick={onClick}
         className={`h-16 w-16 rounded-full flex items-center justify-center transition-all ${active
-                ? 'bg-red-500/20 text-red-500 border-2 border-red-500 shadow-lg shadow-red-500/20'
-                : 'bg-white/10 text-white border-2 border-white/20 hover:bg-white/20'
+            ? 'bg-red-500/20 text-red-500 border-2 border-red-500 shadow-lg shadow-red-500/20'
+            : 'bg-white/10 text-white border-2 border-white/20 hover:bg-white/20'
             }`}
     >
         <Icon size={24} />
