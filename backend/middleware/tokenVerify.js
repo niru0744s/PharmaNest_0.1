@@ -110,10 +110,10 @@ module.exports.userMiddleware = (req, res, next) => {
     }
 
     // Check if user role
-    if (decoded.role !== 'user') {
+    if (decoded.role !== 'user' && decoded.role !== 'doctor' && decoded.role !== 'admin') {
       return res.status(403).send({
         success: 0,
-        message: "Access denied. User role required."
+        message: "Access denied. Valid user role required."
       });
     }
 

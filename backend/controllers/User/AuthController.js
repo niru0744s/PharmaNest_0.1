@@ -169,7 +169,11 @@ module.exports.login = async (req, res) => {
                 firstName: usr.firstName,
                 lastName: usr.lastName,
                 email: usr.email,
-                phoneNumber: usr.phoneNumber
+                phoneNumber: usr.phoneNumber,
+                role: usr.role,
+                isVerified: usr.isVerified,
+                profileImage: usr.profileImage,
+                createdAt: usr.createdAt
             },
             accessToken,
             refreshToken

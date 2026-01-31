@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 import { authService } from '../services/authService';
-import { User, RegisterData } from '../types/user';
+import { User, RegisterData, AuthResponse, HostAuthResponse } from '../types/user';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 
@@ -10,7 +10,7 @@ interface AuthContextType {
     isLoading: boolean;
     login: (email: string, password: string) => Promise<void>;
     loginHost: (email: string, password: string) => Promise<void>;
-    register: (data: RegisterData) => Promise<void>;
+    register: (data: RegisterData) => Promise<AuthResponse | HostAuthResponse>;
     logout: () => void;
     setUser: (user: User | null) => void;
 }
@@ -74,7 +74,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const response = await authService.register(data);
 
             if (response.success) {
+                // If the response contains tokens (meaning we auto-logged in), set them
+                if ('accessToken' in response && 'user' in response) {
+                    localStorage.setItem('accessToken', response.accessToken);
+                    localStorage.setItem('refreshToken', response.refreshToken);
+                    setUser(response.user);
+                } else if ('accessToken' in response && 'seller' in response) {
+                    localStorage.setItem('accessToken', response.accessToken);
+                    localStorage.setItem('refreshToken', response.refreshToken);
+                    setUser(response.seller);
+                }
+
                 toast.success('Registration successful! Please check your email to verify your account.');
+                return response;
             } else {
                 const errorMsg = typeof response.message === 'string' ? response.message : 'Registration failed';
                 toast.error(errorMsg);
