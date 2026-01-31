@@ -83,8 +83,8 @@ export const orderService = {
         return response.data;
     },
 
-    // Get order details
-    async getOrderDetails(orderId: string): Promise<{ success: number; order: Order }> {
+    // Seller: Get order details
+    async getSellerOrderDetails(orderId: string): Promise<{ success: number; order: Order }> {
         const response = await api.get(`/host/orders/${orderId}`);
         return response.data;
     },
@@ -109,5 +109,36 @@ export const orderService = {
     async getMyOrders(): Promise<{ success: number; orders: Order[] }> {
         const response = await api.get('/user/orders');
         return response.data;
+    },
+
+    // Get single order details for user
+    async getUserOrderDetails(orderId: string): Promise<{ success: number; order: Order }> {
+        const response = await api.get(`/user/orders/${orderId}`);
+        return response.data;
+    },
+
+    // User: Cancel order
+    async cancelOrder(orderId: string, reason: string): Promise<{ success: number; message: string }> {
+        const response = await api.post(`/user/orders/${orderId}/cancel`, { reason });
+        return response.data;
+    },
+
+    // Download Invoice
+    async downloadInvoice(orderId: string): Promise<void> {
+        const response = await api.get(`/user/orders/${orderId}/invoice`, {
+            responseType: 'blob'
+        });
+
+        // Create a link to download the file
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `invoice-${orderId.slice(-6).toUpperCase()}.pdf`);
+        document.body.appendChild(link);
+        link.click();
+
+        // Cleanup
+        link.parentNode?.removeChild(link);
+        window.URL.revokeObjectURL(url);
     }
 };

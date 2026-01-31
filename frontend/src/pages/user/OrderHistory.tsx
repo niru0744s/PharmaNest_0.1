@@ -65,6 +65,7 @@ const OrderHistory: React.FC = () => {
             case 'delivered': return 'bg-green-100 text-green-800';
             case 'processing': return 'bg-blue-100 text-blue-800';
             case 'shipped': return 'bg-purple-100 text-purple-800';
+            case 'on_the_way': return 'bg-orange-100 text-orange-800';
             case 'cancelled': return 'bg-red-100 text-red-800';
             default: return 'bg-yellow-100 text-yellow-800';
         }
@@ -95,7 +96,7 @@ const OrderHistory: React.FC = () => {
 
                         {/* Tabs */}
                         <div className="flex border-b border-gray-100 mb-6 overflow-x-auto">
-                            {['all', 'processing', 'shipped', 'delivered', 'cancelled'].map((tab) => (
+                            {['all', 'processing', 'shipped', 'on_the_way', 'delivered', 'cancelled'].map((tab) => (
                                 <button
                                     key={tab}
                                     onClick={() => setActiveTab(tab)}
@@ -104,7 +105,7 @@ const OrderHistory: React.FC = () => {
                                             ? 'border-emerald-500 text-emerald-600'
                                             : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                                 >
-                                    {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                    {tab === 'on_the_way' ? 'On The Way' : tab.charAt(0).toUpperCase() + tab.slice(1)}
                                 </button>
                             ))}
                         </div>
@@ -132,7 +133,7 @@ const OrderHistory: React.FC = () => {
                                             </div>
                                             <div className="mt-4 md:mt-0">
                                                 <span className={`px-3 py-1 text-xs font-semibold rounded-full ${getStatusColor(order.status)}`}>
-                                                    {order.status.toUpperCase()}
+                                                    {order.status === 'on_the_way' ? 'ON THE WAY' : order.status.toUpperCase()}
                                                 </span>
                                             </div>
                                         </div>

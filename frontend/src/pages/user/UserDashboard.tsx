@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import UserSidebar from '../../components/layout/UserSidebar';
 import { useAuth } from '../../contexts/AuthContext';
+import { authService } from '../../services/authService';
 import { orderService } from '../../services/orderService';
 import { addressService } from '../../services/addressService';
 import { wishlistService } from '../../services/wishlistService';
 import { FaBox, FaShoppingBag, FaUserCheck, FaExclamationTriangle, FaMapMarkerAlt, FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const UserDashboard: React.FC = () => {
     const { user } = useAuth();
@@ -17,6 +19,20 @@ const UserDashboard: React.FC = () => {
     });
     const [recentOrders, setRecentOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [resending, setResending] = useState(false);
+
+    const handleResendVerification = async () => {
+        if (!user?.email) return;
+        setResending(true);
+        try {
+            await authService.resendVerification(user.email);
+            toast.success('Verification email sent! Please check your inbox.');
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || 'Failed to resend verification email.');
+        } finally {
+            setResending(false);
+        }
+    };
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -25,17 +41,12 @@ const UserDashboard: React.FC = () => {
                 return;
             }
 
-            if (user.role === 'doctor') {
-                // For now, doctors can see the dashboard or we could redirect
-                // But we must stop loading
+            // Allow user, doctor, and admin to fetch dashboard stats
+            if (user.role !== 'user' && user.role !== 'doctor' && user.role !== 'admin') {
                 setLoading(false);
                 return;
             }
 
-            if (user.role !== 'user') {
-                setLoading(false);
-                return;
-            }
             try {
                 const [ordersResponse, addressResponse, wishlistRes] = await Promise.all([
                     orderService.getMyOrders(),
@@ -44,11 +55,13 @@ const UserDashboard: React.FC = () => {
                 ]);
 
                 const orders = ordersResponse.orders || [];
-                const addresses = addressResponse.allAddress || addressResponse.address || [];
+                const addresses = addressResponse.allAddress || addressResponse.address || addressResponse.addresses || (Array.isArray(addressResponse) ? addressResponse : []);
 
                 setStats({
                     totalOrders: orders.length,
-                    pendingOrders: orders.filter((o: any) => o.status === 'processing' || o.status === 'pending').length,
+                    pendingOrders: orders.filter((o: any) =>
+                        ['pending', 'processing', 'shipped', 'on_the_way'].includes(o.status)
+                    ).length,
                     wishlistItems: wishlistRes.wishlist?.length || 0,
                     savedAddresses: addresses.length
                 });
@@ -142,6 +155,15 @@ const UserDashboard: React.FC = () => {
                                 <p className={`text-lg font-bold ${user?.isVerified ? 'text-green-600' : 'text-red-500'}`}>
                                     {user?.isVerified ? 'Verified' : 'Unverified'}
                                 </p>
+                                {!user?.isVerified && (
+                                    <button
+                                        onClick={handleResendVerification}
+                                        disabled={resending}
+                                        className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-700 mt-1 flex items-center gap-1 disabled:opacity-50"
+                                    >
+                                        {resending ? 'Sending...' : 'Resend Email'}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </div>

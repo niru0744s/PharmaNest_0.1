@@ -22,8 +22,14 @@ const authRoutes = require("./routes/auth");
 const verificationRoutes = require("./routes/verification");
 
 // CORS Configuration - MUST be FIRST, before helmet
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(Cors({
-    origin: ['http://localhost:5173', 'http://localhost:3000', process.env.FRONTEND_URL],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
@@ -169,11 +175,18 @@ app.get('/api/v1/', (req, res) => {
 
 // Initialize Cron Jobs
 require('./jobs/inventoryMonitor');
+require('./jobs/orderProgression');
 
 app.get('/api/v1/admin/run-stock-check', async (req, res) => {
     const { runInventoryCheck } = require('./jobs/inventoryMonitor');
     await runInventoryCheck();
     res.json({ message: "Stock check triggered successfully" });
+});
+
+app.get('/api/v1/admin/run-order-progression', async (req, res) => {
+    const { runOrderProgression } = require('./jobs/orderProgression');
+    await runOrderProgression();
+    res.json({ message: "Order progression check triggered successfully" });
 });
 
 // Global Error Handler (Must be after routes)

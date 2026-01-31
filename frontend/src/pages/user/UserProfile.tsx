@@ -304,7 +304,7 @@ const AddressFormModal = ({
 const UserProfile: React.FC = () => {
     const { user, setUser } = useAuth();
     const [addresses, setAddresses] = useState<Address[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editForm, setEditForm] = useState({
         firstName: user?.firstName || '',
@@ -313,8 +313,6 @@ const UserProfile: React.FC = () => {
     });
     const [showAddModal, setShowAddModal] = useState(false);
     const [newAddress, setNewAddress] = useState<Address>({
-        _id: '',
-        userId: '',
         name: '',
         mobileNum: '',
         address: '',
@@ -323,7 +321,7 @@ const UserProfile: React.FC = () => {
     const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
-        if (user && user.role === 'user') {
+        if (user && (user.role === 'user' || user.role === 'doctor' || user.role === 'admin')) {
             fetchAddresses();
         }
         if (user) {
@@ -371,6 +369,7 @@ const UserProfile: React.FC = () => {
     };
 
     const fetchAddresses = async () => {
+        setLoading(true);
         try {
             const data = await addressService.getAddresses();
             const fetchedAddresses = data.allAddress || data.address || data.addresses || (Array.isArray(data) ? data : []);
@@ -387,7 +386,7 @@ const UserProfile: React.FC = () => {
         try {
             await addressService.addAddress(newAddress);
             setShowAddModal(false);
-            setNewAddress({ _id: '', userId: '', name: '', mobileNum: '', address: '', pincode: '' });
+            setNewAddress({ name: '', mobileNum: '', address: '', pincode: '' });
             fetchAddresses();
             toast.success('Address added');
         } catch (error) {
