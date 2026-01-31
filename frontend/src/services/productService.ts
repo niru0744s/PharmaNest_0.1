@@ -123,7 +123,7 @@ export const productService = {
     },
 
     // Seller: Bulk Update Prices
-    async updateBulkPrices(updates: { id: string; price: number }[]): Promise<{ success: number; message: string }> {
+    async updateBulkPrices(updates: { id: string; price: number; mainPrice?: number }[]): Promise<{ success: number; message: string }> {
         const response = await api.patch('/host/bulk/bulk-update-price', { updates });
         return response.data;
     },

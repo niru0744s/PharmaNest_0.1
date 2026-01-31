@@ -4,7 +4,7 @@ export interface User {
     lastName: string;
     email: string;
     phoneNumber?: string;
-    role: 'user' | 'host' | 'doctor';
+    role: 'user' | 'host' | 'doctor' | 'admin';
     isEmailVerified: boolean;
     isVerified?: boolean;
     profileImage?: {
@@ -31,7 +31,7 @@ export interface RegisterData {
     email: string;
     password: string;
     phoneNumber?: string;
-    role?: 'user' | 'host' | 'doctor';
+    role?: 'user' | 'host' | 'doctor' | 'admin';
 }
 
 export interface AuthResponse {

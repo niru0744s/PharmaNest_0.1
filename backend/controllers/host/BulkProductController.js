@@ -75,12 +75,19 @@ module.exports.bulkUpdatePrice = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse('Please provide an array of updates', 400));
     }
 
-    const bulkOps = updates.map(update => ({
-        updateOne: {
-            filter: { _id: update.id, hostId: req.user._id },
-            update: { $set: { price: update.price } }
+    const bulkOps = updates.map(update => {
+        const updateFields = { price: update.price };
+        if (update.mainPrice !== undefined) {
+            updateFields.mainPrice = update.mainPrice;
         }
-    }));
+
+        return {
+            updateOne: {
+                filter: { _id: update.id, hostId: req.user._id },
+                update: { $set: updateFields }
+            }
+        };
+    });
 
     const result = await Product.bulkWrite(bulkOps);
 

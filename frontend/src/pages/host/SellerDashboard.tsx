@@ -19,12 +19,14 @@ import {
     ResponsiveContainer
 } from 'recharts';
 import { DashboardStats, SalesTrend, TopProduct } from '../../services/productService';
+import { useNavigate } from 'react-router-dom';
 
 const SellerDashboard = () => {
     const [stats, setStats] = useState<DashboardStats | null>(null);
     const [trends, setTrends] = useState<SalesTrend[]>([]);
     const [topProducts, setTopProducts] = useState<TopProduct[]>([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         loadDashboardData();

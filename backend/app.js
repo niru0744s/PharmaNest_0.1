@@ -175,11 +175,18 @@ app.get('/api/v1/', (req, res) => {
 
 // Initialize Cron Jobs
 require('./jobs/inventoryMonitor');
+require('./jobs/orderProgression');
 
 app.get('/api/v1/admin/run-stock-check', async (req, res) => {
     const { runInventoryCheck } = require('./jobs/inventoryMonitor');
     await runInventoryCheck();
     res.json({ message: "Stock check triggered successfully" });
+});
+
+app.get('/api/v1/admin/run-order-progression', async (req, res) => {
+    const { runOrderProgression } = require('./jobs/orderProgression');
+    await runOrderProgression();
+    res.json({ message: "Order progression check triggered successfully" });
 });
 
 // Global Error Handler (Must be after routes)

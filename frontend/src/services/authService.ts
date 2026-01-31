@@ -15,7 +15,7 @@ export const authService = {
     },
 
     // Register
-    async register(data: RegisterData): Promise<{ success: number; message: string }> {
+    async register(data: RegisterData): Promise<AuthResponse | HostAuthResponse> {
         const endpoint = data.role === 'host' ? '/host/auth/register' : '/user/auth/register';
         const response = await api.post(endpoint, data);
         return response.data;
