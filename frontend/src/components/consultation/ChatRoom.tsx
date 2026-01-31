@@ -8,6 +8,7 @@ import PrescriptionModal from './PrescriptionModal';
 interface Message {
     senderId: string;
     senderName: string;
+    senderImage?: string;
     message: string;
     timestamp: number;
 }
@@ -18,6 +19,7 @@ interface ChatRoomProps {
     isDoctor: boolean;
     currentUserId: string;
     currentUserName: string;
+    currentUserImage?: string;
     onClose: () => void;
 }
 
@@ -86,7 +88,11 @@ const MessageBubble = ({
         <div className={`max-w-[80%] flex gap-3 ${isOwnMessage ? 'flex-row-reverse' : 'flex-row'}`}>
             <div className={`h-9 w-9 rounded-2xl flex items-center justify-center shrink-0 shadow-sm border-2 border-white overflow-hidden ${isDoctorMessage ? 'bg-emerald-500 text-white' : 'bg-blue-600 text-white'
                 }`}>
-                <User size={18} />
+                {msg.senderImage ? (
+                    <img src={msg.senderImage} alt="" className="w-full h-full object-cover" />
+                ) : (
+                    <User size={18} />
+                )}
             </div>
             <div className={`flex flex-col ${isOwnMessage ? 'items-end' : 'items-start'}`}>
                 <span className={`text-[9px] font-black uppercase tracking-widest mb-1 px-1 ${isDoctorMessage ? 'text-emerald-600' : 'text-blue-600'
@@ -141,7 +147,7 @@ const ChatInput = ({
     </div>
 );
 
-const ChatRoom = ({ roomName, consultationId, isDoctor, currentUserId, currentUserName, onClose }: ChatRoomProps) => {
+const ChatRoom = ({ roomName, consultationId, isDoctor, currentUserId, currentUserName, currentUserImage, onClose }: ChatRoomProps) => {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState('');
@@ -181,6 +187,7 @@ const ChatRoom = ({ roomName, consultationId, isDoctor, currentUserId, currentUs
         const messageData: Message = {
             senderId: currentUserId,
             senderName: currentUserName,
+            senderImage: currentUserImage,
             message: trimmedMessage,
             timestamp: Date.now()
         };

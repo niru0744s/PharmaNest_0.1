@@ -450,6 +450,7 @@ const DoctorConsultation = () => {
                                     isDoctor={false}
                                     currentUserId={user?._id || ''}
                                     currentUserName={user?.firstName || 'User'}
+                                    currentUserImage={user?.profileImage?.url}
                                     onClose={() => setActiveSession(null)}
                                 />
                             ) : (
@@ -457,6 +458,7 @@ const DoctorConsultation = () => {
                                     roomName={activeSession.roomName}
                                     consultationId={activeSession._id}
                                     isDoctor={false}
+                                    type={activeSession.type}
                                     onEndCall={() => setActiveSession(null)}
                                 />
                             )}
