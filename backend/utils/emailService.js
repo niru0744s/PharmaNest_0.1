@@ -16,17 +16,15 @@ const sendEmail = async ({ to, subject, html }) => {
         console.log(`[EmailService] Using email: ${process.env.EMAIL.substring(0, 3)}... and APP_PASS is ${process.env.APP_PASS ? 'READY' : 'MISSING'}`);
 
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false, // Port 587 uses STARTTLS
+            service: 'gmail',
             auth: {
                 user: process.env.EMAIL,
                 pass: process.env.APP_PASS,
             },
-            connectionTimeout: 30000, // 30 seconds
-            greetingTimeout: 20000,
-            socketTimeout: 30000,
-            dnsTimeout: 15000,
+            connectionTimeout: 45000, // Increased to 45 seconds for slow cloud handshakes
+            greetingTimeout: 30000,
+            socketTimeout: 45000,
+            dnsTimeout: 20000,
         });
 
         console.log('[EmailService] Verifying SMTP connection (Step 1: Handshake)...');
