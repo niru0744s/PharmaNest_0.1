@@ -68,11 +68,13 @@ module.exports.generateInvoice = async (req, res) => {
         doc.font('Helvetica');
 
         order.products.forEach(item => {
-            const productTotal = item.price * item.quantity;
+            const unitPrice = item.product?.price || 0;
+            const productTotal = unitPrice * item.quantity;
+            const itemName = item.name || item.product?.name || "Unknown Product";
 
-            doc.text(item.product.name.substring(0, 35) + (item.product.name.length > 35 ? '...' : ''), itemX, y);
+            doc.text(itemName.substring(0, 35) + (itemName.length > 35 ? '...' : ''), itemX, y);
             doc.text(item.quantity.toString(), qtyX, y);
-            doc.text(`Rs. ${item.price}`, priceX, y);
+            doc.text(`Rs. ${unitPrice}`, priceX, y);
             doc.text(`Rs. ${productTotal}`, totalX, y);
 
             y += 20;

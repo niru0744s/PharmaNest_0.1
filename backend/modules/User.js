@@ -22,6 +22,9 @@ const newSchema = mongoose.Schema({
     otp: {
         type: String,
     },
+    otpExpiresAt: {
+        type: Date
+    },
     role: {
         type: String,
         enum: ['user', 'admin', 'doctor'],
@@ -51,10 +54,39 @@ const newSchema = mongoose.Schema({
     timestamps: true
 })
 
-// Indexes for performance optimization
-newSchema.index({ email: 1 }, { unique: true }); // Unique index for email (fast lookups)
-newSchema.index({ phoneNumber: 1 }); // Phone number lookups
-newSchema.index({ role: 1, isVerified: 1 }); // Role and verification queries
+// Cleanup middleware after user deletion
+newSchema.post('findOneAndDelete', async function (doc) {
+    if (doc) {
+        const userId = doc._id;
+        try {
+            // Use mongoose.model to avoid circular dependencies
+            const Address = mongoose.model('Address');
+            const Cart = mongoose.model('Cart');
+            const Chat = mongoose.model('Chat');
+            const Consultation = mongoose.model('Consultation');
+            const Doctor = mongoose.model('Doctor');
+            const Prescription = mongoose.model('Prescription');
+            const RefreshToken = mongoose.model('RefreshToken');
+            const VerificationToken = mongoose.model('VerificationToken');
+            const Review = mongoose.model('Review');
+
+            await Promise.all([
+                Address.deleteMany({ userId: userId }),
+                Cart.deleteMany({ UserId: userId }),
+                Chat.deleteMany({ userId: userId }),
+                Consultation.deleteMany({ userId: userId }),
+                Doctor.deleteOne({ userId: userId }),
+                Prescription.deleteMany({ patientId: userId }),
+                RefreshToken.deleteMany({ user: userId }),
+                VerificationToken.deleteMany({ userId: userId }),
+                Review.deleteMany({ author: userId })
+            ]);
+            console.log(`Successfully cleaned up data for deleted user: ${userId}`);
+        } catch (error) {
+            console.error(`Error during user data cleanup: ${error.message}`);
+        }
+    }
+});
 
 const User = mongoose.model("User", newSchema);
 module.exports = User;

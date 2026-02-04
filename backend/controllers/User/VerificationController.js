@@ -6,7 +6,9 @@ const { sendUserEmail } = require('./SendEmail');
 // Send verification email
 module.exports.sendVerificationEmail = async (req, res) => {
     try {
+        console.log('--- Send Verification Email Request ---');
         const { email, userModel } = req.body; // userModel: 'User' or 'Host'
+        console.log(`Email: ${email}, Model: ${userModel}`);
 
         // Find user
         const Model = userModel === 'User' ? User : Host;
@@ -29,8 +31,8 @@ module.exports.sendVerificationEmail = async (req, res) => {
         // Generate verification token
         const token = await VerificationToken.generateToken(user._id, userModel, email);
 
-        // Create verification URL
-        const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+        const baseUrl = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+        const verificationUrl = `${baseUrl}/verify-email?token=${token}`;
 
         // Send email
         const emailBody = `
@@ -66,7 +68,9 @@ module.exports.sendVerificationEmail = async (req, res) => {
             userId: user._id
         });
     } catch (error) {
-        console.error('Send verification error:', error);
+        console.error('--- Send Verification Error ---');
+        console.error('Error:', error.message);
+        console.error('Stack:', error.stack);
         res.status(500).send({
             success: 0,
             message: error.message || 'Failed to send verification email'
@@ -77,12 +81,15 @@ module.exports.sendVerificationEmail = async (req, res) => {
 // Verify email with token
 module.exports.verifyEmail = async (req, res) => {
     try {
+        console.log('--- Verify Email Request ---');
         const { token } = req.params;
+        console.log(`Token received: ${token}`);
 
         // Find verification token (without isUsed filter first)
         const verificationToken = await VerificationToken.findOne({ token });
 
         if (!verificationToken) {
+            console.log(`[Verification] Invalid token attempted: ${token}`);
             return res.status(400).send({
                 success: 0,
                 message: 'Invalid verification token'
@@ -91,6 +98,7 @@ module.exports.verifyEmail = async (req, res) => {
 
         // Check expiry
         if (verificationToken.expiresAt < new Date()) {
+            console.log(`[Verification] Token expired: ${token}. Expired at: ${verificationToken.expiresAt}`);
             return res.status(400).send({
                 success: 0,
                 message: 'Token has expired. Please request a new one.'
@@ -110,6 +118,7 @@ module.exports.verifyEmail = async (req, res) => {
         const user = await Model.findById(verificationToken.user);
 
         if (!user) {
+            console.log(`User not found for token: ${token}`);
             return res.status(404).send({
                 success: 0,
                 message: 'User for this token not found'
@@ -124,12 +133,39 @@ module.exports.verifyEmail = async (req, res) => {
         verificationToken.isUsed = true;
         await verificationToken.save();
 
+        // Generate tokens for auto-login after verification
+        const jwtToken = require('../../middleware/tokenVerify');
+        const { accessToken, refreshToken } = await jwtToken.generateTokens(user, verificationToken.userModel);
+
         res.send({
             success: 1,
-            message: 'Email verified successfully! You can now log in.'
+            message: 'Email verified successfully! You are now logged in.',
+            accessToken,
+            refreshToken,
+            user: verificationToken.userModel === 'User' ? {
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+                role: user.role,
+                isVerified: user.isVerified
+            } : undefined,
+            seller: verificationToken.userModel === 'Host' ? {
+                id: user._id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+                role: user.role,
+                isVerified: user.isVerified,
+                isApproved: user.isApproved
+            } : undefined
         });
+        console.log(`User ${user.email} verified successfully and logged in`);
     } catch (error) {
-        console.error('Verify email error:', error);
+        console.error('--- Verify Email Process Error ---');
+        console.error('Error:', error.message);
+        console.error('Stack:', error.stack);
         res.status(500).send({
             success: 0,
             message: error.message || 'Email verification failed'
@@ -168,8 +204,8 @@ module.exports.resendVerification = async (req, res) => {
         // Generate new token
         const token = await VerificationToken.generateToken(user._id, userModel, email);
 
-        // Create verification URL
-        const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
+        const baseUrl = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+        const verificationUrl = `${baseUrl}/verify-email?token=${token}`;
 
         // Send email
         const emailBody = `
@@ -200,7 +236,9 @@ module.exports.resendVerification = async (req, res) => {
             message: 'Verification email resent successfully'
         });
     } catch (error) {
-        console.error('Resend verification error:', error);
+        console.error('--- Resend Verification Error ---');
+        console.error('Error:', error.message);
+        console.error('Stack:', error.stack);
         res.status(500).send({
             success: 0,
             message: error.message || 'Failed to resend verification email'

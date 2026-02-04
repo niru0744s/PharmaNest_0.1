@@ -109,7 +109,20 @@ export const productService = {
     // Seller: Get host's products
     async getHostProducts(): Promise<{ success: number; products: Product[] }> {
         const response = await api.get('/showProducts');
-        return response.data;
+
+        // Normalize response: backend returns categoryWise array
+        let products: Product[] = [];
+        if (response.data.products && Array.isArray(response.data.products)) {
+            // Flatten the categoryWise products into a single array
+            products = response.data.products.reduce((acc: Product[], current: { products?: Product[] }) => {
+                return acc.concat(current.products || []);
+            }, []);
+        }
+
+        return {
+            success: response.data.success || 1,
+            products: products
+        };
     },
 
     // Seller: Bulk Upload CSV
@@ -148,17 +161,13 @@ export const productService = {
 
     // Seller: Add Product
     async addProduct(formData: FormData): Promise<{ success: number; message: string; product: Product }> {
-        const response = await api.post('/addProduct', formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        const response = await api.post('/addProduct', formData);
         return response.data;
     },
 
     // Seller: Update Product
     async updateProduct(id: string, formData: FormData): Promise<{ success: number; message: string }> {
-        const response = await api.patch(`/updateProduct?id=${id}`, formData, {
-            headers: { 'Content-Type': 'multipart/form-data' }
-        });
+        const response = await api.patch(`/updateProduct?id=${id}`, formData);
         return response.data;
     },
 

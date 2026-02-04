@@ -69,8 +69,8 @@ export const authService = {
     },
 
     // Resend verification email
-    async resendVerification(email: string): Promise<{ success: number; message: string }> {
-        const response = await api.post('/auth/resend-verification', { email });
+    async resendVerification(email: string, userModel: 'User' | 'Host' = 'User'): Promise<{ success: number; message: string }> {
+        const response = await api.post('/auth/resend-verification', { email, userModel });
         return response.data;
     },
 
@@ -92,6 +92,12 @@ export const authService = {
     async resetPassword(id: string, otp: string, pass: string, role: 'user' | 'host'): Promise<{ success: number; message: string }> {
         const endpoint = role === 'host' ? '/host/auth/changePass' : '/user/auth/changePass';
         const response = await api.post(`${endpoint}?id=${id}`, { otp, pass });
+        return response.data;
+    },
+
+    // Delete user account
+    async deleteAccount(password: string): Promise<{ success: number; message: string }> {
+        const response = await api.delete('/user/auth/delete-account', { data: { password } });
         return response.data;
     }
 };

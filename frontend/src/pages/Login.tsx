@@ -13,21 +13,32 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
-    const { login } = useAuth();
+    const { login, resendVerification } = useAuth();
     const navigate = useNavigate();
+    const [verificationError, setVerificationError] = useState<{ email: string } | null>(null);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setVerificationError(null);
 
         try {
             await login(email, password);
             toast.success('Welcome back!');
             navigate('/');
         } catch (error: any) {
-            // Error handling is centralized in AuthContext
+            if (error.response?.status === 403 && error.response?.data?.needsVerification) {
+                setVerificationError({ email: error.response.data.email });
+            }
             setIsLoading(false);
         }
+    };
+
+    const handleResendLink = async () => {
+        if (!verificationError) return;
+        setIsLoading(true);
+        await resendVerification(verificationError.email, 'user');
+        setIsLoading(false);
     };
 
     const itemVariants = {
@@ -121,6 +132,26 @@ const Login = () => {
                                 </>
                             )}
                         </button>
+
+                        {verificationError && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mt-6 p-4 bg-orange-50 border border-orange-100 rounded-2xl text-center"
+                            >
+                                <p className="text-xs font-bold text-orange-700 mb-3">
+                                    Email verification required to access your account.
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={handleResendLink}
+                                    disabled={isLoading}
+                                    className="text-[10px] font-black uppercase tracking-widest text-orange-600 hover:text-orange-700 underline underline-offset-4 disabled:opacity-50"
+                                >
+                                    Resend Verification Link
+                                </button>
+                            </motion.div>
+                        )}
                     </motion.div>
                 </form>
 
