@@ -8,6 +8,10 @@ export interface Review {
         _id: string;
         firstName: string;
         lastName: string;
+        profileImage?: {
+            url: string;
+            publicId: string;
+        };
     };
     productId: string;
     verifiedPurchase: boolean;

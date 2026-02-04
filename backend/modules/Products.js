@@ -140,7 +140,13 @@ newSchema.pre('save', function (next) {
 
 
 // Indexes for performance optimization
-newSchema.index({ name: 'text', brand: 'text', category: 'text' }); // Text search
+newSchema.index({
+    name: 'text',
+    brand: 'text',
+    category: 'text',
+    description: 'text',
+    composition: 'text'
+}); // Enhanced Text search
 newSchema.index({ category: 1, price: 1 }); // Filter by category and price
 newSchema.index({ hostId: 1, category: 1 }); // Seller's products by category
 newSchema.index({ quantity: 1 }); // Low stock queries

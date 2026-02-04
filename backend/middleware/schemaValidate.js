@@ -12,7 +12,17 @@ module.exports.validateEmail = (req, res, next) => {
 };
 
 module.exports.otp = (req, res, next) => {
-    let { error } = validateSchemas.otpVerify.validate(req.body);
+    let { error } = validateSchemas.otpVerify.validate({ ...req.body, ...req.query });
+    if (error) {
+        let errMsg = error.details.map((el) => el.message).join(",");
+        next(new ErrorResponse(errMsg, 400));
+    } else {
+        next();
+    }
+};
+
+module.exports.changePass = (req, res, next) => {
+    let { error } = validateSchemas.changePassSchema.validate({ ...req.body, ...req.query });
     if (error) {
         let errMsg = error.details.map((el) => el.message).join(",");
         next(new ErrorResponse(errMsg, 400));

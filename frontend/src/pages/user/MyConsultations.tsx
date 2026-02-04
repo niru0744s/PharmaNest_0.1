@@ -99,7 +99,7 @@ const MyConsultations = () => {
                                             </div>
                                             <div className="flex items-center gap-1.5 text-xs font-bold">
                                                 <Clock size={14} />
-                                                {item.slot.start}
+                                                {item.slot?.start || 'N/A'}
                                             </div>
                                         </div>
                                     </div>

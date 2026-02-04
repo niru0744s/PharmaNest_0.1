@@ -13,6 +13,7 @@ interface AuthContextType {
     register: (data: RegisterData) => Promise<AuthResponse | HostAuthResponse>;
     logout: () => void;
     setUser: (user: User | null) => void;
+    resendVerification: (email: string, role: 'user' | 'host') => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -62,6 +63,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 throw new Error(errorMsg);
             }
         } catch (error: any) {
+            if (error.response?.status === 403 && error.response?.data?.needsVerification) {
+                // Don't toast here, let the component handle it
+                throw error;
+            }
             const rawMessage = error.response?.data?.message || error.message || 'Login failed';
             const message = typeof rawMessage === 'string' ? rawMessage : JSON.stringify(rawMessage);
             toast.error(message);
@@ -75,14 +80,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             if (response.success) {
                 // If the response contains tokens (meaning we auto-logged in), set them
-                if ('accessToken' in response && 'user' in response) {
-                    localStorage.setItem('accessToken', response.accessToken);
-                    localStorage.setItem('refreshToken', response.refreshToken);
-                    setUser(response.user);
-                } else if ('accessToken' in response && 'seller' in response) {
-                    localStorage.setItem('accessToken', response.accessToken);
-                    localStorage.setItem('refreshToken', response.refreshToken);
-                    setUser(response.seller);
+                // Note: Now we require email verification, so tokens won't be sent on register
+                if ('accessToken' in response) {
+                    localStorage.setItem('accessToken', (response as any).accessToken);
+                    localStorage.setItem('refreshToken', (response as any).refreshToken);
+
+                    if ('user' in response) {
+                        setUser((response as any).user);
+                    } else if ('seller' in response) {
+                        setUser((response as any).seller);
+                    }
                 }
 
                 toast.success('Registration successful! Please check your email to verify your account.');
@@ -115,10 +122,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 throw new Error(errorMsg);
             }
         } catch (error: any) {
+            if (error.response?.status === 403 && error.response?.data?.needsVerification) {
+                // Don't toast here, let the component handle it
+                throw error;
+            }
             const rawMessage = error.response?.data?.message || error.message || 'Login failed';
             const message = typeof rawMessage === 'string' ? rawMessage : JSON.stringify(rawMessage);
             toast.error(message);
             throw error;
+        }
+    };
+
+    const resendVerification = async (email: string, role: 'user' | 'host') => {
+        try {
+            const response = await authService.resendVerification(email, role === 'host' ? 'Host' : 'User');
+            if (response.success) {
+                toast.success('Verification email sent! Please check your inbox.');
+            } else {
+                toast.error(response.message || 'Failed to resend verification email');
+            }
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || 'Error resending verification email');
         }
     };
 
@@ -137,7 +161,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             loginHost,
             register,
             logout,
-            setUser
+            setUser,
+            resendVerification
         }}>
             {children}
         </AuthContext.Provider>

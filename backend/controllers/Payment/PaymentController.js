@@ -1,5 +1,6 @@
 const razorpay = require('../../config/razorpay');
 const Orders = require('../../modules/orders');
+const Product = require('../../modules/Products');
 const crypto = require('crypto');
 const { sendUserEmail } = require('../User/SendEmail');
 
@@ -67,6 +68,18 @@ module.exports.verifyPayment = async (req, res) => {
                     success: 0,
                     message: 'Order not found'
                 });
+            }
+
+            // Update product stock and sales
+            if (order.products && order.products.length > 0) {
+                for (const item of order.products) {
+                    await Product.findByIdAndUpdate(item.product, {
+                        $inc: {
+                            quantity: -item.quantity,
+                            soldQuantity: item.quantity
+                        }
+                    });
+                }
             }
 
             // Send payment confirmation email
@@ -214,6 +227,18 @@ async function handlePaymentSuccess(paymentEntity) {
             order.paymentId = paymentEntity.id;
             order.status = 'pending'; // Ready for processing
             await order.save();
+
+            // Update product stock and sales
+            if (order.products && order.products.length > 0) {
+                for (const item of order.products) {
+                    await Product.findByIdAndUpdate(item.product, {
+                        $inc: {
+                            quantity: -item.quantity,
+                            soldQuantity: item.quantity
+                        }
+                    });
+                }
+            }
 
             console.log('Order payment completed via webhook:', order._id);
         }

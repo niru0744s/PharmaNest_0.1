@@ -100,7 +100,7 @@ module.exports.addReview = async (req, res) => {
         await updateProductRating(productId);
 
         const populatedReview = await Review.findById(review._id)
-            .populate('author', 'firstName lastName')
+            .populate('author', 'firstName lastName profileImage')
             .lean();
 
         res.send({
@@ -127,7 +127,7 @@ module.exports.getProductReviews = async (req, res) => {
 
         const [reviews, product] = await Promise.all([
             Review.find({ productId, isHidden: false })
-                .populate('author', 'firstName lastName')
+                .populate('author', 'firstName lastName profileImage')
                 .populate('sellerResponse.respondedBy', 'firstName lastName')
                 .sort(sort)
                 .skip(skip)
@@ -205,7 +205,7 @@ module.exports.updateReview = async (req, res) => {
         await updateProductRating(review.productId);
 
         const updatedReview = await Review.findById(reviewId)
-            .populate('author', 'firstName lastName')
+            .populate('author', 'firstName lastName profileImage')
             .lean();
 
         res.send({

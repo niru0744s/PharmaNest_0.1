@@ -15,16 +15,21 @@ exports.handleAIChat = async (req, res) => {
       body: JSON.stringify({
         model: "llama3",
         messages: [
-          { role: "system", content: "You are a helpful medicine and Health care related recommender AI , just tell the medicines name and healthcare related products name ." },
+          { role: "system", content: "You are a helpful medicine and Health care related recommender AI, just tell the medicines name and healthcare related products name." },
           { role: "user", content: userMessage }
         ]
       }),
     });
-    if (!llmRes.ok) throw new Error("LLM API failed");
+
+    if (!llmRes.ok) {
+      const errText = await llmRes.text();
+      console.error("LLM API Error:", errText);
+      throw new Error("LLM API failed");
+    }
+
     const contentType = llmRes.headers.get("content-type");
     if (!contentType || !contentType.includes("application/json")) {
-      const html = await llmRes.text();
-      return res.status(500).json({ success: false, message: "LLM7 returned invalid response" });
+      return res.status(500).json({ success: false, message: "LLM7 returned invalid response format" });
     }
 
     const data = await llmRes.json();

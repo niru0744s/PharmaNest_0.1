@@ -16,6 +16,7 @@ route.put('/update-profile', userMiddleware, userAuthController.updateProfile);
 route.put('/update-profile-image', userMiddleware, upload.single('profileImage'), userAuthController.updateProfileImage);
 route.post('/register', validations.register, userAuthController.register);
 route.post('/forgetPass', userAuthController.forgetPass);
-route.post('/changePass', userAuthController.changePass);
+route.post('/changePass', validations.changePass, userAuthController.changePass);
+route.delete('/delete-account', userMiddleware, userAuthController.deleteAccount);
 
 module.exports = route;

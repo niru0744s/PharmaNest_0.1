@@ -34,10 +34,12 @@ const VerifyEmail = () => {
                     toast.success('Email verified successfully!');
                     setTimeout(() => navigate('/login'), 3500);
                 } else {
+                    console.warn('[VerifyEmail] Verification unsuccessful:', response.message);
                     setStatus('error');
                     setMessage(response.message || 'Verification link may have expired.');
                 }
             } catch (error: unknown) {
+                console.error('[VerifyEmail] Verification process error:', error);
                 const err = error as AxiosError<{ message?: string }>;
                 setStatus('error');
                 setMessage(err.response?.data?.message || 'We encountered an error verifying your email.');

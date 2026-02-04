@@ -21,6 +21,12 @@ module.exports.otpVerify = joi.object({
         id: joi.string().required()
 });
 
+module.exports.changePassSchema = joi.object({
+        otp: joi.string().required(),
+        id: joi.string().required(),
+        pass: passwordSchema
+});
+
 module.exports.userCredentials = joi.object({
         firstName: joi.string().required(),
         lastName: joi.string().required(),

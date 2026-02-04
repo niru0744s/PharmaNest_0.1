@@ -45,9 +45,9 @@ const HostInventory = () => {
     };
 
     const filteredProducts = products.filter(p =>
-        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         p.sku?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.brand.toLowerCase().includes(searchTerm.toLowerCase())
+        p.brand?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const getStatusBadge = (status: string) => {

@@ -13,12 +13,14 @@ const SellerLogin = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [focusedField, setFocusedField] = useState<string | null>(null);
 
-    const { loginHost } = useAuth();
+    const { loginHost, resendVerification } = useAuth();
     const navigate = useNavigate();
+    const [verificationError, setVerificationError] = useState<{ email: string } | null>(null);
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
+        setVerificationError(null);
 
         try {
             await loginHost(email, password);
@@ -32,9 +34,19 @@ const SellerLogin = () => {
             });
             navigate('/host/dashboard');
         } catch (error: any) {
+            if (error.response?.status === 403 && error.response?.data?.needsVerification) {
+                setVerificationError({ email: error.response.data.email });
+            }
             // Error is already handled/toasted in AuthContext
             setIsLoading(false);
         }
+    };
+
+    const handleResendLink = async () => {
+        if (!verificationError) return;
+        setIsLoading(true);
+        await resendVerification(verificationError.email, 'host');
+        setIsLoading(false);
     };
 
     const itemVariants = {
@@ -132,6 +144,26 @@ const SellerLogin = () => {
                                 </>
                             )}
                         </button>
+
+                        {verificationError && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="mt-6 p-5 bg-white/[0.02] border border-emerald-500/10 rounded-2xl text-center"
+                            >
+                                <p className="text-[11px] font-medium text-slate-400 mb-3">
+                                    Account activation required.
+                                </p>
+                                <button
+                                    type="button"
+                                    onClick={handleResendLink}
+                                    disabled={isLoading}
+                                    className="text-[10px] font-black uppercase tracking-widest text-emerald-400 hover:text-emerald-300 underline underline-offset-4 disabled:opacity-50 transition-colors"
+                                >
+                                    Resend Verification Key
+                                </button>
+                            </motion.div>
+                        )}
                     </motion.div>
                 </form>
 

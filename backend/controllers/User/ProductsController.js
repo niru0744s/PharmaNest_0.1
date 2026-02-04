@@ -28,7 +28,7 @@ module.exports.placeOrder = async (req, res) => {
     await orderDoc.save();
     for (const item of orderProducts) {
       await Product.findByIdAndUpdate(item.product, {
-        $inc: { quantity: -item.quantity }
+        $inc: { quantity: -item.quantity, soldQuantity: item.quantity }
       });
     }
     await Cart.deleteMany({ _id: { $in: cartItemsId } });

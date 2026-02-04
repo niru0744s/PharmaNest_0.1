@@ -249,6 +249,7 @@ exports.instantBooking = async (req, res, next) => {
             doctorId,
             type: type || 'chat',
             scheduledDate: new Date(),
+            slot: { start: 'Instant', end: 'Instant' },
             status: 'ongoing',
             reason: reason || 'Instant Consultation',
             roomName: `room_${userId}_${doctorId}_${Date.now()}`
