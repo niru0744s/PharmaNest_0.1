@@ -1,6 +1,6 @@
 const Orders = require('../../modules/orders');
 const Products = require('../../modules/Products');
-const { sendUserEmail } = require('../User/SendEmail');
+const { sendEmail } = require('../../utils/emailService');
 
 // Get Seller's Orders
 module.exports.getSellerOrders = async (req, res) => {
@@ -251,7 +251,11 @@ module.exports.updateOrderStatus = async (req, res) => {
         }
 
         if (order.user) {
-            await sendUserEmail(order.user.email, emailSubject, emailBody);
+            await sendEmail({
+                to: order.user.email,
+                subject: emailSubject,
+                html: emailBody
+            });
         } else {
             console.log(`Order ${status}: User notification skipped (account deleted)`);
         }
@@ -366,7 +370,11 @@ module.exports.cancelOrder = async (req, res) => {
             </div>
         `;
 
-        await sendUserEmail(order.user.email, 'Order Cancelled - PharmaNest', cancellationEmail);
+        await sendEmail({
+            to: order.user.email,
+            subject: 'Order Cancelled - PharmaNest',
+            html: cancellationEmail
+        });
 
         res.send({
             success: 1,

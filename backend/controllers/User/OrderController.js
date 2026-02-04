@@ -1,6 +1,5 @@
 const Orders = require('../../modules/orders');
-const { sendUserEmail } = require('../User/SendEmail');
-const sendHostEmail = require('../host/HostEmail');
+const { sendEmail } = require('../../utils/emailService');
 
 const asyncHandler = require('../../utils/asyncHandler');
 
@@ -153,7 +152,11 @@ module.exports.cancelOrder = asyncHandler(async (req, res) => {
         </div>
     `;
 
-    await sendUserEmail(email, 'Order Cancelled - PharmaNest', cancellationEmail);
+    await sendEmail({
+        to: email,
+        subject: 'Order Cancelled - PharmaNest',
+        html: cancellationEmail
+    });
 
     res.json({
         success: 1,

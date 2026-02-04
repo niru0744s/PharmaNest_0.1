@@ -1,6 +1,6 @@
 const cron = require('node-cron');
 const Orders = require('../modules/orders');
-const { sendUserEmail } = require('../controllers/User/SendEmail');
+const { sendEmail } = require('../utils/emailService');
 
 /**
  * Automatically progresses orders through status steps every 10 minutes.
@@ -100,7 +100,11 @@ const runOrderProgression = async () => {
 
                 if (emailSubject && emailBody && order.user?.email) {
                     try {
-                        await sendUserEmail(order.user.email, emailSubject, emailBody);
+                        await sendEmail({
+                            to: order.user.email,
+                            subject: emailSubject,
+                            html: emailBody
+                        });
                         console.log(`Email sent for Order #${order._id} (${nextStatus})`);
                     } catch (emailErr) {
                         console.error(`Failed to send email for Order #${order._id}:`, emailErr.message);

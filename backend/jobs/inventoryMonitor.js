@@ -1,7 +1,7 @@
 const cron = require('node-cron');
 const Product = require('../modules/Products');
 const Host = require('../modules/Host');
-const sendHostEmail = require('../controllers/host/HostEmail');
+const { sendEmail } = require('../utils/emailService');
 
 const runInventoryCheck = async () => {
     try {
@@ -71,7 +71,11 @@ const runInventoryCheck = async () => {
                 </div>
             `;
 
-            await sendHostEmail(group.email, '⚠️ Low Stock Alert: PhamaNest Inventory Item(s)', emailHtml);
+            await sendEmail({
+                to: group.email,
+                subject: '⚠️ Low Stock Alert: PhamaNest Inventory Item(s)',
+                html: emailHtml
+            });
             console.log(`Sent low stock alert to host: ${group.email} (${group.products.length} items)`);
         }
 
