@@ -10,7 +10,7 @@ route.post('/createPass', validations.hostCredentials, hostController.createPass
 route.post('/login', validations.login, hostController.login);
 route.post('/register', validations.register, hostController.register);
 route.post('/forgetPass', hostController.forgetPass);
-route.post('/changePass', hostController.changePass);
+route.post('/changePass', validations.changePass, hostController.changePass);
 route.get('/profile', hostMiddleware, hostController.getProfile);
 
 module.exports = route;

@@ -51,7 +51,7 @@ if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
 // Rate Limiting
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    max: 1000 // limit each IP to 1000 requests per windowMs
 });
 app.use('/api', limiter);
 
@@ -187,6 +187,17 @@ app.get('/api/v1/admin/run-order-progression', async (req, res) => {
     const { runOrderProgression } = require('./jobs/orderProgression');
     await runOrderProgression();
     res.json({ message: "Order progression check triggered successfully" });
+});
+
+// Match all other requests to log them (Internal debug)
+app.use((req, res, next) => {
+    if (req.url.startsWith('/api')) {
+        console.log(`Unmatched API Request: ${req.method} ${req.url}`);
+        return next();
+    }
+    // For non-api routes, if it's hitting the backend, it's probably a configuration error
+    console.log(`Backend received non-API request: ${req.method} ${req.url}`);
+    next();
 });
 
 // Global Error Handler (Must be after routes)

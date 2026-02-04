@@ -3,16 +3,13 @@ import { orderService, Order } from '../../services/orderService';
 import {
     ShoppingBag,
     Search,
-    Filter,
-    ChevronRight,
     Clock,
     CheckCircle2,
     Package,
     Truck,
     XCircle,
     Eye,
-    MoreVertical,
-    ArrowUpRight
+    MoreVertical
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { format } from 'date-fns';

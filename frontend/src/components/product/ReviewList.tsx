@@ -28,8 +28,12 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, onDelete, onEdit, onHe
                 <div key={review._id} className="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
                     <div className="flex justify-between items-start mb-4">
                         <div className="flex items-center gap-3">
-                            <div className="h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
-                                {review.author.firstName.charAt(0)}
+                            <div className="h-10 w-10 overflow-hidden bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold">
+                                {review.author.profileImage?.url ? (
+                                    <img src={review.author.profileImage.url} alt="" className="w-full h-full object-cover" />
+                                ) : (
+                                    review.author.firstName.charAt(0)
+                                )}
                             </div>
                             <div>
                                 <h4 className="font-bold text-gray-800">
@@ -85,8 +89,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ reviews, onDelete, onEdit, onHe
                         <button
                             onClick={() => onHelpful(review._id)}
                             className={`flex items-center gap-2 text-sm font-medium transition-colors ${review.helpful.users.includes(user?._id || '')
-                                    ? 'text-blue-600'
-                                    : 'text-gray-500 hover:text-blue-600'
+                                ? 'text-blue-600'
+                                : 'text-gray-500 hover:text-blue-600'
                                 }`}
                         >
                             <FaThumbsUp /> Helpful ({review.helpful.count})

@@ -168,7 +168,38 @@ function App() {
         <BrowserRouter>
           <div className="App">
             <AppRoutes />
-            <Toaster position="top-right" />
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 4000,
+                className: 'animate-toast-in',
+                style: {
+                  background: 'rgba(255, 255, 255, 0.8)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  padding: '12px 20px',
+                  color: '#1e293b',
+                  borderRadius: '16px',
+                  boxShadow: 'var(--premium-shadow)',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  maxWidth: '400px',
+                },
+                success: {
+                  iconTheme: {
+                    primary: 'var(--toast-success)',
+                    secondary: '#fff',
+                  },
+                },
+                error: {
+                  iconTheme: {
+                    primary: 'var(--toast-error)',
+                    secondary: '#fff',
+                  },
+                },
+              }}
+            />
           </div>
         </BrowserRouter>
       </CartProvider>

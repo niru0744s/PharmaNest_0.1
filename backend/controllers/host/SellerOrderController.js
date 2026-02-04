@@ -250,7 +250,11 @@ module.exports.updateOrderStatus = async (req, res) => {
             `;
         }
 
-        await sendUserEmail(order.user.email, emailSubject, emailBody);
+        if (order.user) {
+            await sendUserEmail(order.user.email, emailSubject, emailBody);
+        } else {
+            console.log(`Order ${status}: User notification skipped (account deleted)`);
+        }
 
         res.send({
             success: 1,

@@ -48,27 +48,33 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const handleSearchChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const query = e.target.value;
-        setSearchQuery(query);
-
-        if (query.length >= 2) {
-            setIsLoading(true);
-            try {
-                const response = await productService.searchProducts(query);
-                if (response.success) {
-                    setSuggestions(response.products);
-                    setShowSuggestions(true);
+    // Debounced suggestion fetch
+    useEffect(() => {
+        const timer = setTimeout(async () => {
+            if (searchQuery.length >= 2) {
+                setIsLoading(true);
+                try {
+                    const response = await productService.searchProducts(searchQuery);
+                    if (response.success) {
+                        setSuggestions(response.products);
+                        setShowSuggestions(true);
+                    }
+                } catch (error) {
+                    console.error('Search error:', error);
+                } finally {
+                    setIsLoading(false);
                 }
-            } catch (error) {
-                console.error('Search error:', error);
-            } finally {
-                setIsLoading(false);
+            } else {
+                setSuggestions([]);
+                setShowSuggestions(false);
             }
-        } else {
-            setSuggestions([]);
-            setShowSuggestions(false);
-        }
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [searchQuery]);
+
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchQuery(e.target.value);
     };
 
     const handleSearch = (e?: React.FormEvent) => {
@@ -226,8 +232,12 @@ const Navbar = () => {
                                 <div className="flex items-center gap-4">
                                     {user?.role === 'host' ? (
                                         <Link to="/host/dashboard" className="flex items-center gap-2 p-1 pl-1 pr-3 hover:bg-emerald-50 rounded-full transition-all group">
-                                            <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs font-bold ring-2 ring-transparent group-hover:ring-emerald-100 transition-all">
-                                                {user?.firstName?.charAt(0)}
+                                            <div className="w-8 h-8 rounded-full overflow-hidden bg-emerald-100 flex items-center justify-center text-emerald-600 text-xs font-bold ring-2 ring-transparent group-hover:ring-emerald-100 transition-all">
+                                                {user?.profileImage?.url ? (
+                                                    <img src={user.profileImage.url} alt="" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    user?.firstName?.charAt(0)
+                                                )}
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="text-[10px] font-black text-emerald-600 uppercase tracking-tighter leading-none">Seller</span>
@@ -236,8 +246,12 @@ const Navbar = () => {
                                         </Link>
                                     ) : (
                                         <Link to="/user/profile" className="flex items-center gap-2 p-1 pl-1 pr-3 hover:bg-gray-100 rounded-full transition-all group">
-                                            <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold ring-2 ring-transparent group-hover:ring-blue-100 transition-all">
-                                                {user?.firstName?.charAt(0)}
+                                            <div className="w-8 h-8 rounded-full overflow-hidden bg-blue-100 flex items-center justify-center text-blue-600 text-xs font-bold ring-2 ring-transparent group-hover:ring-blue-100 transition-all">
+                                                {user?.profileImage?.url ? (
+                                                    <img src={user.profileImage.url} alt="" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    user?.firstName?.charAt(0)
+                                                )}
                                             </div>
                                             <span className="text-xs font-bold text-gray-700">{user?.firstName}</span>
                                         </Link>
@@ -309,8 +323,12 @@ const Navbar = () => {
                             {isAuthenticated ? (
                                 <>
                                     <div className="p-4 bg-blue-50 rounded-2xl flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
-                                            {user?.firstName?.charAt(0)}
+                                        <div className="w-10 h-10 rounded-full overflow-hidden bg-blue-600 text-white flex items-center justify-center font-bold">
+                                            {user?.profileImage?.url ? (
+                                                <img src={user.profileImage.url} alt="" className="w-full h-full object-cover" />
+                                            ) : (
+                                                user?.firstName?.charAt(0)
+                                            )}
                                         </div>
                                         <div>
                                             <p className="font-bold text-gray-900">{user?.firstName} {user?.lastName}</p>

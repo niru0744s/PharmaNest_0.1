@@ -18,24 +18,23 @@ module.exports.otpSent = async (req, res) => {
             })
         }
         const otp = randomInt(100000, 1000000);
+        const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+
         const newUSr = await new Host({
             email: email,
-            otp: otp
+            otp: otp,
+            otpExpiresAt: otpExpiresAt
         }).save();
+
         await sendHostEmail(
             email,
             'Your Seller AC Login OTP Code - ',
             `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
-        )
-        setTimeout(async () => {
-            const newOtp = randomInt(100000, 1000000);
-            await Host.findByIdAndUpdate(newUSr._id, {
-                otp: newOtp
-            });
-        }, 10 * 60 * 1000)
+        );
+
         res.send({
             success: 1,
-            message: "OTP sent successfully ! , valid for 10 min",
+            message: "OTP sent successfully! Valid for 10 minutes",
             newUSr
         });
     } catch (error) {
@@ -52,15 +51,29 @@ module.exports.otpVerify = async (req, res) => {
         const { id } = req.query;
         const { otp } = req.body;
         const exUser = await Host.findById(id);
+        if (!exUser) {
+            return res.send({
+                success: 0,
+                message: "Host not found!"
+            });
+        }
+
+        if (new Date() > new Date(exUser.otpExpiresAt)) {
+            return res.send({
+                success: 0,
+                message: "OTP has expired! Please request a new one."
+            });
+        }
+
         if (otp != exUser.otp) {
             return res.send({
                 success: 0,
-                message: "Wrong OTP , Try again !"
-            })
+                message: "Wrong OTP, Try again!"
+            });
         }
         res.send({
             success: 1,
-            message: "OTP verification Successfull !"
+            message: "OTP verification successful!"
         });
     } catch (error) {
         res.send({
@@ -80,6 +93,7 @@ module.exports.createPass = async (req, res) => {
             firstName,
             lastName,
             password: empass,
+            isVerified: true // Auto-verify after successful OTP setup
         }, { new: true });
 
         // Generate verification token and send email
@@ -104,12 +118,12 @@ module.exports.createPass = async (req, res) => {
 
         await sendHostEmail(newUser.email, 'Verify Your PharmaNest Seller Account', verificationEmail);
 
-        // Generate access and refresh tokens
+        // Generate tokens for immediate access to onboarding
         const { accessToken, refreshToken } = await jwtToken.generateTokens(newUser, 'Host');
 
         res.send({
             success: 1,
-            message: "Registration successful! Please check your email to verify your account.",
+            message: "Setup successful! You can now access your dashboard. Please also verify your email.",
             seller: {
                 id: newUser._id,
                 firstName: newUser.firstName,
@@ -268,10 +282,13 @@ module.exports.register = async (req, res) => {
             </div>
         `;
         await sendHostEmail(newUser.email, 'Verify Your PharmaNest Seller Account', verificationEmail);
+
+        // Generate tokens for immediate access
         const { accessToken, refreshToken } = await jwtToken.generateTokens(newUser, 'Host');
+
         res.send({
             success: 1,
-            message: "Registration successful! Please check your email to verify your account.",
+            message: "Registration successful! Welcome to the merchant dashboard.",
             seller: {
                 id: newUser._id,
                 firstName: newUser.firstName,
@@ -297,16 +314,20 @@ module.exports.forgetPass = async (req, res) => {
     try {
         const { email } = req.body;
         const otp = randomInt(100000, 1000000);
+        const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000);
+
         const usr = await Host.findOneAndUpdate({ email }, {
             $set: {
-                otp: otp
+                otp: otp,
+                otpExpiresAt: otpExpiresAt
             }
-        })
+        }, { new: true });
+
         if (!usr) {
             return res.send({
                 success: 0,
                 message: "Wrong email."
-            })
+            });
         }
 
         await sendHostEmail(
@@ -320,7 +341,7 @@ module.exports.forgetPass = async (req, res) => {
             success: 1,
             message: "OTP sent successfully to your merchant email",
             usr
-        })
+        });
     } catch (error) {
         res.send({
             success: 0,
@@ -338,23 +359,31 @@ module.exports.changePass = async (req, res) => {
             return res.send({
                 success: 0,
                 message: "Merchant account not found!"
-            })
+            });
         }
+
+        if (new Date() > new Date(usr.otpExpiresAt)) {
+            return res.send({
+                success: 0,
+                message: "OTP has expired! Please request a new one."
+            });
+        }
+
         if (Number(otp) === usr.otp) {
             const empass = await bcrypt.hash(pass, 10);
             await Host.findByIdAndUpdate(id, {
                 password: empass,
-                otp: null // Clear OTP after use
+                $unset: { otp: 1, otpExpiresAt: 1 } // Clear OTP after use
             });
             res.send({
                 success: 1,
                 message: "Merchant password has updated successfully"
-            })
+            });
         } else {
             res.send({
                 success: 0,
                 message: "Invalid OTP"
-            })
+            });
         }
     } catch (error) {
         res.send({

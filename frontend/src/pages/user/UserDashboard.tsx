@@ -20,17 +20,49 @@ const UserDashboard: React.FC = () => {
     const [recentOrders, setRecentOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [resending, setResending] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [deletePassword, setDeletePassword] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const handleResendVerification = async () => {
         if (!user?.email) return;
         setResending(true);
         try {
-            await authService.resendVerification(user.email);
+            await authService.resendVerification(user.email, user.role === 'host' ? 'Host' : 'User');
             toast.success('Verification email sent! Please check your inbox.');
         } catch (error: any) {
             toast.error(error.response?.data?.message || 'Failed to resend verification email.');
         } finally {
             setResending(false);
+        }
+    };
+
+    const handleDeleteAccount = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!deletePassword) {
+            toast.error('Please enter your password to confirm.');
+            return;
+        }
+
+        if (!window.confirm('ARE YOU ABSOLUTELY SURE? This action is permanent and will delete all your data, including orders history, wellness chats, and saved addresses.')) {
+            return;
+        }
+
+        setIsDeleting(true);
+        try {
+            const response = await authService.deleteAccount(deletePassword);
+            if (response.success) {
+                toast.success('Your account has been deleted. We are sorry to see you go.');
+                // Logout and redirect
+                localStorage.clear();
+                window.location.href = '/login';
+            } else {
+                toast.error(response.message || 'Failed to delete account');
+            }
+        } catch (error: any) {
+            toast.error(error.response?.data?.message || 'Verification failed. Incorrect password?');
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -167,6 +199,60 @@ const UserDashboard: React.FC = () => {
                             </div>
                         </div>
                     </div>
+
+                    {/* Danger Zone */}
+                    <div className="bg-red-50 border border-red-100 rounded-xl p-8 mb-8">
+                        <h3 className="text-xl font-bold text-red-800 mb-2">Danger Zone</h3>
+                        <p className="text-red-600 mb-6 text-sm">
+                            Once you delete your account, there is no going back. Please be certain.
+                        </p>
+                        <button
+                            onClick={() => setShowDeleteModal(true)}
+                            className="px-6 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-colors shadow-lg shadow-red-100"
+                        >
+                            Delete My Account
+                        </button>
+                    </div>
+
+                    {/* Delete Confirmation Modal */}
+                    {showDeleteModal && (
+                        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                            <div className="bg-white rounded-[2.5rem] p-8 max-w-md w-full shadow-2xl border border-red-100">
+                                <h2 className="text-2xl font-black text-gray-900 mb-2 uppercase tracking-tight">Delete Account</h2>
+                                <p className="text-gray-500 mb-6 text-sm">
+                                    To confirm, please enter your password below. This action is **permanent**.
+                                </p>
+                                <form onSubmit={handleDeleteAccount} className="space-y-4">
+                                    <div>
+                                        <input
+                                            type="password"
+                                            value={deletePassword}
+                                            onChange={(e) => setDeletePassword(e.target.value)}
+                                            placeholder="Enter your password"
+                                            className="w-full px-5 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl focus:border-red-500 outline-none transition-all font-bold"
+                                            required
+                                        />
+                                    </div>
+                                    <div className="flex gap-4 pt-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowDeleteModal(false)}
+                                            className="flex-1 py-4 bg-gray-100 text-gray-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-gray-200 transition-all"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            disabled={isDeleting}
+                                            className="flex-1 py-4 bg-red-600 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-red-700 transition-all shadow-xl shadow-red-200 disabled:opacity-50"
+                                        >
+                                            {isDeleting ? 'Deleting...' : 'Delete Permanently'}
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Recent Orders Preview */}
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">

@@ -20,6 +20,9 @@ const newSchema = mongoose.Schema({
     otp: {
         type: Number
     },
+    otpExpiresAt: {
+        type: Date
+    },
     password: {
         type: String,
     },
