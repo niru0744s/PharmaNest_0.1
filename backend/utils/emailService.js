@@ -8,17 +8,28 @@ const sendEmail = async ({ to, subject, html }) => {
     try {
         console.log(`[EmailService] Attempting to send email to: ${to}, Subject: ${subject}`);
 
+        if (!process.env.EMAIL || !process.env.APP_PASS) {
+            console.error('[EmailService] Missing EMAIL or APP_PASS in environment variables');
+            throw new Error('Email configuration missing');
+        }
+
+        console.log(`[EmailService] Using email: ${process.env.EMAIL.substring(0, 3)}... and APP_PASS is ${process.env.APP_PASS ? 'READY' : 'MISSING'}`);
+
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
                 user: process.env.EMAIL,
                 pass: process.env.APP_PASS,
             },
-            // Adding timeouts to prevent long-hanging connections
-            connectionTimeout: 15000, // Increased to 15 seconds
+            connectionTimeout: 20000, // 20 seconds
+            greetingTimeout: 10000,
+            socketTimeout: 20000,
+            dnsTimeout: 10000,
         });
 
-        // Verify connection configuration
+        console.log('[EmailService] Verifying SMTP connection (Step 1: Handshake)...');
         await transporter.verify();
         console.log('[EmailService] SMTP connection verified successfully');
 
