@@ -1,7 +1,7 @@
 const User = require('../../modules/User');
 const Host = require('../../modules/Host');
 const VerificationToken = require('../../modules/VerificationToken');
-const { sendUserEmail } = require('./SendEmail');
+const { sendEmail } = require('../../utils/emailService');
 
 // Send verification email
 module.exports.sendVerificationEmail = async (req, res) => {
@@ -60,7 +60,11 @@ module.exports.sendVerificationEmail = async (req, res) => {
             </div>
         `;
 
-        await sendUserEmail(email, 'Verify Your PharmaNest Account', emailBody);
+        await sendEmail({
+            to: email,
+            subject: 'Verify Your PharmaNest Account',
+            html: emailBody
+        });
 
         res.send({
             success: 1,
@@ -229,7 +233,11 @@ module.exports.resendVerification = async (req, res) => {
             </div>
         `;
 
-        await sendUserEmail(email, 'Verify Your PharmaNest Account', emailBody);
+        await sendEmail({
+            to: email,
+            subject: 'Verify Your PharmaNest Account',
+            html: emailBody
+        });
 
         res.send({
             success: 1,

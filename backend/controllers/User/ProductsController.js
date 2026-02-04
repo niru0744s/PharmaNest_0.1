@@ -3,7 +3,7 @@ const Product = require("../../modules/Products");
 const Cart = require("../../modules/CartItems");
 const Orders = require("../../modules/orders");
 const Address = require("../../modules/Locations");
-const { sendUserEmail } = require("./SendEmail");
+const { sendEmail } = require("../../utils/emailService");
 
 module.exports.placeOrder = async (req, res) => {
   try {
@@ -33,7 +33,11 @@ module.exports.placeOrder = async (req, res) => {
     }
     await Cart.deleteMany({ _id: { $in: cartItemsId } });
 
-    await sendUserEmail(req.user.email, "You order has been placed!");
+    await sendEmail({
+      to: req.user.email,
+      subject: "You order has been placed!",
+      html: "<h2>Your order version been placed!</h2><p>Thank you for shopping with PharmaNest.</p>"
+    });
     res.send({
       success: 1,
       message: "Order Placed Successfully",
