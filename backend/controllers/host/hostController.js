@@ -3,7 +3,7 @@ const Products = require("../../modules/Products");
 const { randomInt } = require('crypto');
 const bcrypt = require('bcrypt');
 const jwtToken = require('../../middleware/tokenVerify');
-const sendHostEmail = require("./HostEmail");
+const { sendEmail } = require("../../utils/emailService");
 const mongoose = require('mongoose');
 const VerificationToken = require("../../modules/VerificationToken");
 
@@ -26,11 +26,11 @@ module.exports.otpSent = async (req, res) => {
             otpExpiresAt: otpExpiresAt
         }).save();
 
-        await sendHostEmail(
-            email,
-            'Your Seller AC Login OTP Code - ',
-            `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
-        );
+        await sendEmail({
+            to: email,
+            subject: 'Your Seller AC Login OTP Code',
+            html: `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
+        });
 
         res.send({
             success: 1,
@@ -116,7 +116,11 @@ module.exports.createPass = async (req, res) => {
             </div>
         `;
 
-        await sendHostEmail(newUser.email, 'Verify Your PharmaNest Seller Account', verificationEmail);
+        await sendEmail({
+            to: newUser.email,
+            subject: 'Verify Your PharmaNest Seller Account',
+            html: verificationEmail
+        });
 
         // Generate tokens for immediate access to onboarding
         const { accessToken, refreshToken } = await jwtToken.generateTokens(newUser, 'Host');
@@ -281,7 +285,11 @@ module.exports.register = async (req, res) => {
                 <p style="color: #666; font-size: 12px;">This link will expire in 24 hours.</p>
             </div>
         `;
-        await sendHostEmail(newUser.email, 'Verify Your PharmaNest Seller Account', verificationEmail);
+        await sendEmail({
+            to: newUser.email,
+            subject: 'Verify Your PharmaNest Seller Account',
+            html: verificationEmail
+        });
 
         // Generate tokens for immediate access
         const { accessToken, refreshToken } = await jwtToken.generateTokens(newUser, 'Host');
@@ -330,12 +338,12 @@ module.exports.forgetPass = async (req, res) => {
             });
         }
 
-        await sendHostEmail(
-            email,
-            'Your Seller Password Reset OTP - Pharmanest',
-            `<h2>Your OTP to reset password is: <b>${otp}</b></h2>
+        await sendEmail({
+            to: email,
+            subject: 'Your Seller Password Reset OTP - Pharmanest',
+            html: `<h2>Your OTP to reset password is: <b>${otp}</b></h2>
              <p>This OTP is valid for 10 minutes. If you didn't request this, please ignore this email.</p>`
-        );
+        });
 
         res.send({
             success: 1,

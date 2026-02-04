@@ -2,7 +2,7 @@ const razorpay = require('../../config/razorpay');
 const Orders = require('../../modules/orders');
 const Product = require('../../modules/Products');
 const crypto = require('crypto');
-const { sendUserEmail } = require('../User/SendEmail');
+const { sendEmail } = require('../../utils/emailService');
 
 // Create Razorpay Order
 module.exports.createOrder = async (req, res) => {
@@ -98,11 +98,11 @@ module.exports.verifyPayment = async (req, res) => {
                     </div>
                 `;
 
-                await sendUserEmail(
-                    user.user.email,
-                    'Payment Confirmation - PharmaNest',
-                    confirmationEmail
-                );
+                await sendEmail({
+                    to: user.user.email,
+                    subject: 'Payment Confirmation - PharmaNest',
+                    html: confirmationEmail
+                });
             } catch (emailError) {
                 console.error('Email send error:', emailError);
                 // Don't fail the payment if email fails
