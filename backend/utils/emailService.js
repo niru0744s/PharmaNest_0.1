@@ -9,17 +9,13 @@ const sendEmail = async ({ to, subject, html }) => {
         console.log(`[EmailService] Attempting to send email to: ${to}, Subject: ${subject}`);
 
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false, // true for 465, false for other ports
+            service: 'gmail',
             auth: {
                 user: process.env.EMAIL,
                 pass: process.env.APP_PASS,
             },
             // Adding timeouts to prevent long-hanging connections
-            connectionTimeout: 10000, // 10 seconds
-            greetingTimeout: 5000,    // 5 seconds
-            socketTimeout: 15000,     // 15 seconds
+            connectionTimeout: 15000, // Increased to 15 seconds
         });
 
         // Verify connection configuration
