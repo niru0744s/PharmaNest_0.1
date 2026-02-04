@@ -17,16 +17,16 @@ const sendEmail = async ({ to, subject, html }) => {
 
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
+            port: 587,
+            secure: false, // Port 587 uses STARTTLS
             auth: {
                 user: process.env.EMAIL,
                 pass: process.env.APP_PASS,
             },
-            connectionTimeout: 20000, // 20 seconds
-            greetingTimeout: 10000,
-            socketTimeout: 20000,
-            dnsTimeout: 10000,
+            connectionTimeout: 30000, // 30 seconds
+            greetingTimeout: 20000,
+            socketTimeout: 30000,
+            dnsTimeout: 15000,
         });
 
         console.log('[EmailService] Verifying SMTP connection (Step 1: Handshake)...');
