@@ -1,63 +1,41 @@
 require('dotenv').config();
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
-const testSMTP = async () => {
-    console.log('--- SMTP Diagnostic Tool ---');
+const testResend = async () => {
+    console.log('--- Resend Diagnostic Tool ---');
     console.log('Environment Variables:');
-    console.log('EMAIL:', process.env.EMAIL ? 'SET' : 'MISSING');
-    console.log('APP_PASS:', process.env.APP_PASS ? 'SET' : 'MISSING');
+    console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY ? 'SET' : 'MISSING');
 
-    if (!process.env.EMAIL || !process.env.APP_PASS) {
-        console.error('Missing configuration. Please check .env file.');
+    if (!process.env.RESEND_API_KEY) {
+        console.error('Missing RESEND_API_KEY. Please check .env file.');
         return;
     }
 
-    const configs = [
-        {
-            name: 'Gmail with service: "gmail"',
-            service: 'gmail',
-        },
-        {
-            name: 'Gmail Port 587 (STARTTLS)',
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-        },
-        {
-            name: 'Gmail Port 465 (SSL)',
-            host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
-        }
-    ];
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
-    for (const config of configs) {
-        console.log(`\nTesting Config: ${config.name}`);
-        if (config.service) {
-            console.log(`Using NodeMailer built-in service: "${config.service}"`);
-        } else {
-            console.log(`Connecting to ${config.host}:${config.port} (secure: ${config.secure})...`);
-        }
+    try {
+        console.log('\nAttempting to send test email via Resend HTTP API...');
+        const start = Date.now();
 
-        const transporter = nodemailer.createTransport({
-            ...config,
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.APP_PASS,
-            },
-            connectionTimeout: 15000,
+        const { data, error } = await resend.emails.send({
+            from: 'PharmaNest <onboarding@resend.dev>',
+            to: 'niruk792@gmail.com', // Using the email from the logs
+            subject: 'PharmaNest - Resend Test',
+            html: '<strong>Resend is working!</strong> This test was sent using the Resend HTTP API.',
         });
 
-        try {
-            const start = Date.now();
-            await transporter.verify();
-            const end = Date.now();
-            console.log(`✅ Success! Verification took ${end - start}ms`);
-        } catch (error) {
-            console.error(`❌ Failed: ${error.message}`);
-            if (error.code) console.error(`Code: ${error.code}`);
+        const end = Date.now();
+
+        if (error) {
+            console.error('❌ Failed:', error.message);
+            return;
         }
+
+        console.log(`✅ Success! Email sent in ${end - start}ms`);
+        console.log('Data:', data);
+    } catch (error) {
+        console.error(`❌ Fatal Error: ${error.message}`);
     }
 };
 
-testSMTP();
+testResend();
