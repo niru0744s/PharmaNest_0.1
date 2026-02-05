@@ -21,10 +21,13 @@ const sendEmail = async ({ to, subject, html }) => {
                 user: process.env.EMAIL,
                 pass: process.env.APP_PASS,
             },
-            connectionTimeout: 45000, // Increased to 45 seconds for slow cloud handshakes
+            connectionTimeout: 60000, // 60 seconds
             greetingTimeout: 30000,
-            socketTimeout: 45000,
+            socketTimeout: 60000,
             dnsTimeout: 20000,
+            logger: true, // Log to console
+            debug: true,  // Show SMTP traffic
+            family: 4,    // Force IPv4
         });
 
         console.log('[EmailService] Verifying SMTP connection (Step 1: Handshake)...');
