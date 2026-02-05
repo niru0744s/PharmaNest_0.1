@@ -1,53 +1,39 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 /**
- * Robust email service to handle production SMTP connections.
- * Uses explicit host/port configuration to avoid 'service: gmail' timeouts on cloud hosts like Render.
+ * Modern email service using Resend HTTP API.
+ * This completely avoids SMTP port-blocking/timeout issues on cloud hosts like Render.
  */
 const sendEmail = async ({ to, subject, html }) => {
     try {
-        console.log(`[EmailService] Attempting to send email to: ${to}, Subject: ${subject}`);
+        console.log(`[EmailService] Attempting to send email via Resend to: ${to}, Subject: ${subject}`);
 
-        if (!process.env.EMAIL || !process.env.APP_PASS) {
-            console.error('[EmailService] Missing EMAIL or APP_PASS in environment variables');
+        if (!process.env.RESEND_API_KEY) {
+            console.error('[EmailService] Missing RESEND_API_KEY in environment variables');
             throw new Error('Email configuration missing');
         }
 
-        console.log(`[EmailService] Using email: ${process.env.EMAIL.substring(0, 3)}... and APP_PASS is ${process.env.APP_PASS ? 'READY' : 'MISSING'}`);
+        const resend = new Resend(process.env.RESEND_API_KEY);
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.APP_PASS,
-            },
-            connectionTimeout: 60000, // 60 seconds
-            greetingTimeout: 30000,
-            socketTimeout: 60000,
-            dnsTimeout: 20000,
-            logger: true, // Log to console
-            debug: true,  // Show SMTP traffic
-            family: 4,    // Force IPv4
-        });
+        // For Resend, if you haven't verified a domain, you MUST use 'onboarding@resend.dev'
+        const fromEmail = 'PharmaNest <onboarding@resend.dev>';
 
-        console.log('[EmailService] Verifying SMTP connection (Step 1: Handshake)...');
-        await transporter.verify();
-        console.log('[EmailService] SMTP connection verified successfully');
-
-        const mailOptions = {
-            from: `"PharmaNest" <${process.env.EMAIL}>`,
+        const { data, error } = await resend.emails.send({
+            from: fromEmail,
             to,
             subject,
             html,
-        };
+        });
 
-        const info = await transporter.sendMail(mailOptions);
-        console.log('[EmailService] Email sent successfully:', info.messageId);
-        return info;
+        if (error) {
+            console.error('[EmailService] Resend API Error:', error);
+            throw error;
+        }
+
+        console.log('[EmailService] Email sent successfully via Resend:', data.id);
+        return data;
     } catch (error) {
         console.error('[EmailService] Fatal Error sending email:');
-        console.error('Code:', error.code);
-        console.error('Command:', error.command);
         console.error('Message:', error.message);
         if (error.stack) console.error('Stack:', error.stack);
         throw error;
