@@ -15,8 +15,8 @@ const sendEmail = async ({ to, subject, html }) => {
 
         const resend = new Resend(process.env.RESEND_API_KEY);
 
-        // For Resend, if you haven't verified a domain, you MUST use 'onboarding@resend.dev'
-        const fromEmail = 'PharmaNest <onboarding@resend.dev>';
+        // Use verified production domain for Resend
+        const fromEmail = 'PharmaNest <noreply@interview-ai.fun>';
 
         const { data, error } = await resend.emails.send({
             from: fromEmail,
