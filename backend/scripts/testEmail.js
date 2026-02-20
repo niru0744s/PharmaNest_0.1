@@ -18,7 +18,7 @@ const testResend = async () => {
         const start = Date.now();
 
         const { data, error } = await resend.emails.send({
-            from: 'PharmaNest <onboarding@resend.dev>',
+            from: 'PharmaNest <noreply@interview-ai.fun>',
             to: 'niruk792@gmail.com', // Using the email from the logs
             subject: 'PharmaNest - Resend Test',
             html: '<strong>Resend is working!</strong> This test was sent using the Resend HTTP API.',
