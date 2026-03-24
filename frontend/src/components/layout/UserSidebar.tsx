@@ -33,10 +33,29 @@ const UserSidebar: React.FC = () => {
                     <FaHeart className="w-5 h-5 mr-3" />
                     <span className="font-medium">Wishlist</span>
                 </Link>
-                <Link to="/my-consultations" className={`flex items-center px-6 py-3 transition-colors duration-200 ${isActive('/my-consultations')}`}>
-                    <FaUser className="w-5 h-5 mr-3" />
-                    <span className="font-medium">My Consultations</span>
-                </Link>
+                {user?.role === 'doctor' ? (
+                    <>
+                        <Link to="/doctor/appointments" className={`flex items-center px-6 py-3 transition-colors duration-200 ${isActive('/doctor/appointments')}`}>
+                            <FaUser className="w-5 h-5 mr-3" />
+                            <span className="font-medium">Doctor Appointments</span>
+                        </Link>
+                        <Link to="/doctor/appointments/history" className={`flex items-center px-6 py-3 transition-colors duration-200 ${isActive('/doctor/appointments/history')}`}>
+                            <FaBoxOpen className="w-5 h-5 mr-3" />
+                            <span className="font-medium">Consultation History</span>
+                        </Link>
+                    </>
+                ) : (
+                    <>
+                        <Link to="/my-consultations" className={`flex items-center px-6 py-3 transition-colors duration-200 ${isActive('/my-consultations')}`}>
+                            <FaUser className="w-5 h-5 mr-3" />
+                            <span className="font-medium">My Consultations</span>
+                        </Link>
+                        <Link to="/my-consultations/history" className={`flex items-center px-6 py-3 transition-colors duration-200 ${isActive('/my-consultations/history')}`}>
+                            <FaBoxOpen className="w-5 h-5 mr-3" />
+                            <span className="font-medium">Consultation History</span>
+                        </Link>
+                    </>
+                )}
                 {user?.role !== 'doctor' && (
                     <Link to="/register-doctor" className={`flex items-center px-6 py-3 transition-colors duration-200 text-blue-600 hover:bg-blue-50`}>
                         <FaUser className="w-5 h-5 mr-3" />
