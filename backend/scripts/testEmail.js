@@ -5,9 +5,10 @@ const testResend = async () => {
     console.log('--- Resend Diagnostic Tool ---');
     console.log('Environment Variables:');
     console.log('RESEND_API_KEY:', process.env.RESEND_API_KEY ? 'SET' : 'MISSING');
+    console.log('EMAIL:', process.env.EMAIL ? 'SET' : 'MISSING');
 
-    if (!process.env.RESEND_API_KEY) {
-        console.error('Missing RESEND_API_KEY. Please check .env file.');
+    if (!process.env.RESEND_API_KEY || !process.env.EMAIL) {
+        console.error('Missing RESEND_API_KEY or EMAIL. Please check .env file.');
         return;
     }
 
@@ -17,9 +18,12 @@ const testResend = async () => {
         console.log('\nAttempting to send test email via Resend HTTP API...');
         const start = Date.now();
 
+        // Use Resend's default testing domain
+        const fromEmail = 'onboarding@resend.dev';
+
         const { data, error } = await resend.emails.send({
-            from: 'PharmaNest <noreply@interview-ai.fun>',
-            to: 'niruk792@gmail.com', // Using the email from the logs
+            from: fromEmail,
+            to: 'niruk792@gmail.com', // Resend sandbox requirement: only send to your own registered email
             subject: 'PharmaNest - Resend Test',
             html: '<strong>Resend is working!</strong> This test was sent using the Resend HTTP API.',
         });

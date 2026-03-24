@@ -67,6 +67,7 @@ exports.getUserConsultations = async (req, res, next) => {
                 populate: { path: 'userId', select: '_id firstName lastName email' }
             })
             .populate('userId', 'firstName lastName email')
+            .populate('prescription')
             .sort({ scheduledDate: -1 });
 
         res.status(200).json({
@@ -83,12 +84,24 @@ exports.updateConsultationStatus = async (req, res, next) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
+        const userId = req.user._id;
 
-        const consultation = await Consultation.findByIdAndUpdate(id, { status }, { new: true });
+        const doctorProfile = await Doctor.findOne({ userId }).select('_id');
+        const consultation = await Consultation.findById(id);
 
         if (!consultation) {
             return next(new ErrorResponse('Consultation not found', 404));
         }
+
+        const isPatient = consultation.userId.toString() === userId.toString();
+        const isAssignedDoctor = doctorProfile && consultation.doctorId.toString() === doctorProfile._id.toString();
+
+        if (!isPatient && !isAssignedDoctor) {
+            return next(new ErrorResponse('Not authorized to update this consultation', 403));
+        }
+
+        consultation.status = status;
+        await consultation.save();
 
         res.status(200).json({
             success: true,
@@ -104,6 +117,7 @@ exports.createPrescription = async (req, res, next) => {
     try {
         const { diagnosis, medicines, advice, followUpDate } = req.body;
         const consultationId = req.params.id;
+        const userId = req.user._id;
 
         const consultation = await Consultation.findById(consultationId)
             .populate('userId')
@@ -116,47 +130,95 @@ exports.createPrescription = async (req, res, next) => {
             return next(new ErrorResponse('Consultation not found', 404));
         }
 
+        const doctorProfile = await Doctor.findOne({ userId }).select('_id');
+        const isAssignedDoctor = doctorProfile && consultation.doctorId._id.toString() === doctorProfile._id.toString();
+
+        if (!isAssignedDoctor) {
+            return next(new ErrorResponse('Only the assigned doctor can generate a prescription', 403));
+        }
+
+        if (consultation.prescription) {
+            return next(new ErrorResponse('Prescription has already been generated for this consultation', 400));
+        }
+
+        const trimmedDiagnosis = typeof diagnosis === 'string' ? diagnosis.trim() : '';
+        const normalizedMedicines = Array.isArray(medicines)
+            ? medicines
+                .map((medicine) => ({
+                    name: medicine?.name?.trim?.() || '',
+                    dosage: medicine?.dosage?.trim?.() || '',
+                    duration: medicine?.duration?.trim?.() || '',
+                    instructions: medicine?.instructions?.trim?.() || ''
+                }))
+                .filter((medicine) => medicine.name)
+            : [];
+        const trimmedAdvice = typeof advice === 'string' ? advice.trim() : '';
+
+        if (!trimmedDiagnosis) {
+            return next(new ErrorResponse('Diagnosis is required', 400));
+        }
+
+        if (normalizedMedicines.length === 0) {
+            return next(new ErrorResponse('At least one medicine is required', 400));
+        }
+
+        let uploadResponse = null;
+        let prescription = null;
+
         // Generate PDF
         const pdfBuffer = await generatePrescriptionPDF(
-            { diagnosis, medicines, advice },
+            { diagnosis: trimmedDiagnosis, medicines: normalizedMedicines, advice: trimmedAdvice },
             consultation.doctorId,
             consultation.userId
         );
 
-        // Upload to Cloudinary
-        const uploadResponse = await new Promise((resolve, reject) => {
-            const stream = cloudinary.uploader.upload_stream(
-                {
-                    folder: 'PharmaNest_Prescriptions',
-                    resource_type: 'raw',
-                    public_id: `prescription_${consultationId}`,
-                    format: 'pdf'
-                },
-                (error, result) => {
-                    if (error) reject(error);
-                    else resolve(result);
+        try {
+            // Upload to Cloudinary
+            uploadResponse = await new Promise((resolve, reject) => {
+                const stream = cloudinary.uploader.upload_stream(
+                    {
+                        folder: 'PharmaNest_Prescriptions',
+                        resource_type: 'raw',
+                        public_id: `prescription_${consultationId}`,
+                        format: 'pdf'
+                    },
+                    (error, result) => {
+                        if (error) reject(error);
+                        else resolve(result);
+                    }
+                );
+                stream.end(pdfBuffer);
+            });
+
+            prescription = await Prescription.create({
+                consultationId,
+                patientId: consultation.userId._id,
+                doctorId: consultation.doctorId._id,
+                diagnosis: trimmedDiagnosis,
+                medicines: normalizedMedicines,
+                advice: trimmedAdvice,
+                followUpDate,
+                pdfUrl: {
+                    url: uploadResponse.secure_url,
+                    public_id: uploadResponse.public_id
                 }
-            );
-            stream.end(pdfBuffer);
-        });
+            });
 
-        const prescription = await Prescription.create({
-            consultationId,
-            patientId: consultation.userId._id,
-            doctorId: consultation.doctorId._id,
-            diagnosis,
-            medicines,
-            advice,
-            followUpDate,
-            pdfUrl: {
-                url: uploadResponse.secure_url,
-                public_id: uploadResponse.public_id
+            // Mark consultation as completed
+            consultation.prescription = prescription._id;
+            consultation.status = 'completed';
+            await consultation.save();
+        } catch (error) {
+            if (prescription?._id) {
+                await Prescription.findByIdAndDelete(prescription._id).catch(() => null);
             }
-        });
 
-        // Mark consultation as completed
-        consultation.status = 'completed';
-        await consultation.save();
+            if (uploadResponse?.public_id) {
+                await cloudinary.uploader.destroy(uploadResponse.public_id, { resource_type: 'raw' }).catch(() => null);
+            }
+
+            throw error;
+        }
 
         res.status(201).json({
             success: true,

@@ -9,6 +9,7 @@ interface Message {
     senderId: string;
     senderName: string;
     senderImage?: string;
+    senderRole: 'doctor' | 'patient';
     message: string;
     timestamp: number;
 }
@@ -20,6 +21,7 @@ interface ChatRoomProps {
     currentUserId: string;
     currentUserName: string;
     currentUserImage?: string;
+    currentUserRole: 'doctor' | 'patient';
     onClose: () => void;
 }
 
@@ -147,7 +149,7 @@ const ChatInput = ({
     </div>
 );
 
-const ChatRoom = ({ roomName, consultationId, isDoctor, currentUserId, currentUserName, currentUserImage, onClose }: ChatRoomProps) => {
+const ChatRoom = ({ roomName, consultationId, isDoctor, currentUserId, currentUserName, currentUserImage, currentUserRole, onClose }: ChatRoomProps) => {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [inputValue, setInputValue] = useState('');
@@ -156,7 +158,10 @@ const ChatRoom = ({ roomName, consultationId, isDoctor, currentUserId, currentUs
 
     // Initialize Socket Connection
     useEffect(() => {
-        const newSocket = io(SOCKET_URL);
+        const accessToken = localStorage.getItem('accessToken');
+        const newSocket = io(SOCKET_URL, {
+            auth: { token: accessToken }
+        });
         setSocket(newSocket);
 
         newSocket.emit('join_room', roomName);
@@ -188,6 +193,7 @@ const ChatRoom = ({ roomName, consultationId, isDoctor, currentUserId, currentUs
             senderId: currentUserId,
             senderName: currentUserName,
             senderImage: currentUserImage,
+            senderRole: currentUserRole,
             message: trimmedMessage,
             timestamp: Date.now()
         };
@@ -208,7 +214,7 @@ const ChatRoom = ({ roomName, consultationId, isDoctor, currentUserId, currentUs
                 <AnimatePresence initial={false}>
                     {messages.map((msg, idx) => {
                         const isOwnMessage = msg.senderId === currentUserId;
-                        const isDoctorMessage = isDoctor ? isOwnMessage : !isOwnMessage;
+                        const isDoctorMessage = msg.senderRole === 'doctor';
 
                         return (
                             <MessageBubble

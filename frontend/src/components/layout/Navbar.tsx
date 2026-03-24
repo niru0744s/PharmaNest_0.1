@@ -119,6 +119,12 @@ const Navbar = () => {
                             <>
                                 <Link to="/products" className="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors">Products</Link>
                                 <Link to="/consultations" className="text-sm font-semibold text-gray-700 hover:text-blue-600 transition-colors">Consult Doctor</Link>
+                                {isAuthenticated && user?.role === 'doctor' && (
+                                    <Link to="/doctor/appointments" className="text-sm font-semibold text-gray-700 hover:text-emerald-600 transition-colors">Doctor Desk</Link>
+                                )}
+                                {isAuthenticated && user?.role !== 'doctor' && (
+                                    <Link to="/my-consultations" className="text-sm font-semibold text-gray-700 hover:text-emerald-600 transition-colors">My Sessions</Link>
+                                )}
                             </>
                         )}
 
@@ -316,6 +322,16 @@ const Navbar = () => {
                                         <Link to="/user/wishlist" className="flex items-center gap-2 p-4 bg-gray-50 rounded-2xl font-bold text-gray-800 hover:bg-red-50 hover:text-red-500 transition-all text-sm">
                                             Wishlist
                                         </Link>
+                                        {isAuthenticated && user?.role === 'doctor' && (
+                                            <Link to="/doctor/appointments" className="flex items-center gap-2 p-4 bg-gray-50 rounded-2xl font-bold text-gray-800 hover:bg-emerald-50 hover:text-emerald-600 transition-all text-sm">
+                                                Doctor Desk
+                                            </Link>
+                                        )}
+                                        {isAuthenticated && user?.role !== 'doctor' && (
+                                            <Link to="/my-consultations" className="flex items-center gap-2 p-4 bg-gray-50 rounded-2xl font-bold text-gray-800 hover:bg-emerald-50 hover:text-emerald-600 transition-all text-sm">
+                                                My Sessions
+                                            </Link>
+                                        )}
                                     </div>
                                 </>
                             )}

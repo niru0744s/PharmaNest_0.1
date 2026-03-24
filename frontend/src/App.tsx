@@ -28,8 +28,8 @@ import Wishlist from './pages/user/Wishlist';
 import OrderHistory from './pages/user/OrderHistory';
 import OrderDetails from './pages/user/OrderDetails';
 import DoctorConsultation from './pages/user/DoctorConsultation';
-import MyConsultations from './pages/user/MyConsultations';
 import DoctorOnboarding from './pages/user/DoctorOnboarding';
+import ConsultationDirectory from './components/consultation/ConsultationDirectory';
 
 // Protected Route component
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -124,7 +124,10 @@ function AppRoutes() {
           <Route path="/user/orders" element={<ProtectedRoute><OrderHistory /></ProtectedRoute>} />
           <Route path="/user/orders/:id" element={<ProtectedRoute><OrderDetails /></ProtectedRoute>} />
           <Route path="/consultations" element={<ProtectedRoute><DoctorConsultation /></ProtectedRoute>} />
-          <Route path="/my-consultations" element={<ProtectedRoute><MyConsultations /></ProtectedRoute>} />
+          <Route path="/my-consultations" element={<ProtectedRoute><ConsultationDirectory viewer="patient" scope="active" /></ProtectedRoute>} />
+          <Route path="/my-consultations/history" element={<ProtectedRoute><ConsultationDirectory viewer="patient" scope="history" /></ProtectedRoute>} />
+          <Route path="/doctor/appointments" element={<ProtectedRoute><ConsultationDirectory viewer="doctor" scope="active" /></ProtectedRoute>} />
+          <Route path="/doctor/appointments/history" element={<ProtectedRoute><ConsultationDirectory viewer="doctor" scope="history" /></ProtectedRoute>} />
           <Route path="/register-doctor" element={<ProtectedRoute><DoctorOnboarding /></ProtectedRoute>} />
 
           {/* Seller routes */}
@@ -208,4 +211,3 @@ function App() {
 }
 
 export default App;
-

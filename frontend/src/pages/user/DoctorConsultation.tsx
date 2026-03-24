@@ -48,10 +48,10 @@ const DoctorConsultation = () => {
         fetchDoctors();
 
         // Socket integration for real-time status
-        socketRef.current = io(SOCKET_URL);
-        if (user) {
-            socketRef.current.emit('identify', { userId: user._id, role: user.role });
-        }
+        const accessToken = localStorage.getItem('accessToken');
+        socketRef.current = io(SOCKET_URL, {
+            auth: { token: accessToken }
+        });
 
         socketRef.current.on('doctor_status_change', ({ userId, isOnline }) => {
             setDoctors(prev => prev.map(doc =>
@@ -69,7 +69,7 @@ const DoctorConsultation = () => {
                         <button
                             onClick={() => {
                                 toast.dismiss(t.id);
-                                navigate('/my-consultations');
+                                navigate('/doctor/appointments');
                             }}
                             className="px-4 py-2 bg-blue-600 text-white rounded-lg text-[10px] font-black uppercase tracking-widest"
                         >
@@ -83,7 +83,7 @@ const DoctorConsultation = () => {
         return () => {
             socketRef.current?.disconnect();
         };
-    }, [user, navigate]);
+    }, [navigate]);
 
     const fetchDoctors = async () => {
         try {
@@ -451,6 +451,7 @@ const DoctorConsultation = () => {
                                     currentUserId={user?._id || ''}
                                     currentUserName={user?.firstName || 'User'}
                                     currentUserImage={user?.profileImage?.url}
+                                    currentUserRole="patient"
                                     onClose={() => setActiveSession(null)}
                                 />
                             ) : (

@@ -1,5 +1,7 @@
 const socketio = require('socket.io');
+const jwt = require('jsonwebtoken');
 const Doctor = require('../modules/Doctor');
+const User = require('../modules/User');
 
 let io;
 
@@ -13,28 +15,48 @@ const init = (server) => {
 
     const onlineDoctors = new Map(); // userId -> Set of socketIds
 
-    io.on('connection', (socket) => {
+    io.use(async (socket, next) => {
+        try {
+            const token = socket.handshake.auth?.token;
+
+            if (!token) {
+                return next(new Error('Authentication required'));
+            }
+
+            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const user = await User.findById(decoded._id).select('_id role');
+
+            if (!user) {
+                return next(new Error('User not found'));
+            }
+
+            socket.userId = user._id.toString();
+            socket.role = user.role;
+
+            next();
+        } catch (error) {
+            next(new Error('Invalid token'));
+        }
+    });
+
+    io.on('connection', async (socket) => {
         console.log(`New connection: ${socket.id}`);
 
-        socket.on('identify', async (data) => {
-            const { userId, role } = data;
-            socket.userId = userId;
-            socket.role = role;
+        // Join a private room for personal notifications
+        if (socket.userId) {
+            socket.join(socket.userId);
+        }
 
-            // Join a private room for personal notifications
-            socket.join(userId);
-
-            if (role === 'doctor') {
-                if (!onlineDoctors.has(userId)) {
-                    onlineDoctors.set(userId, new Set());
-                    // First connection for this doctor
-                    await Doctor.findOneAndUpdate({ userId }, { isOnline: true });
-                    io.emit('doctor_status_change', { userId, isOnline: true });
-                    console.log(`Doctor ${userId} is now ONLINE`);
-                }
-                onlineDoctors.get(userId).add(socket.id);
+        if (socket.role === 'doctor' && socket.userId) {
+            if (!onlineDoctors.has(socket.userId)) {
+                onlineDoctors.set(socket.userId, new Set());
+                await Doctor.findOneAndUpdate({ userId: socket.userId }, { isOnline: true });
+                io.emit('doctor_status_change', { userId: socket.userId, isOnline: true });
+                console.log(`Doctor ${socket.userId} is now ONLINE`);
             }
-        });
+
+            onlineDoctors.get(socket.userId).add(socket.id);
+        }
 
         socket.on('join_room', (roomName) => {
             socket.join(roomName);

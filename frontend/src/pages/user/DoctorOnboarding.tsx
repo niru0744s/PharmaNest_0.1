@@ -21,7 +21,7 @@ const DoctorOnboarding = () => {
     // Handle redirection if already a doctor
     useEffect(() => {
         if (user?.role === 'doctor') {
-            navigate('/my-consultations');
+            navigate('/doctor/appointments');
         }
     }, [user, navigate]);
 
@@ -40,7 +40,7 @@ const DoctorOnboarding = () => {
                 if (user) {
                     setUser({ ...user, role: 'doctor' });
                 }
-                navigate('/my-consultations');
+                navigate('/doctor/appointments');
             }
         } catch (error: any) {
             toast.error(error.response?.data?.message || 'Registration failed');
