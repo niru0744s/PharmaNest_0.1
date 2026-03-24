@@ -34,17 +34,32 @@ const VideoCall = ({ roomName, consultationId, isDoctor, type, onEndCall }: Vide
     const socket = useRef<Socket | null>(null);
     const localVideoRef = useRef<HTMLVideoElement>(null);
     const remoteVideoRef = useRef<HTMLVideoElement>(null);
+    const pendingIceCandidates = useRef<RTCIceCandidateInit[]>([]);
+    const hasRemoteDescription = useRef(false);
+
+    const turnServerUrl = import.meta.env.VITE_TURN_SERVER_URL;
+    const turnUsername = import.meta.env.VITE_TURN_USERNAME;
+    const turnCredential = import.meta.env.VITE_TURN_CREDENTIAL;
 
     const configuration = {
         iceServers: [
             { urls: 'stun:stun.l.google.com:19302' },
             { urls: 'stun:stun1.l.google.com:19302' },
+            ...(turnServerUrl ? [{
+                urls: turnServerUrl,
+                username: turnUsername,
+                credential: turnCredential
+            }] : []),
         ],
     };
 
     useEffect(() => {
+        const accessToken = localStorage.getItem('accessToken');
+
         // 1. Initialize Socket and Peer Connection immediately
-        socket.current = io(SOCKET_URL);
+        socket.current = io(SOCKET_URL, {
+            auth: { token: accessToken }
+        });
         const peerConnection = new RTCPeerConnection(configuration);
         pc.current = peerConnection;
 
@@ -60,26 +75,64 @@ const VideoCall = ({ roomName, consultationId, isDoctor, type, onEndCall }: Vide
                 pc.current.close();
             }
 
+            if (localVideoRef.current) localVideoRef.current.srcObject = null;
+            if (remoteVideoRef.current) remoteVideoRef.current.srcObject = null;
             socket.current?.disconnect();
+        };
+
+        const applyRemoteDescription = async (description: RTCSessionDescriptionInit) => {
+            await peerConnection.setRemoteDescription(new RTCSessionDescription(description));
+            hasRemoteDescription.current = true;
+
+            if (pendingIceCandidates.current.length > 0) {
+                const queuedCandidates = [...pendingIceCandidates.current];
+                pendingIceCandidates.current = [];
+
+                for (const candidate of queuedCandidates) {
+                    try {
+                        await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+                    } catch (error) {
+                        console.error('Error applying queued ice candidate', error);
+                    }
+                }
+            }
         };
 
         // 2. Setup Signaling Handlers BEFORE anything else
         socket.current.on('webrtc_offer', async (data) => {
             console.log("Received Offer");
             if (peerConnection.signalingState !== 'stable') return;
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));
-            const answer = await peerConnection.createAnswer();
-            await peerConnection.setLocalDescription(answer);
-            socket.current?.emit('webrtc_answer', { roomName, answer });
+
+            try {
+                await applyRemoteDescription(data.offer);
+                const answer = await peerConnection.createAnswer();
+                await peerConnection.setLocalDescription(answer);
+                socket.current?.emit('webrtc_answer', { roomName, answer });
+            } catch (error) {
+                console.error('Error handling WebRTC offer', error);
+            }
         });
 
         socket.current.on('webrtc_answer', async (data) => {
             console.log("Received Answer");
-            await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));
+            if (peerConnection.signalingState !== 'have-local-offer') return;
+
+            try {
+                await applyRemoteDescription(data.answer);
+            } catch (error) {
+                console.error('Error handling WebRTC answer', error);
+            }
         });
 
         socket.current.on('webrtc_ice_candidate', async (data) => {
+            if (!data.candidate) return;
+
             try {
+                if (!hasRemoteDescription.current) {
+                    pendingIceCandidates.current.push(data.candidate);
+                    return;
+                }
+
                 await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
             } catch (e) {
                 console.error('Error adding received ice candidate', e);
@@ -105,9 +158,15 @@ const VideoCall = ({ roomName, consultationId, isDoctor, type, onEndCall }: Vide
         // 4. Reactive handler for new users joining
         socket.current.on('user_joined', async () => {
             console.log("Another user joined - Creating offer");
-            const offer = await peerConnection.createOffer();
-            await peerConnection.setLocalDescription(offer);
-            socket.current?.emit('webrtc_offer', { roomName, offer });
+            if (peerConnection.signalingState !== 'stable') return;
+
+            try {
+                const offer = await peerConnection.createOffer();
+                await peerConnection.setLocalDescription(offer);
+                socket.current?.emit('webrtc_offer', { roomName, offer });
+            } catch (error) {
+                console.error('Error creating WebRTC offer', error);
+            }
         });
 
         // 5. Initialize Media and THEN Join Room

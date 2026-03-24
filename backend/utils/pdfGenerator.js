@@ -1,6 +1,4 @@
 const PDFDocument = require('pdfkit');
-const fs = require('fs');
-const path = require('path');
 
 const generatePrescriptionPDF = (prescription, doctorData, patientData) => {
     return new Promise((resolve, reject) => {
@@ -21,7 +19,7 @@ const generatePrescriptionPDF = (prescription, doctorData, patientData) => {
         // Doctor Info
         doc.fillColor('#0f172a').fontSize(12).text(`Dr. ${doctorData.userId.firstName} ${doctorData.userId.lastName}`, { align: 'right' });
         doc.fontSize(10).text(doctorData.specialization, { align: 'right' });
-        doc.text(`Reg No: ${doctorData._id.toString().substring(0, 8).toUpperCase()}`, { align: 'right' });
+        doc.text(`Reg No: ${doctorData.licenseNumber || 'N/A'}`, { align: 'right' });
         doc.moveDown();
 
         doc.moveTo(50, doc.y).lineTo(550, doc.y).stroke('#e2e8f0');
@@ -60,7 +58,7 @@ const generatePrescriptionPDF = (prescription, doctorData, patientData) => {
         }
 
         // Footer
-        const bottom = 750;
+        const bottom = Math.max(doc.y + 20, 730);
         doc.moveTo(50, bottom).lineTo(550, bottom).stroke('#e2e8f0');
         doc.fillColor('#64748b').fontSize(8).text(
             'This is a digitally generated prescription and does not require a physical signature.',

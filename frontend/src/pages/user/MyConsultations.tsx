@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Calendar,
@@ -13,6 +13,8 @@ import ChatRoom from '../../components/consultation/ChatRoom';
 import VideoCall from '../../components/consultation/VideoCall';
 import FeedbackModal from '../../components/consultation/FeedbackModal';
 import toast from 'react-hot-toast';
+import { io, Socket } from 'socket.io-client';
+import { SOCKET_URL } from '../../utils/constants';
 
 const MyConsultations = () => {
     const { user } = useAuth();
@@ -20,10 +22,46 @@ const MyConsultations = () => {
     const [loading, setLoading] = useState(true);
     const [activeSession, setActiveSession] = useState<Consultation | null>(null);
     const [feedbackDoctorId, setFeedbackDoctorId] = useState<string | null>(null);
+    const socketRef = useRef<Socket | null>(null);
 
     useEffect(() => {
         fetchConsultations();
     }, []);
+
+    useEffect(() => {
+        if (!user) return;
+
+        const accessToken = localStorage.getItem('accessToken');
+        socketRef.current = io(SOCKET_URL, {
+            auth: { token: accessToken }
+        });
+
+        const handleIncomingConsultation = (data: { patientName: string; type: string }) => {
+            toast((t) => (
+                <div className="flex flex-col gap-3">
+                    <p className="font-bold text-slate-900">Incoming Consultation!</p>
+                    <p className="text-xs text-slate-500">{data.patientName} is requesting a {data.type} session.</p>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={() => toast.dismiss(t.id)}
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-[10px] font-black uppercase tracking-widest"
+                        >
+                            Dismiss
+                        </button>
+                    </div>
+                </div>
+            ), { duration: 6000 });
+
+            fetchConsultations();
+        };
+
+        socketRef.current.on('new_instant_consultation', handleIncomingConsultation);
+
+        return () => {
+            socketRef.current?.off('new_instant_consultation', handleIncomingConsultation);
+            socketRef.current?.disconnect();
+        };
+    }, [user]);
 
     const fetchConsultations = async () => {
         try {
@@ -36,6 +74,24 @@ const MyConsultations = () => {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleOpenSession = async (consultation: Consultation) => {
+        try {
+            if (consultation.status !== 'ongoing') {
+                await consultationService.updateStatus(consultation._id, 'ongoing');
+            }
+        } catch (error) {
+            toast.error('Failed to start consultation');
+            return;
+        }
+
+        setConsultations((prev) =>
+            prev.map((item) =>
+                item._id === consultation._id ? { ...item, status: 'ongoing' } : item
+            )
+        );
+        setActiveSession({ ...consultation, status: 'ongoing' });
     };
 
     const getStatusStyles = (status: string) => {
@@ -109,7 +165,7 @@ const MyConsultations = () => {
                                             <motion.button
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 0.95 }}
-                                                onClick={() => setActiveSession(item)}
+                                                onClick={() => handleOpenSession(item)}
                                                 className={`px-8 py-4 ${item.status === 'ongoing' ? 'bg-blue-600' : (item.status === 'confirmed' ? 'bg-emerald-600' : 'bg-slate-900')} text-white rounded-2xl font-black uppercase text-xs tracking-widest hover:opacity-90 transition-all shadow-lg`}
                                             >
                                                 {item.type === 'chat' ? 'Open Chat' : (item.type === 'video' ? 'Join Video Call' : 'Join Voice Call')}
@@ -180,6 +236,12 @@ const MyConsultations = () => {
                                     currentUserId={user?._id || ''}
                                     currentUserName={user?.firstName || 'User'}
                                     currentUserImage={user?.profileImage?.url}
+                                    currentUserRole={
+                                        activeSession.doctorId?.userId?._id?.toString() === user?._id?.toString() ||
+                                            activeSession.doctorId?.userId === user?._id?.toString()
+                                            ? 'doctor'
+                                            : 'patient'
+                                    }
                                     onClose={() => {
                                         setActiveSession(null);
                                         fetchConsultations();

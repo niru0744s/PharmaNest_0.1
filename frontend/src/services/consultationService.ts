@@ -28,12 +28,25 @@ export interface Consultation {
     userId: any;
     type: 'chat' | 'voice' | 'video';
     status: string;
+    reason?: string;
     scheduledDate: string;
     slot: {
         start: string;
         end: string;
     };
     roomName: string;
+    createdAt?: string;
+    updatedAt?: string;
+    prescription?: {
+        _id: string;
+        diagnosis?: string;
+        advice?: string;
+        followUpDate?: string;
+        pdfUrl?: {
+            url: string;
+            public_id: string;
+        };
+    };
 }
 
 export const consultationService = {
@@ -54,6 +67,11 @@ export const consultationService = {
 
     getMyConsultations: async () => {
         const response = await api.get('/consultations/my-consultations');
+        return response.data;
+    },
+
+    updateStatus: async (id: string, status: string) => {
+        const response = await api.patch(`/consultations/${id}/status`, { status });
         return response.data;
     },
 
