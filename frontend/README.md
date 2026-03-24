@@ -1,54 +1,43 @@
-# React + TypeScript + Vite
+# PharmaNest Frontend ⚕️
+The frontend of PharmaNest is a high-performance React application built with TypeScript and Vite, designed for a smooth healthcare marketplace experience.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## 🏗 Frontend Tech Stack
+- **React 19**: Utilizing the latest React features for efficient rendering.
+- **Tailwind CSS 4**: A modern CSS framework for building professional, responsive designs.
+- **TypeScript**: Ensuring type safety across the entire codebase.
+- **Framer Motion**: Delivering smooth micro-animations and state transitions.
+- **Recharts**: Powering the Host's real-time analytics dashboard.
+- **Socket.io-client**: Enabling real-time communication for order updates and notifications.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## 📁 Key Directories
+- `src/components`: Reusable UI elements (Buttons, Inputs, Modals, etc.).
+- `src/pages`: Main application layouts (Home, Dashboard, Consultation, etc.).
+- `src/services`: API abstraction layer using Axios.
+- `src/hooks`: Custom React hooks for shared state and logic.
+- `src/context`: Application-wide state management.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## ⚡ Running the App
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
+3. Build for production:
+   ```bash
+   npm run build
+   ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## 🧪 Linting & Formatting
+- **ESLint**: Configured for React and TypeScript-specific rules.
+- **Vite**: Optimized for fast HMR and build performance.
