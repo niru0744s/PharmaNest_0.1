@@ -93,10 +93,9 @@ module.exports.createPass = async (req, res) => {
             firstName,
             lastName,
             password: empass,
-            isVerified: true // Auto-verify after successful OTP setup
+            isVerified: true
         }, { new: true });
 
-        // Generate verification token and send email
         const verificationToken = await VerificationToken.generateToken(newUser._id, 'Host', newUser.email);
         const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${verificationToken}`;
 
@@ -122,7 +121,6 @@ module.exports.createPass = async (req, res) => {
             html: verificationEmail
         });
 
-        // Generate tokens for immediate access to onboarding
         const { accessToken, refreshToken } = await jwtToken.generateTokens(newUser, 'Host');
 
         res.send({
@@ -167,7 +165,6 @@ module.exports.login = async (req, res) => {
             })
         }
 
-        // Check if email is verified
         if (!usr.isVerified) {
             return res.status(403).send({
                 success: 0,
@@ -177,10 +174,6 @@ module.exports.login = async (req, res) => {
             })
         }
 
-        // Note: Seller approval check can be added here if needed
-        // For now, sellers can login after email verification
-
-        // Generate access and refresh tokens
         const { accessToken, refreshToken } = await jwtToken.generateTokens(usr, 'Host');
 
         res.send({
@@ -213,7 +206,7 @@ module.exports.showProducts = async (req, res) => {
         const hostId = new mongoose.Types.ObjectId(req.user._id);
         const products = await Products.aggregate([
             {
-                $match: { hostId } // Filter by seller first
+                $match: { hostId } 
             },
             {
                 $group: {
@@ -291,7 +284,6 @@ module.exports.register = async (req, res) => {
             html: verificationEmail
         });
 
-        // Generate tokens for immediate access
         const { accessToken, refreshToken } = await jwtToken.generateTokens(newUser, 'Host');
 
         res.send({
@@ -381,7 +373,7 @@ module.exports.changePass = async (req, res) => {
             const empass = await bcrypt.hash(pass, 10);
             await Host.findByIdAndUpdate(id, {
                 password: empass,
-                $unset: { otp: 1, otpExpiresAt: 1 } // Clear OTP after use
+                $unset: { otp: 1, otpExpiresAt: 1 }
             });
             res.send({
                 success: 1,
