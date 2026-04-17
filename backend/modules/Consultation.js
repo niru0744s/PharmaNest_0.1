@@ -49,4 +49,9 @@ const consultationSchema = new mongoose.Schema({
     timestamps: true
 });
 
+// Indexes for consultation timeline and participant queries
+consultationSchema.index({ userId: 1, scheduledDate: -1 });
+consultationSchema.index({ doctorId: 1, scheduledDate: -1 });
+consultationSchema.index({ status: 1, scheduledDate: -1 });
+
 module.exports = mongoose.model('Consultation', consultationSchema);
