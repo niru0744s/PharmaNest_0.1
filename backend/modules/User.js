@@ -54,6 +54,10 @@ const newSchema = mongoose.Schema({
     timestamps: true
 })
 
+// Indexes for auth and profile lookups
+newSchema.index({ email: 1 });
+newSchema.index({ role: 1, isVerified: 1 });
+
 // Cleanup middleware after user deletion
 newSchema.post('findOneAndDelete', async function (doc) {
     if (doc) {

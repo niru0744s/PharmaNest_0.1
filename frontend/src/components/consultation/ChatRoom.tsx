@@ -25,10 +25,7 @@ interface ChatRoomProps {
     onClose: () => void;
 }
 
-/**
- * Header component for the Chat Room.
- * Displays title, status, and optional end-session actions for doctors.
- */
+
 const ChatHeader = ({
     isDoctor,
     onEndSession,
