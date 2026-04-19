@@ -26,7 +26,7 @@ export interface Order {
         lastName: string;
         email: string;
         phoneNumber: string;
-    };
+    } | null;
     products: OrderProduct[];
     totalAmount: number;
     status: 'pending' | 'shipped' | 'on_the_way' | 'delivered' | 'cancelled';

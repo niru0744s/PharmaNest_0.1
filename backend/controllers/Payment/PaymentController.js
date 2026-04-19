@@ -4,16 +4,15 @@ const Product = require('../../modules/Products');
 const crypto = require('crypto');
 const { sendEmail } = require('../../utils/emailService');
 
-// Create Razorpay Order
 module.exports.createOrder = async (req, res) => {
     try {
         const { amount, currency, receipt } = req.body;
 
         const options = {
-            amount: amount * 100, // Amount in paise (₹1 = 100 paise)
+            amount: amount * 100, 
             currency: currency || 'INR',
             receipt: receipt || `order_${Date.now()}`,
-            payment_capture: 1 // Auto capture payment
+            payment_capture: 1
         };
 
         const razorpayOrder = await razorpay.orders.create(options);
@@ -32,7 +31,6 @@ module.exports.createOrder = async (req, res) => {
     }
 };
 
-// Verify Payment Signature
 module.exports.verifyPayment = async (req, res) => {
     try {
         const { razorpay_order_id, razorpay_payment_id, razorpay_signature, orderId } = req.body;
@@ -44,23 +42,20 @@ module.exports.verifyPayment = async (req, res) => {
             });
         }
 
-        // Generate signature for verification
         const body = razorpay_order_id + "|" + razorpay_payment_id;
         const expectedSignature = crypto
             .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
             .update(body.toString())
             .digest('hex');
 
-        // Verify signature
         const isAuthentic = expectedSignature === razorpay_signature;
 
         if (isAuthentic) {
-            // Update order status
             const order = await Orders.findByIdAndUpdate(orderId, {
                 paymentId: razorpay_payment_id,
                 razorpayOrderId: razorpay_order_id,
                 paymentStatus: 'completed',
-                status: 'pending' // Order ready to be processed/shipped
+                status: 'pending'
             }, { new: true });
 
             if (!order) {
@@ -70,7 +65,6 @@ module.exports.verifyPayment = async (req, res) => {
                 });
             }
 
-            // Update product stock and sales
             if (order.products && order.products.length > 0) {
                 for (const item of order.products) {
                     await Product.findByIdAndUpdate(item.product, {
@@ -82,7 +76,6 @@ module.exports.verifyPayment = async (req, res) => {
                 }
             }
 
-            // Send payment confirmation email
             try {
                 const user = await order.populate('user', 'email firstName lastName');
                 const confirmationEmail = `
@@ -105,7 +98,6 @@ module.exports.verifyPayment = async (req, res) => {
                 });
             } catch (emailError) {
                 console.error('Email send error:', emailError);
-                // Don't fail the payment if email fails
             }
 
             res.send({
@@ -114,7 +106,6 @@ module.exports.verifyPayment = async (req, res) => {
                 order
             });
         } else {
-            // Payment verification failed
             await Orders.findByIdAndUpdate(orderId, {
                 paymentStatus: 'failed'
             });
@@ -133,7 +124,6 @@ module.exports.verifyPayment = async (req, res) => {
     }
 };
 
-// Get Payment Status
 module.exports.getPaymentStatus = async (req, res) => {
     try {
         const { orderId } = req.params;
@@ -167,7 +157,6 @@ module.exports.getPaymentStatus = async (req, res) => {
     }
 };
 
-// Webhook Handler (for Razorpay payment notifications)
 module.exports.webhook = async (req, res) => {
     try {
         const webhookSignature = req.headers['x-razorpay-signature'];
@@ -180,7 +169,6 @@ module.exports.webhook = async (req, res) => {
 
         const webhookBody = JSON.stringify(req.body);
 
-        // Verify webhook signature
         const expectedSignature = crypto
             .createHmac('sha256', webhookSecret)
             .update(webhookBody)
@@ -192,7 +180,6 @@ module.exports.webhook = async (req, res) => {
 
             console.log('Webhook event received:', event);
 
-            // Handle different events
             switch (event) {
                 case 'payment.captured':
                     await handlePaymentSuccess(paymentEntity);
@@ -218,17 +205,15 @@ module.exports.webhook = async (req, res) => {
     }
 };
 
-// Helper: Handle successful payment
 async function handlePaymentSuccess(paymentEntity) {
     try {
         const order = await Orders.findOne({ razorpayOrderId: paymentEntity.order_id });
         if (order && order.paymentStatus !== 'completed') {
             order.paymentStatus = 'completed';
             order.paymentId = paymentEntity.id;
-            order.status = 'pending'; // Ready for processing
+            order.status = 'pending';
             await order.save();
 
-            // Update product stock and sales
             if (order.products && order.products.length > 0) {
                 for (const item of order.products) {
                     await Product.findByIdAndUpdate(item.product, {
@@ -247,7 +232,6 @@ async function handlePaymentSuccess(paymentEntity) {
     }
 }
 
-// Helper: Handle failed payment
 async function handlePaymentFailure(paymentEntity) {
     try {
         const order = await Orders.findOne({ razorpayOrderId: paymentEntity.order_id });

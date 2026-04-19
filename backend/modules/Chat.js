@@ -28,4 +28,7 @@ const chatSchema = new mongoose.Schema({
     timestamps:true
 });
 
+// Index for per-user chat read/write operations
+chatSchema.index({ userId: 1 });
+
 module.exports = mongoose.model("Chat", chatSchema);

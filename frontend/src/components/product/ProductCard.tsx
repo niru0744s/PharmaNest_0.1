@@ -3,7 +3,7 @@ import { Product } from '../../types/product';
 import { wishlistService } from '../../services/wishlistService';
 import { useCart } from '../../contexts/CartContext';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
-import { ShoppingCart, Star } from 'lucide-react';
+import { Check, ShoppingCart, Star } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { motion } from 'framer-motion';
 
@@ -13,7 +13,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = ({ product, onClick }: ProductCardProps) => {
-    const { addToCart } = useCart();
+    const { addToCart, cartItems } = useCart();
     const [isWishlisted, setIsWishlisted] = useState(false);
     const [isWishlistLoading, setIsWishlistLoading] = useState(false);
 
@@ -49,6 +49,7 @@ const ProductCard = ({ product, onClick }: ProductCardProps) => {
     const discount = product.mainPrice > product.price
         ? Math.round(((product.mainPrice - product.price) / product.mainPrice) * 100)
         : 0;
+    const isInCart = cartItems.some((item) => item._id === product._id);
 
     return (
         <motion.div
@@ -133,7 +134,7 @@ const ProductCard = ({ product, onClick }: ProductCardProps) => {
                         onClick={handleAddToCart}
                         className="h-11 w-11 flex items-center justify-center bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-100 hover:bg-blue-700 transition-colors disabled:bg-slate-200 disabled:shadow-none"
                     >
-                        <ShoppingCart size={18} />
+                        {isInCart ? <Check size={18} /> : <ShoppingCart size={18} />}
                     </motion.button>
                 </div>
             </div>

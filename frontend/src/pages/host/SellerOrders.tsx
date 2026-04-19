@@ -159,6 +159,13 @@ const SellerOrders = () => {
                                 </tr>
                             ) : (
                                 orders.map((order) => (
+                                    (() => {
+                                        const customerName = order.user
+                                            ? `${order.user.firstName} ${order.user.lastName}`.trim()
+                                            : 'Deleted user';
+                                        const customerEmail = order.user?.email || 'No email available';
+
+                                        return (
                                     <tr key={order._id} className="hover:bg-blue-50/30 transition-colors group">
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col">
@@ -174,10 +181,10 @@ const SellerOrders = () => {
                                         <td className="px-6 py-4">
                                             <div className="flex flex-col">
                                                 <span className="font-bold text-gray-800 text-sm">
-                                                    {order.user.firstName} {order.user.lastName}
+                                                    {customerName}
                                                 </span>
                                                 <span className="text-[10px] text-gray-400 truncate max-w-[150px]">
-                                                    {order.user.email}
+                                                    {customerEmail}
                                                 </span>
                                             </div>
                                         </td>
@@ -218,6 +225,8 @@ const SellerOrders = () => {
                                             </div>
                                         </td>
                                     </tr>
+                                        );
+                                    })()
                                 ))
                             )}
                         </tbody>

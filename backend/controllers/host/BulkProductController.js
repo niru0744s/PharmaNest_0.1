@@ -35,7 +35,7 @@ module.exports.uploadBulkProducts = asyncHandler(async (req, res, next) => {
             lowStockThreshold: Number(item.lowStockThreshold || 10),
             hostId: req.user._id,
             imageUrl: {
-                url: item.imageUrl || 'https://res.cloudinary.com/demo/image/upload/v1312461204/sample.jpg',
+                url: item.imageUrl || '',
                 filename: 'bulk_import'
             }
         }));

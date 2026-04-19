@@ -7,36 +7,36 @@ const Address = require("../../modules/Locations");
 const VerificationToken = require("../../modules/VerificationToken");
 const asyncHandler = require('../../utils/asyncHandler');
 
-module.exports.otpSent = asyncHandler(async (req, res) => {
-    const { email } = req.body
-    const exstUser = await User.findOne({ email: email });
-    if (exstUser) {
-        return res.json({
-            success: 0,
-            message: "User is already registered, Try to login!"
-        });
-    }
-    const otp = randomInt(100000, 1000000);
-    const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
+// module.exports.otpSent = asyncHandler(async (req, res) => {
+//     const { email } = req.body
+//     const exstUser = await User.findOne({ email: email });
+//     if (exstUser) {
+//         return res.json({
+//             success: 0,
+//             message: "User is already registered, Try to login!"
+//         });
+//     }
+//     const otp = randomInt(100000, 1000000);
+//     const otpExpiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes from now
 
-    const newUSr = await new User({
-        email: email,
-        otp: otp,
-        otpExpiresAt: otpExpiresAt
-    }).save();
+//     const newUSr = await new User({
+//         email: email,
+//         otp: otp,
+//         otpExpiresAt: otpExpiresAt
+//     }).save();
 
-    await sendEmail({
-        to: email,
-        subject: 'Your User AC Login OTP Code',
-        html: `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
-    });
+//     await sendEmail({
+//         to: email,
+//         subject: 'Your User AC Login OTP Code',
+//         html: `<h2>Your OTP is: <b>${otp}</b></h2><p>This OTP is valid for 10 minutes.</p>`
+//     });
 
-    res.json({
-        success: 1,
-        message: "OTP sent successfully! Valid for 10 minutes.",
-        newUSr
-    });
-});
+//     res.json({
+//         success: 1,
+//         message: "OTP sent successfully! Valid for 10 minutes.",
+//         newUSr
+//     });
+// });
 
 module.exports.otpVerify = asyncHandler(async (req, res) => {
     const { id } = req.query;

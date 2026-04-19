@@ -88,6 +88,9 @@ const newSchema = mongoose.Schema({
 newSchema.index({ user: 1, createdAt: -1 }); // User's orders sorted by newest
 newSchema.index({ status: 1, createdAt: -1 }); // Filter by status
 newSchema.index({ 'products.product': 1 }); // Query orders containing specific product
+newSchema.index({ razorpayOrderId: 1 }, { sparse: true }); // Payment webhook/order reconciliation
+newSchema.index({ paymentId: 1 }, { sparse: true }); // Payment and refund lookups
+newSchema.index({ refundId: 1 }, { sparse: true }); // Refund status lookups
 
 const Orders = mongoose.model("Orders", newSchema);
 module.exports = Orders;

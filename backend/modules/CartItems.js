@@ -16,5 +16,9 @@ const newSchema = mongoose.Schema({
     timestamps:true,
 })
 
+// Indexes for cart item lookup/update paths
+newSchema.index({ UserId: 1, products: 1 });
+newSchema.index({ UserId: 1, createdAt: -1 });
+
 const Cart = mongoose.model("Cart",newSchema);
 module.exports = Cart;

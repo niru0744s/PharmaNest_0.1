@@ -3,7 +3,6 @@ const { sendEmail } = require('../../utils/emailService');
 
 const asyncHandler = require('../../utils/asyncHandler');
 
-// Get Order Details (User)
 module.exports.getOrderDetails = asyncHandler(async (req, res) => {
     const { orderId } = req.params;
 
@@ -27,7 +26,6 @@ module.exports.getOrderDetails = asyncHandler(async (req, res) => {
     });
 });
 
-// Filter Orders (User)
 module.exports.filterOrders = asyncHandler(async (req, res) => {
     const { status, paymentStatus, startDate, endDate, sort } = req.query;
 

@@ -7,7 +7,7 @@ const multer = require('multer');
 const { storage } = require('../cloudConfig');
 const upload = multer({ storage });
 
-route.post('/otpSent', validations.validateEmail, userAuthController.otpSent);
+// route.post('/otpSent', validations.validateEmail, userAuthController.otpSent);
 route.post('/otpVerify', validations.otp, userAuthController.otpVerify);
 route.post('/createPass', validations.userCredentials, userAuthController.createPass);
 route.post('/login', validations.login, userAuthController.login);

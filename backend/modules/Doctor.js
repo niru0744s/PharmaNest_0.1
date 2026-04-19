@@ -68,4 +68,8 @@ const doctorSchema = new mongoose.Schema({
     timestamps: true
 });
 
+// Indexes for doctor discovery and user-to-doctor mapping
+doctorSchema.index({ userId: 1 });
+doctorSchema.index({ isVerified: 1 });
+
 module.exports = mongoose.model('Doctor', doctorSchema);

@@ -88,10 +88,11 @@ const DoctorConsultation = () => {
     const fetchDoctors = async () => {
         try {
             const data = await consultationService.getDoctors();
+            console.log("Doctors fetched:", data);
             if (data.success) {
                 setDoctors(data.doctors);
             }
-        } catch (error) {
+        } catch (error:any) {
             toast.error('Failed to load doctors');
         } finally {
             setLoading(false);

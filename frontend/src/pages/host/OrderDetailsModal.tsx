@@ -26,6 +26,10 @@ const OrderDetailsModal = ({ order, onClose, onStatusUpdate }: OrderDetailsModal
     const [status, setStatus] = useState<any>(order.status);
     const [notes, setNotes] = useState('');
     const [trackingNumber, setTrackingNumber] = useState(order.trackingNumber || '');
+    const customerName = order.user
+        ? `${order.user.firstName} ${order.user.lastName}`.trim()
+        : 'Deleted user';
+    const customerPhone = order.user?.phoneNumber || 'No phone available';
 
     const handleUpdateStatus = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -165,7 +169,7 @@ const OrderDetailsModal = ({ order, onClose, onStatusUpdate }: OrderDetailsModal
                                         </div>
                                         <div>
                                             <p className="text-xs text-gray-400 font-bold uppercase">Name</p>
-                                            <p className="font-bold text-gray-700">{order.user.firstName} {order.user.lastName}</p>
+                                            <p className="font-bold text-gray-700">{customerName}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
@@ -174,7 +178,7 @@ const OrderDetailsModal = ({ order, onClose, onStatusUpdate }: OrderDetailsModal
                                         </div>
                                         <div>
                                             <p className="text-xs text-gray-400 font-bold uppercase">Phone</p>
-                                            <p className="font-bold text-gray-700">{order.user.phoneNumber}</p>
+                                            <p className="font-bold text-gray-700">{customerPhone}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-start gap-3">
