@@ -3,9 +3,33 @@ const asyncHandler = require("../../utils/asyncHandler");
 const ErrorResponse = require("../../utils/ErrorResponse");
 
 module.exports.fetchData = asyncHandler(async (req, res, next) => {
+    const listFieldsProjection = {
+        _id: 1,
+        name: 1,
+        brand: 1,
+        form: 1,
+        strength: 1,
+        category: 1,
+        price: 1,
+        imageUrl: 1,
+        description: 1,
+        quantity: 1,
+        mainPrice: 1,
+        composition: 1,
+        benefits: 1,
+        usage: 1,
+        sideEffects: 1,
+        precautions: 1,
+        storage: 1,
+        manufacturer: 1
+    };
+
     const categoryWise = await Product.aggregate([
         {
             $match: { quantity: { $gt: 0 } } // Filter out-of-stock products early
+        },
+        {
+            $project: listFieldsProjection // Keep only required list fields before grouping
         },
         {
             $group: {
