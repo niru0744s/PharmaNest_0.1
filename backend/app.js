@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
-// Trust proxy for Render/proxies to make rate limiting work correctly
 app.set('trust proxy', 1);
 const Cors = require('cors');
 const mongoose = require('mongoose');
@@ -21,7 +20,6 @@ const userAddress = require("./routes/userAddress");
 const authRoutes = require("./routes/auth");
 const verificationRoutes = require("./routes/verification");
 
-// CORS Configuration - MUST be FIRST, before helmet
 const allowedOrigins = [
     'http://localhost:5173',
     'http://localhost:3000',
@@ -37,13 +35,12 @@ app.use(Cors({
     optionsSuccessStatus: 200
 }));
 
-// Security Headers - Configure to allow CORS
 app.use(helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" },
     crossOriginOpenerPolicy: { policy: "same-origin-allow-popups" }
 }));
 
-// Logging
+
 if (process.env.NODE_ENV === 'development' || !process.env.NODE_ENV) {
     app.use(morgan('dev'));
 }
@@ -55,12 +52,9 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-// Body Parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Express 5 Compatibility: Redefine req.query and req.params for sanitization
-// Express 5 makes these read-only getters by default.
 app.use((req, res, next) => {
     const query = req.query;
     const params = req.params;
@@ -79,8 +73,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Input Sanitization - Must be after body parser and compatibility fix
-// Re-enabling mongoSanitize
 app.use(mongoSanitize({
     replaceWith: '_',
     onSanitize: ({ req, key }) => {
