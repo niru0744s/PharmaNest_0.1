@@ -1,6 +1,6 @@
 const User = require("../../modules/User");
 const { randomInt } = require('crypto');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwtToken = require('../../middleware/tokenVerify');
 const { sendEmail } = require('../../utils/emailService');
 const Address = require("../../modules/Locations");

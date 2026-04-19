@@ -150,6 +150,8 @@ newSchema.index({
 newSchema.index({ category: 1, price: 1 }); // Filter by category and price
 newSchema.index({ hostId: 1, category: 1 }); // Seller's products by category
 newSchema.index({ quantity: 1 }); // Low stock queries
+newSchema.index({ quantity: 1, category: 1 }); // In-stock catalog grouping
+newSchema.index({ hostId: 1, stockStatus: 1 }); // Seller inventory status filters
 newSchema.index({ createdAt: -1 }); // Sort by newest first
 newSchema.index({ price: 1 }); // Price range queries
 newSchema.index({ averageRating: -1 }); // Sort by rating (top-rated products)

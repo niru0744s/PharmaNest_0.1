@@ -1,5 +1,7 @@
 const razorpay = require('../../config/razorpay');
 const Orders = require('../../modules/orders');
+const mongoose = require('mongoose');
+const { invalidateAnalyticsForOrder, invalidateUserCachesForOrder } = require('../../utils/cacheInvalidation');
 
 // Initiate Refund
 module.exports.initiateRefund = async (req, res) => {
@@ -47,11 +49,27 @@ module.exports.initiateRefund = async (req, res) => {
             }
         });
 
-        // Update order status
-        order.paymentStatus = 'refunded';
-        order.status = 'cancelled';
-        order.refundId = refund.id;
-        await order.save();
+        // Update order status in a transaction
+        const session = await mongoose.startSession();
+        try {
+            await session.withTransaction(async () => {
+                const refreshedOrder = await Orders.findOne({ _id: orderId, user: req.user._id }).session(session);
+                if (!refreshedOrder) {
+                    throw new Error('Order not found');
+                }
+                refreshedOrder.paymentStatus = 'refunded';
+                refreshedOrder.status = 'cancelled';
+                refreshedOrder.refundId = refund.id;
+                await refreshedOrder.save({ session });
+                order.paymentStatus = refreshedOrder.paymentStatus;
+                order.status = refreshedOrder.status;
+                order.refundId = refreshedOrder.refundId;
+            });
+        } finally {
+            await session.endSession();
+        }
+        await invalidateAnalyticsForOrder(order);
+        await invalidateUserCachesForOrder(order);
 
         res.send({
             success: 1,

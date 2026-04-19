@@ -168,6 +168,8 @@ app.get('/api/v1/', (req, res) => {
 // Initialize Cron Jobs
 require('./jobs/inventoryMonitor');
 require('./jobs/orderProgression');
+const { startEmailWorker } = require('./jobs/emailQueueWorker');
+startEmailWorker();
 
 app.get('/api/v1/admin/run-stock-check', async (req, res) => {
     const { runInventoryCheck } = require('./jobs/inventoryMonitor');
