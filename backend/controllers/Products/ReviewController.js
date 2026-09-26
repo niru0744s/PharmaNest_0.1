@@ -1,6 +1,11 @@
 const Review = require('../../modules/reviews');
 const Product = require('../../modules/Products');
 const Orders = require('../../modules/orders');
+const { getOrSetCacheWithStale } = require('../../utils/cacheStrategy');
+const { invalidateProductReadCaches } = require('../../utils/cacheInvalidation');
+
+const TOP_RATED_TTL_SECONDS = 180;
+const TOP_RATED_STALE_TTL_SECONDS = 420;
 
 // Helper function to update product rating
 async function updateProductRating(productId) {
@@ -98,6 +103,7 @@ module.exports.addReview = async (req, res) => {
 
         // Update product rating
         await updateProductRating(productId);
+        await invalidateProductReadCaches(productId);
 
         const populatedReview = await Review.findById(review._id)
             .populate('author', 'firstName lastName profileImage')
@@ -203,6 +209,7 @@ module.exports.updateReview = async (req, res) => {
 
         // Update product rating
         await updateProductRating(review.productId);
+        await invalidateProductReadCaches(review.productId.toString());
 
         const updatedReview = await Review.findById(reviewId)
             .populate('author', 'firstName lastName profileImage')
@@ -242,6 +249,7 @@ module.exports.deleteReview = async (req, res) => {
 
         // Update product rating
         await updateProductRating(productId);
+        await invalidateProductReadCaches(productId.toString());
 
         res.send({
             success: 1,
@@ -337,6 +345,7 @@ module.exports.reportReview = async (req, res) => {
         }
 
         await review.save();
+        await invalidateProductReadCaches(review.productId.toString());
 
         res.send({
             success: 1,
@@ -356,26 +365,35 @@ module.exports.reportReview = async (req, res) => {
 module.exports.getTopRatedProducts = async (req, res) => {
     try {
         const { minReviews = 5, limit = 20, category } = req.query;
+        const cacheKey = `products:top-rated:${minReviews}:${limit}:${category || 'all'}:v1`;
+        const response = await getOrSetCacheWithStale({
+            key: cacheKey,
+            ttlSeconds: TOP_RATED_TTL_SECONDS,
+            staleTtlSeconds: TOP_RATED_STALE_TTL_SECONDS,
+            compute: async () => {
+                const filter = {
+                    totalReviews: { $gte: parseInt(minReviews) },
+                    averageRating: { $gt: 0 }
+                };
 
-        const filter = {
-            totalReviews: { $gte: parseInt(minReviews) },
-            averageRating: { $gt: 0 }
-        };
+                if (category) filter.category = category;
 
-        if (category) filter.category = category;
+                const products = await Product.find(filter)
+                    .select('name brand price imageUrl averageRating totalReviews category')
+                    .sort('-averageRating -totalReviews')
+                    .limit(parseInt(limit))
+                    .lean();
 
-        const products = await Product.find(filter)
-            .select('name brand price imageUrl averageRating totalReviews category')
-            .sort('-averageRating -totalReviews')
-            .limit(parseInt(limit))
-            .lean();
-
-        res.send({
-            success: 1,
-            message: 'Top rated products retrieved',
-            count: products.length,
-            products
+                return {
+                    success: 1,
+                    message: 'Top rated products retrieved',
+                    count: products.length,
+                    products
+                };
+            }
         });
+
+        res.send(response);
     } catch (error) {
         console.error('Get top rated products error:', error);
         res.status(500).send({

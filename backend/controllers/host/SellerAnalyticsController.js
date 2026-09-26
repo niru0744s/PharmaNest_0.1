@@ -2,6 +2,11 @@ const Order = require('../../modules/orders');
 const Product = require('../../modules/Products');
 const asyncHandler = require('../../utils/asyncHandler');
 const mongoose = require('mongoose');
+const { getCache, setCache } = require('../../utils/cache');
+
+const DASHBOARD_TTL_SECONDS = 120;
+const SALES_TRENDS_TTL_SECONDS = 120;
+const TOP_PRODUCTS_TTL_SECONDS = 120;
 
 /**
  * @desc    Get dashboard summary statistics
@@ -10,6 +15,11 @@ const mongoose = require('mongoose');
  */
 exports.getDashboardStats = asyncHandler(async (req, res) => {
     const hostId = req.user._id;
+    const cacheKey = `analytics:${hostId}:dashboard-stats:v1`;
+    const cachedResponse = await getCache(cacheKey);
+    if (cachedResponse) {
+        return res.status(200).json(cachedResponse);
+    }
 
     // 1. Calculate Total Revenue & Total Orders
     // We need to look at orders that contain products from this host
@@ -73,7 +83,7 @@ exports.getDashboardStats = asyncHandler(async (req, res) => {
         }
     ]);
 
-    res.status(200).json({
+    const response = {
         success: 1,
         stats: {
             revenue: salesStats[0]?.totalRevenue || 0,
@@ -84,7 +94,10 @@ exports.getDashboardStats = asyncHandler(async (req, res) => {
             averageRating: parseFloat(ratingStats[0]?.avgRating?.toFixed(1) || 0),
             totalReviews: ratingStats[0]?.totalReviews || 0
         }
-    });
+    };
+
+    await setCache(cacheKey, response, DASHBOARD_TTL_SECONDS);
+    res.status(200).json(response);
 });
 
 /**
@@ -94,6 +107,12 @@ exports.getDashboardStats = asyncHandler(async (req, res) => {
  */
 exports.getSalesTrends = asyncHandler(async (req, res) => {
     const hostId = req.user._id;
+    const cacheKey = `analytics:${hostId}:sales-trends:v1`;
+    const cachedResponse = await getCache(cacheKey);
+    if (cachedResponse) {
+        return res.status(200).json(cachedResponse);
+    }
+
     const thirtyDaysAgo = new Date();
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
@@ -139,10 +158,13 @@ exports.getSalesTrends = asyncHandler(async (req, res) => {
         }
     ]);
 
-    res.status(200).json({
+    const response = {
         success: 1,
         trends
-    });
+    };
+
+    await setCache(cacheKey, response, SALES_TRENDS_TTL_SECONDS);
+    res.status(200).json(response);
 });
 
 /**
@@ -152,14 +174,22 @@ exports.getSalesTrends = asyncHandler(async (req, res) => {
  */
 exports.getTopProducts = asyncHandler(async (req, res) => {
     const hostId = req.user._id;
+    const cacheKey = `analytics:${hostId}:top-products:v1`;
+    const cachedResponse = await getCache(cacheKey);
+    if (cachedResponse) {
+        return res.status(200).json(cachedResponse);
+    }
 
     const topProducts = await Product.find({ hostId })
         .sort({ soldQuantity: -1 }) // Sort by soldQuantity descending
         .limit(5)
         .select('name price soldQuantity stockStatus averageRating imageUrl');
 
-    res.status(200).json({
+    const response = {
         success: 1,
         products: topProducts
-    });
+    };
+
+    await setCache(cacheKey, response, TOP_PRODUCTS_TTL_SECONDS);
+    res.status(200).json(response);
 });

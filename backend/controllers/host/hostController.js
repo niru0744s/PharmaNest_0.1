@@ -1,7 +1,7 @@
 const Host = require("../../modules/Host");
 const Products = require("../../modules/Products");
 const { randomInt } = require('crypto');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwtToken = require('../../middleware/tokenVerify');
 const { sendEmail } = require("../../utils/emailService");
 const mongoose = require('mongoose');

@@ -1,6 +1,7 @@
 const Orders = require('../../modules/orders');
 const Products = require('../../modules/Products');
 const { sendEmail } = require('../../utils/emailService');
+const { invalidateAnalyticsForHost } = require('../../utils/cacheInvalidation');
 
 // Get Seller's Orders
 module.exports.getSellerOrders = async (req, res) => {
@@ -203,6 +204,7 @@ module.exports.updateOrderStatus = async (req, res) => {
         });
 
         await order.save();
+        await invalidateAnalyticsForHost(req.user._id.toString());
 
         // Send email notification
         let emailSubject = '';
@@ -339,6 +341,7 @@ module.exports.cancelOrder = async (req, res) => {
         });
 
         await order.save();
+        await invalidateAnalyticsForHost(req.user._id.toString());
 
         // Initiate refund if payment completed
         if (order.paymentStatus === 'completed' && order.paymentId) {
@@ -352,6 +355,7 @@ module.exports.cancelOrder = async (req, res) => {
                 order.refundId = refund.id;
                 order.paymentStatus = 'refunded';
                 await order.save();
+                await invalidateAnalyticsForHost(req.user._id.toString());
             } catch (refundError) {
                 console.error('Auto-refund error:', refundError);
             }

@@ -2096,7 +2096,7 @@ router.post('/login', loginLimiter, login);
 ### Password Security
 
 ```javascript
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 // Hash password
 const hashPassword = async (password) => {

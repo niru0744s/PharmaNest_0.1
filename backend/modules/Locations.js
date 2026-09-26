@@ -25,5 +25,7 @@ const newSchema = mongoose.Schema({
     timestamps:true,
 });
 
+newSchema.index({ userId: 1, createdAt: -1 });
+
 const Address = mongoose.model('Address',newSchema);
 module.exports = Address;

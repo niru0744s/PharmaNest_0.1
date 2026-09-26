@@ -1,8 +1,14 @@
 const razorpay = require('../../config/razorpay');
 const Orders = require('../../modules/orders');
 const Product = require('../../modules/Products');
+const mongoose = require('mongoose');
 const crypto = require('crypto');
-const { sendEmail } = require('../../utils/emailService');
+const { queueEmail } = require('../../utils/emailQueue');
+const {
+    invalidateProductReadCaches,
+    invalidateAnalyticsForOrder,
+    invalidateUserCachesForOrder
+} = require('../../utils/cacheInvalidation');
 
 module.exports.createOrder = async (req, res) => {
     try {
@@ -51,30 +57,71 @@ module.exports.verifyPayment = async (req, res) => {
         const isAuthentic = expectedSignature === razorpay_signature;
 
         if (isAuthentic) {
-            const order = await Orders.findByIdAndUpdate(orderId, {
-                paymentId: razorpay_payment_id,
-                razorpayOrderId: razorpay_order_id,
-                paymentStatus: 'completed',
-                status: 'pending'
-            }, { new: true });
+            const session = await mongoose.startSession();
+            let shouldDeductStock = false;
 
-            if (!order) {
-                return res.status(404).send({
-                    success: 0,
-                    message: 'Order not found'
-                });
-            }
+            try {
+                await session.withTransaction(async () => {
+                    const order = await Orders.findById(orderId).session(session);
 
-            if (order.products && order.products.length > 0) {
-                for (const item of order.products) {
-                    await Product.findByIdAndUpdate(item.product, {
-                        $inc: {
-                            quantity: -item.quantity,
-                            soldQuantity: item.quantity
+                    if (!order) {
+                        throw new Error('ORDER_NOT_FOUND');
+                    }
+
+                    if (order.paymentStatus === 'completed') {
+                        return;
+                    }
+
+                    order.paymentId = razorpay_payment_id;
+                    order.razorpayOrderId = razorpay_order_id;
+                    order.paymentStatus = 'completed';
+                    order.status = 'pending';
+                    await order.save({ session });
+                    shouldDeductStock = true;
+
+                    if (order.products && order.products.length > 0) {
+                        const bulkOps = order.products.map((item) => ({
+                            updateOne: {
+                                filter: { _id: item.product, quantity: { $gte: item.quantity } },
+                                update: {
+                                    $inc: {
+                                        quantity: -item.quantity,
+                                        soldQuantity: item.quantity
+                                    }
+                                }
+                            }
+                        }));
+
+                        const stockResult = await Product.bulkWrite(bulkOps, { session, ordered: true });
+                        if (stockResult.modifiedCount !== order.products.length) {
+                            throw new Error('INSUFFICIENT_STOCK');
                         }
+                    }
+                });
+            } catch (txError) {
+                if (txError.message === 'ORDER_NOT_FOUND') {
+                    return res.status(404).send({
+                        success: 0,
+                        message: 'Order not found'
                     });
                 }
+                if (txError.message === 'INSUFFICIENT_STOCK') {
+                    return res.status(409).send({
+                        success: 0,
+                        message: 'Payment captured but stock is unavailable. Please contact support.'
+                    });
+                }
+                throw txError;
+            } finally {
+                await session.endSession();
             }
+
+            const order = await Orders.findById(orderId);
+            if (shouldDeductStock) {
+                await invalidateProductReadCaches();
+            }
+            await invalidateAnalyticsForOrder(order);
+            await invalidateUserCachesForOrder(order);
 
             try {
                 const user = await order.populate('user', 'email firstName lastName');
@@ -91,7 +138,7 @@ module.exports.verifyPayment = async (req, res) => {
                     </div>
                 `;
 
-                await sendEmail({
+                await queueEmail({
                     to: user.user.email,
                     subject: 'Payment Confirmation - PharmaNest',
                     html: confirmationEmail
@@ -106,9 +153,10 @@ module.exports.verifyPayment = async (req, res) => {
                 order
             });
         } else {
-            await Orders.findByIdAndUpdate(orderId, {
-                paymentStatus: 'failed'
-            });
+            await Orders.findOneAndUpdate(
+                { _id: orderId, paymentStatus: { $ne: 'completed' } },
+                { paymentStatus: 'failed' }
+            );
 
             res.status(400).send({
                 success: 0,
@@ -207,24 +255,54 @@ module.exports.webhook = async (req, res) => {
 
 async function handlePaymentSuccess(paymentEntity) {
     try {
-        const order = await Orders.findOne({ razorpayOrderId: paymentEntity.order_id });
-        if (order && order.paymentStatus !== 'completed') {
-            order.paymentStatus = 'completed';
-            order.paymentId = paymentEntity.id;
-            order.status = 'pending';
-            await order.save();
+        const session = await mongoose.startSession();
+        let orderId = null;
+        let shouldDeductStock = false;
 
-            if (order.products && order.products.length > 0) {
-                for (const item of order.products) {
-                    await Product.findByIdAndUpdate(item.product, {
-                        $inc: {
-                            quantity: -item.quantity,
-                            soldQuantity: item.quantity
-                        }
-                    });
+        try {
+            await session.withTransaction(async () => {
+                const order = await Orders.findOne({ razorpayOrderId: paymentEntity.order_id }).session(session);
+                if (!order || order.paymentStatus === 'completed') {
+                    return;
                 }
-            }
 
+                order.paymentStatus = 'completed';
+                order.paymentId = paymentEntity.id;
+                order.status = 'pending';
+                await order.save({ session });
+                orderId = order._id;
+                shouldDeductStock = true;
+
+                if (order.products && order.products.length > 0) {
+                    const bulkOps = order.products.map((item) => ({
+                        updateOne: {
+                            filter: { _id: item.product, quantity: { $gte: item.quantity } },
+                            update: {
+                                $inc: {
+                                    quantity: -item.quantity,
+                                    soldQuantity: item.quantity
+                                }
+                            }
+                        }
+                    }));
+
+                    const stockResult = await Product.bulkWrite(bulkOps, { session, ordered: true });
+                    if (stockResult.modifiedCount !== order.products.length) {
+                        throw new Error('INSUFFICIENT_STOCK');
+                    }
+                }
+            });
+        } finally {
+            await session.endSession();
+        }
+
+        if (orderId) {
+            const order = await Orders.findById(orderId);
+            if (shouldDeductStock) {
+                await invalidateProductReadCaches();
+            }
+            await invalidateAnalyticsForOrder(order);
+            await invalidateUserCachesForOrder(order);
             console.log('Order payment completed via webhook:', order._id);
         }
     } catch (error) {
@@ -234,13 +312,16 @@ async function handlePaymentSuccess(paymentEntity) {
 
 async function handlePaymentFailure(paymentEntity) {
     try {
-        const order = await Orders.findOne({ razorpayOrderId: paymentEntity.order_id });
-        if (order) {
-            order.paymentStatus = 'failed';
-            await order.save();
+        const order = await Orders.findOneAndUpdate(
+            { razorpayOrderId: paymentEntity.order_id, paymentStatus: { $ne: 'completed' } },
+            { paymentStatus: 'failed' },
+            { new: true }
+        );
+        if (!order) return;
 
-            console.log('Order payment failed via webhook:', order._id);
-        }
+        await invalidateAnalyticsForOrder(order);
+        await invalidateUserCachesForOrder(order);
+        console.log('Order payment failed via webhook:', order._id);
     } catch (error) {
         console.error('Handle payment failure error:', error);
     }
