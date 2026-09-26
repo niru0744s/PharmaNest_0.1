@@ -9,7 +9,7 @@ const upload = multer({ storage });
 
 // route.post('/otpSent', validations.validateEmail, userAuthController.otpSent);
 route.post('/otpVerify', validations.otp, userAuthController.otpVerify);
-route.post('/createPass', validations.userCredentials, userAuthController.createPass);
+// route.post('/createPass', validations.userCredentials, userAuthController.createPass);
 route.post('/login', validations.login, userAuthController.login);
 route.get('/profile', userMiddleware, userAuthController.getProfile);
 route.put('/update-profile', userMiddleware, userAuthController.updateProfile);
