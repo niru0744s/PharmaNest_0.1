@@ -163,6 +163,9 @@ app.get('/api/v1/', (req, res) => {
     res.send("root");
 });
 
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok' });
+});
 
 
 // Initialize Cron Jobs

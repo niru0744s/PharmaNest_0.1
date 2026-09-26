@@ -24,6 +24,12 @@ const AIAdvisor = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
+    const streamBufferRef = useRef('');
+    const streamDoneRef = useRef(false);
+    const finalReplyRef = useRef('');
+    const streamIntervalRef = useRef<number | null>(null);
+    const STREAM_RENDER_CHARS_PER_TICK = 2;
+    const STREAM_RENDER_INTERVAL_MS = 45;
 
     // Only show for regular users
     const shouldShow = user?.role !== 'host' && isAuthenticated;
@@ -38,8 +44,63 @@ const AIAdvisor = () => {
         scrollToBottom();
     }, [chatHistory, isTyping]);
 
+    useEffect(() => {
+        return () => {
+            if (streamIntervalRef.current !== null) {
+                window.clearInterval(streamIntervalRef.current);
+                streamIntervalRef.current = null;
+            }
+        };
+    }, []);
+
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const stopStreamRenderer = () => {
+        if (streamIntervalRef.current !== null) {
+            window.clearInterval(streamIntervalRef.current);
+            streamIntervalRef.current = null;
+        }
+    };
+
+    const startStreamRenderer = () => {
+        if (streamIntervalRef.current !== null) return;
+
+        streamIntervalRef.current = window.setInterval(() => {
+            if (!streamBufferRef.current) {
+                if (streamDoneRef.current) {
+                    stopStreamRenderer();
+                    if (finalReplyRef.current) {
+                        setChatHistory((prev) => {
+                            const updated = [...prev];
+                            const lastMessage = updated[updated.length - 1];
+                            if (lastMessage?.role === 'assistant') {
+                                lastMessage.content = finalReplyRef.current;
+                            } else {
+                                updated.push({ role: 'assistant', content: finalReplyRef.current });
+                            }
+                            return updated;
+                        });
+                    }
+                }
+                return;
+            }
+
+            const nextChunk = streamBufferRef.current.slice(0, STREAM_RENDER_CHARS_PER_TICK);
+            streamBufferRef.current = streamBufferRef.current.slice(STREAM_RENDER_CHARS_PER_TICK);
+
+            setChatHistory((prev) => {
+                const updated = [...prev];
+                const lastMessage = updated[updated.length - 1];
+                if (!lastMessage || lastMessage.role !== 'assistant') {
+                    updated.push({ role: 'assistant', content: nextChunk });
+                } else {
+                    lastMessage.content += nextChunk;
+                }
+                return updated;
+            });
+        }, STREAM_RENDER_INTERVAL_MS);
     };
 
     const loadHistory = async () => {
@@ -57,21 +118,56 @@ const AIAdvisor = () => {
         e?.preventDefault();
         if (!message.trim() || isLoading) return;
 
-        const userMsg: ChatMessage = { role: 'user', content: message };
+        const outgoingMessage = message.trim();
+        const historyForApi = [...chatHistory];
+        const userMsg: ChatMessage = { role: 'user', content: outgoingMessage };
         setChatHistory(prev => [...prev, userMsg]);
         setMessage('');
         setIsLoading(true);
         setIsTyping(true);
+        streamBufferRef.current = '';
+        streamDoneRef.current = false;
+        finalReplyRef.current = '';
+        let streamStarted = false;
 
         try {
-            const response = await aiService.getAdvice(message, chatHistory);
-            if (response.success) {
-                setChatHistory(prev => [...prev, { role: 'assistant', content: response.reply }]);
-            } else {
-                toast.error('AI Advisor is currently unavailable');
+            const response = await aiService.streamAdvice(outgoingMessage, historyForApi, {
+                onChunk: (chunk) => {
+                    streamStarted = true;
+                    setIsTyping(false);
+                    streamBufferRef.current += chunk;
+                    startStreamRenderer();
+                },
+                onDone: (reply) => {
+                    finalReplyRef.current = reply || '';
+                    streamDoneRef.current = true;
+                    startStreamRenderer();
+                    setIsTyping(false);
+                }
+            });
+
+            if (!response.success) {
+                throw new Error('Streaming unavailable');
             }
         } catch (error) {
-            toast.error('Failed to connect to AI Advisor');
+            if (streamStarted) {
+                streamDoneRef.current = true;
+                startStreamRenderer();
+                toast.error('Streaming interrupted');
+                return;
+            }
+
+            try {
+                const fallback = await aiService.getAdvice(outgoingMessage, historyForApi);
+                stopStreamRenderer();
+                if (fallback.success) {
+                    setChatHistory(prev => [...prev, { role: 'assistant', content: fallback.reply }]);
+                } else {
+                    toast.error('AI Advisor is currently unavailable');
+                }
+            } catch (_fallbackError) {
+                toast.error('Failed to connect to AI Advisor');
+            }
         } finally {
             setIsLoading(false);
             setIsTyping(false);
