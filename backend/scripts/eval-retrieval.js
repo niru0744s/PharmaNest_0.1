@@ -17,40 +17,59 @@ if (!fs.existsSync(casesPath)) {
 
 const testCases = JSON.parse(fs.readFileSync(casesPath, 'utf8'));
 
-// Load Product Model
+// Load Product Model and Vector Search Service
 const Product = require('../modules/Products');
+const { vectorSearchProducts } = require('../services/vectorSearch');
 
 /**
- * EXACT retrieval function from backend/controllers/aiController.js (lines 68-75)
- * Read-only text search with limit 8 and textScore sorting.
+ * EXACT retrieval pipeline from aiController.js:
+ * 1. Vector Search using Atlas vector_index (limit 8)
+ * 2. Fallback to MongoDB Text Search if vector search returns 0 results
  */
 async function retrieveProducts(message) {
-    const products = await Product.find(
-        { $text: { $search: message } },
-        { score: { $meta: "textScore" } }
-    )
-        .sort({ score: { $meta: "textScore" } })
-        .limit(8)
-        .select("name category price brand description")
-        .lean();
+    let products = [];
+    let method = 'vector';
 
-    return products;
+    try {
+        products = await vectorSearchProducts(message, 8);
+    } catch (err) {
+        console.warn(`Vector search error for "${message}":`, err.message);
+    }
+
+    if (!products || products.length === 0) {
+        method = 'text_fallback';
+        try {
+            products = await Product.find(
+                { $text: { $search: message } },
+                { score: { $meta: "textScore" } }
+            )
+                .sort({ score: { $meta: "textScore" } })
+                .limit(8)
+                .select("name category price brand description genericName uses prescriptionRequired")
+                .lean();
+        } catch (textErr) {
+            console.warn(`Text fallback error:`, textErr.message);
+        }
+    }
+
+    return { products, method };
 }
 
 async function runEvaluation() {
-    console.log("Connecting to MongoDB in READ-ONLY mode...");
+    console.log("Connecting to MongoDB in READ-ONLY mode for Vector Retrieval Evaluation...");
     await mongoose.connect(process.env.MONGO_URI, {
         maxPoolSize: 5,
         serverSelectionTimeoutMS: 5000,
         family: 4
     });
 
-    console.log(`Connected successfully. Running ${testCases.length} evaluation queries...\n`);
+    console.log(`Connected successfully. Running all ${testCases.length} evaluation queries...\n`);
 
     const results = [];
     const groupStats = {};
 
-    for (const testCase of testCases) {
+    for (let idx = 0; idx < testCases.length; idx++) {
+        const testCase = testCases[idx];
         const { id, group, query, expectedProductIds, expectedProductNames } = testCase;
 
         if (!groupStats[group]) {
@@ -66,10 +85,14 @@ async function runEvaluation() {
         groupStats[group].total += 1;
 
         let retrieved = [];
+        let methodUsed = 'unknown';
+
         try {
-            retrieved = await retrieveProducts(query);
+            const res = await retrieveProducts(query);
+            retrieved = res.products || [];
+            methodUsed = res.method;
         } catch (err) {
-            console.error(`Error querying: "${query}":`, err.message);
+            console.error(`Error querying "${query}":`, err.message);
         }
 
         const isZeroResult = retrieved.length === 0;
@@ -107,15 +130,20 @@ async function runEvaluation() {
             expectedProductIds,
             expectedProductNames,
             retrievedCount: retrieved.length,
+            methodUsed,
             isHit,
             firstHitRank,
             matchedProduct: matchedProduct ? `${matchedProduct.name} (${matchedProduct.brand})` : null,
             retrievedProducts: retrieved.map(p => ({
                 id: p._id.toString(),
                 name: p.name,
-                brand: p.brand
+                brand: p.brand,
+                score: typeof p.score === 'number' ? p.score.toFixed(3) : undefined
             }))
         });
+
+        // Small pacing delay to respect Gemini rate limits smoothly
+        await new Promise(r => setTimeout(r, 200));
     }
 
     await mongoose.disconnect();
@@ -132,7 +160,7 @@ async function runEvaluation() {
     const mrrOverall = (results.reduce((acc, r) => acc + (r.isHit ? 1 / r.firstHitRank : 0), 0) / totalQueries).toFixed(3);
 
     console.log("==========================================================================");
-    console.log("                  MONGODB $TEXT SEARCH RETRIEVAL EVALUATION                ");
+    console.log("               ATLAS VECTOR SEARCH RETRIEVAL EVALUATION REPORT            ");
     console.log("==========================================================================");
     console.log(`Total Queries:         ${totalQueries}`);
     console.log(`Overall Hit@8:         ${totalHits}/${totalQueries} (${((totalHits / totalQueries) * 100).toFixed(1)}%)`);
@@ -178,20 +206,24 @@ async function runEvaluation() {
     console.log(`FAILED QUERIES (Hit@8 = 0) : ${failedQueries.length} of ${totalQueries}`);
     console.log(`==========================================================================\n`);
 
-    failedQueries.forEach((fq, idx) => {
-        console.log(`[${idx + 1}] ID: ${fq.id} | Group: ${fq.group}`);
-        console.log(`    Query: "${fq.query}"`);
-        console.log(`    Expected: ${fq.expectedProductNames.join(" OR ")}`);
-        if (fq.retrievedCount === 0) {
-            console.log(`    Returned: [ZERO RESULTS RETURNED]`);
-        } else {
-            const returnedNames = fq.retrievedProducts.map(p => `${p.name} (${p.brand})`).join(", ");
-            console.log(`    Returned (${fq.retrievedCount}): ${returnedNames}`);
-        }
-        console.log("");
-    });
+    if (failedQueries.length === 0) {
+        console.log("None! All 40 queries retrieved the expected products!\n");
+    } else {
+        failedQueries.forEach((fq, idx) => {
+            console.log(`[${idx + 1}] ID: ${fq.id} | Group: ${fq.group}`);
+            console.log(`    Query: "${fq.query}"`);
+            console.log(`    Expected: ${fq.expectedProductNames.join(" OR ")}`);
+            if (fq.retrievedCount === 0) {
+                console.log(`    Returned: [ZERO RESULTS RETURNED]`);
+            } else {
+                const returnedNames = fq.retrievedProducts.map(p => `${p.name} (${p.brand}) [Score: ${p.score}]`).join(", ");
+                console.log(`    Returned (${fq.retrievedCount}): ${returnedNames}`);
+            }
+            console.log("");
+        });
+    }
 
-    const reportPath = path.join(__dirname, 'retrieval-eval-report.json');
+    const reportPath = path.join(__dirname, 'vector-retrieval-eval-report.json');
     fs.writeFileSync(reportPath, JSON.stringify({
         summary: {
             totalQueries,

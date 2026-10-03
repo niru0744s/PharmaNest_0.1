@@ -136,6 +136,10 @@ const newSchema = mongoose.Schema({
     prescriptionRequired: {
         type: Boolean,
         default: false
+    },
+    embedding: {
+        type: [Number],
+        default: undefined
     }
 }, {
     timestamps: true

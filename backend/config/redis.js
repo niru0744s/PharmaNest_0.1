@@ -6,14 +6,23 @@ if (process.env.REDIS_URL) {
     redisClient = new Redis(process.env.REDIS_URL, {
         maxRetriesPerRequest: 1,
         lazyConnect: true,
-        enableReadyCheck: true
+        enableReadyCheck: true,
+        retryStrategy(times) {
+            if (times > 3) {
+                console.warn('[Redis] Max reconnection attempts reached. Continuing with Redis disabled.');
+                return null; // Stop reconnecting
+            }
+            return Math.min(times * 1000, 3000);
+        }
     });
 
     redisClient.on('error', (error) => {
-        console.error('[Redis] Connection error:', error.message);
+        if (redisClient.status !== 'reconnecting') {
+            console.error('[Redis] Connection error:', error.message);
+        }
     });
 
-    redisClient.connect().then(()=>console.log("Redis is connected.")).catch((error) => {
+    redisClient.connect().then(() => console.log("Redis is connected.")).catch((error) => {
         console.error('[Redis] Initial connect failed:', error.message);
     });
 } else {
