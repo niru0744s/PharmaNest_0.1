@@ -1,0 +1,667 @@
+[
+  {
+    "_id": "68428fb6a052a29e76f1ae59",
+    "_productName": "Paracetamol (Dolo)",
+    "genericName": "Paracetamol (Acetaminophen)",
+    "uses": [
+      "fever",
+      "high temperature",
+      "mild to moderate pain",
+      "headache",
+      "body ache",
+      "toothache",
+      "muscle pain"
+    ],
+    "keywords": [
+      "bukhar",
+      "jwar",
+      "jor",
+      "badan dard",
+      "sir dard",
+      "matha betha",
+      "dolo",
+      "temperature"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68428ffea052a29e76f1ae5e",
+    "_productName": "Azithromycin (Azithral)",
+    "genericName": "Azithromycin",
+    "uses": [
+      "bacterial infection",
+      "throat infection",
+      "respiratory tract infection",
+      "chest infection",
+      "ear infection",
+      "skin infection"
+    ],
+    "keywords": [
+      "antibiotic",
+      "gale ka infection",
+      "gola betha",
+      "seene mein infection",
+      "azithral"
+    ],
+    "prescriptionRequired": true
+  },
+  {
+    "_id": "6842907ca052a29e76f1ae68",
+    "_productName": "Omeprazole (Omez)",
+    "genericName": "Omeprazole",
+    "uses": [
+      "acidity",
+      "acid reflux",
+      "heartburn",
+      "GERD",
+      "gas",
+      "burning in stomach or chest",
+      "stomach ulcer"
+    ],
+    "keywords": [
+      "pet jalna",
+      "seene mein jalan",
+      "buk jala",
+      "ombol",
+      "gas ki dawai",
+      "acidity ki dawai",
+      "omez"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "684290d4a052a29e76f1ae6d",
+    "_productName": "Fluconazole (Diflucan)",
+    "genericName": "Fluconazole",
+    "uses": [
+      "fungal infection",
+      "candidiasis",
+      "yeast infection",
+      "skin fungal infection",
+      "oral thrush"
+    ],
+    "keywords": [
+      "fungus",
+      "dad",
+      "khujli",
+      "chulkani",
+      "fungal skin infection",
+      "diflucan"
+    ],
+    "prescriptionRequired": true
+  },
+  {
+    "_id": "6842921ea052a29e76f1ae72",
+    "_productName": "Ibuprofen (brufen)",
+    "genericName": "Ibuprofen",
+    "uses": [
+      "pain",
+      "inflammation",
+      "fever",
+      "headache",
+      "joint pain",
+      "muscle pain",
+      "toothache",
+      "period cramps",
+      "body ache"
+    ],
+    "keywords": [
+      "dard",
+      "badan dard",
+      "jodon ka dard",
+      "ghutne ka dard",
+      "gnather betha",
+      "sujan",
+      "brufen"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842926da052a29e76f1ae77",
+    "_productName": "Cetirizine (Zyrtec)",
+    "genericName": "Cetirizine",
+    "uses": [
+      "allergy",
+      "runny nose",
+      "sneezing",
+      "itchy eyes",
+      "hives",
+      "dust allergy",
+      "allergic rhinitis",
+      "skin allergy"
+    ],
+    "keywords": [
+      "allergy ki dawai",
+      "naak behna",
+      "chheenk",
+      "hnachi",
+      "khujli",
+      "sardi",
+      "zyrtec"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "684292bba052a29e76f1ae7c",
+    "_productName": "Levocetirizine (Xyzal)",
+    "genericName": "Levocetirizine",
+    "uses": [
+      "allergy",
+      "runny nose",
+      "sneezing",
+      "itchy eyes",
+      "hives",
+      "dust allergy",
+      "allergic rhinitis",
+      "non-drowsy allergy relief"
+    ],
+    "keywords": [
+      "allergy ki dawai",
+      "naak behna",
+      "chheenk",
+      "hnachi",
+      "khujli",
+      "xyzal"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429439a052a29e76f1ae82",
+    "_productName": "Loperame (Imodium)",
+    "genericName": "Loperamide",
+    "uses": [
+      "diarrhea",
+      "loose motion",
+      "frequent watery stool",
+      "acute diarrhea"
+    ],
+    "keywords": [
+      "dast",
+      "loose motion",
+      "pet kharab",
+      "patla paykhana",
+      "pet kharap",
+      "imodium"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842948da052a29e76f1ae87",
+    "_productName": "Ranitine (Zantac)",
+    "genericName": "Ranitidine",
+    "uses": [
+      "heartburn",
+      "acidity",
+      "acid reflux",
+      "indigestion",
+      "gastric ulcer",
+      "gas"
+    ],
+    "keywords": [
+      "seene mein jalan",
+      "buk jala",
+      "ombol",
+      "pet mein gas",
+      "acidity ki dawai",
+      "zantac"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429cbdbe8c07a7feddf3a4",
+    "_productName": "Adhesive Bandage (Band-A)",
+    "genericName": "Adhesive bandage",
+    "uses": [
+      "minor cuts",
+      "scrapes",
+      "small wounds",
+      "finger cut",
+      "covering wounds",
+      "blisters"
+    ],
+    "keywords": [
+      "band aid",
+      "patti",
+      "chot",
+      "kata",
+      "cut",
+      "bleeding"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429cf6be8c07a7feddf3a9",
+    "_productName": "Antiseptic Cream (Savlon)",
+    "genericName": "Antiseptic cream",
+    "uses": [
+      "minor cuts",
+      "scrapes",
+      "minor wounds",
+      "preventing wound infection",
+      "insect bites"
+    ],
+    "keywords": [
+      "savlon",
+      "antiseptic",
+      "ghaw",
+      "chot",
+      "kata",
+      "cream"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429d2dbe8c07a7feddf3ae",
+    "_productName": "Cotton Roll (Generic)",
+    "genericName": "Medical cotton",
+    "uses": [
+      "cleaning wounds",
+      "dressing wounds",
+      "applying antiseptic",
+      "first aid"
+    ],
+    "keywords": [
+      "cotton",
+      "tula",
+      "rui",
+      "kapas"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429d59be8c07a7feddf3b3",
+    "_productName": "Gauze Pads (Generic)",
+    "genericName": "Sterile gauze pads",
+    "uses": [
+      "cleaning wounds",
+      "covering wounds",
+      "wound dressing",
+      "absorbing blood",
+      "first aid kit"
+    ],
+    "keywords": [
+      "gauze",
+      "dressing",
+      "pati",
+      "patti"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429d8cbe8c07a7feddf3b8",
+    "_productName": "Surgical Tape (Generic)",
+    "genericName": "Surgical tape",
+    "uses": [
+      "securing dressings",
+      "holding bandages in place",
+      "fixing gauze",
+      "sensitive skin tape"
+    ],
+    "keywords": [
+      "tape",
+      "plaster",
+      "dressing tape",
+      "chipkane wali patti"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429dc4be8c07a7feddf3bd",
+    "_productName": "Hand Sanitizer (Dettol)",
+    "genericName": "Alcohol-based hand sanitizer",
+    "uses": [
+      "hand hygiene",
+      "killing germs without water",
+      "cleaning hands on the go"
+    ],
+    "keywords": [
+      "sanitiser",
+      "sanitizer",
+      "haath saaf karne ke liye",
+      "germs",
+      "dettol"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429e01be8c07a7feddf3c2",
+    "_productName": "Liquid Soap (Lifebuoy)",
+    "genericName": "Antibacterial liquid handwash",
+    "uses": [
+      "handwashing",
+      "hand hygiene",
+      "antibacterial hand wash"
+    ],
+    "keywords": [
+      "handwash",
+      "sabun",
+      "haath dhona",
+      "germs",
+      "lifebuoy"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429e68be8c07a7feddf3c9",
+    "_productName": "Face Mask (3M)",
+    "genericName": "N95 respirator mask",
+    "uses": [
+      "protection from air pollution",
+      "dust protection",
+      "particulate matter",
+      "airborne infections",
+      "smog"
+    ],
+    "keywords": [
+      "mask",
+      "N95",
+      "pollution se bachne ke liye",
+      "dhool",
+      "dhulo",
+      "chehere ka mask"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429e9dbe8c07a7feddf3ce",
+    "_productName": "Tissue Pack (Kleenex)",
+    "genericName": "Facial tissues",
+    "uses": [
+      "wiping face and hands",
+      "cleaning spills",
+      "runny nose"
+    ],
+    "keywords": [
+      "tissue paper",
+      "napkin",
+      "rumal",
+      "kleenex"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429ecbbe8c07a7feddf3d3",
+    "_productName": "Wet Wipes (Pampers)",
+    "genericName": "Wet wipes",
+    "uses": [
+      "cleaning hands and surfaces without water",
+      "quick freshen up",
+      "travel hygiene"
+    ],
+    "keywords": [
+      "wipes",
+      "tissue",
+      "pochne ke liye",
+      "pampers"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429efbbe8c07a7feddf3d8",
+    "_productName": "Baby Wipes (Pampers)",
+    "genericName": "Baby wipes",
+    "uses": [
+      "cleaning baby skin",
+      "diaper changes",
+      "gentle baby hygiene"
+    ],
+    "keywords": [
+      "baby tissue",
+      "bachche ke liye",
+      "shishu",
+      "pampers"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429f32be8c07a7feddf3dd",
+    "_productName": "Baby Diapers (Pampers)",
+    "genericName": "Baby diapers",
+    "uses": [
+      "infant diapering",
+      "overnight protection",
+      "absorbing wetness",
+      "newborn and infant care"
+    ],
+    "keywords": [
+      "nappy",
+      "pampers",
+      "bachche ka diaper",
+      "baby diaper"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429f68be8c07a7feddf3e2",
+    "_productName": "Baby Lotion (Johnson's)",
+    "genericName": "Baby moisturizing lotion",
+    "uses": [
+      "moisturizing baby skin",
+      "dry baby skin",
+      "gentle baby skin care"
+    ],
+    "keywords": [
+      "dry skin",
+      "bachche ki skin",
+      "baby skin",
+      "johnsons"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429f96be8c07a7feddf3e7",
+    "_productName": "Nasal Aspirator (Chicco)",
+    "genericName": "Nasal aspirator",
+    "uses": [
+      "clearing a baby's blocked nose",
+      "removing mucus",
+      "infant nasal congestion",
+      "cold in babies"
+    ],
+    "keywords": [
+      "baby ki naak band",
+      "nak bondho",
+      "naak saaf karne ke liye",
+      "blocked nose in baby"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429fc6be8c07a7feddf3ec",
+    "_productName": "Multivitamin Syrup (Becadexamin)",
+    "genericName": "Multivitamin and mineral syrup",
+    "uses": [
+      "general health",
+      "vitamin and mineral supplementation",
+      "weakness",
+      "low energy",
+      "tiredness",
+      "nutritional gaps"
+    ],
+    "keywords": [
+      "kamzori",
+      "thakan",
+      "durbolota",
+      "vitamin syrup",
+      "taakat",
+      "energy"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "68429ff0be8c07a7feddf3f1",
+    "_productName": "Vitamin D3 (Calcimax)",
+    "genericName": "Cholecalciferol (Vitamin D3)",
+    "uses": [
+      "vitamin D deficiency",
+      "bone health",
+      "weak bones",
+      "calcium absorption"
+    ],
+    "keywords": [
+      "haddi ki kamzori",
+      "vitamin D ki kami",
+      "weak bones",
+      "sunshine vitamin"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842a023be8c07a7feddf3f6",
+    "_productName": "Omega-3 Fish Oil (Seven Seas)",
+    "genericName": "Omega-3 fatty acids (fish oil)",
+    "uses": [
+      "heart health",
+      "brain health",
+      "cognitive support",
+      "general wellness"
+    ],
+    "keywords": [
+      "fish oil",
+      "dil ke liye",
+      "dimag ke liye",
+      "memory",
+      "omega 3"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842a053be8c07a7feddf3fb",
+    "_productName": "Zinc + Vitamin C (C-Zee)",
+    "genericName": "Zinc and Vitamin C",
+    "uses": [
+      "immune support",
+      "immunity boost",
+      "recovery from cold and flu",
+      "seasonal flu",
+      "vitamin C deficiency"
+    ],
+    "keywords": [
+      "immunity booster",
+      "sardi zukam",
+      "cold",
+      "flu",
+      "c-zee"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842a0f0be8c07a7feddf400",
+    "_productName": "Blood Glucose Test Kit (Accu-Chek)",
+    "genericName": "Blood glucose test kit",
+    "uses": [
+      "checking blood sugar at home",
+      "monitoring diabetes",
+      "fasting sugar test"
+    ],
+    "keywords": [
+      "sugar test",
+      "sugar check",
+      "glucometer",
+      "diabetes",
+      "madhumeh"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842a12bbe8c07a7feddf405",
+    "_productName": "Calcium + Magnesium (Shelcal)",
+    "genericName": "Calcium and Magnesium",
+    "uses": [
+      "bone health",
+      "weak bones",
+      "calcium deficiency",
+      "muscle support"
+    ],
+    "keywords": [
+      "calcium",
+      "haddi ki kamzori",
+      "weak bones",
+      "shelcal"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842a15abe8c07a7feddf40a",
+    "_productName": "Pregnancy Test Kit (Clearblue)",
+    "genericName": "Pregnancy test kit",
+    "uses": [
+      "early pregnancy detection",
+      "home pregnancy test",
+      "missed period"
+    ],
+    "keywords": [
+      "period late",
+      "pregnant hai ya nahi",
+      "pregnancy check",
+      "pregnancy test"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842a186be8c07a7feddf40f",
+    "_productName": "COV-19 Rap Test (Abbott)",
+    "genericName": "COVID-19 rapid antigen test",
+    "uses": [
+      "COVID-19 detection",
+      "SARS-CoV-2 antigen testing",
+      "home COVID test"
+    ],
+    "keywords": [
+      "corona test",
+      "covid test",
+      "rapid antigen test"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842a1b8be8c07a7feddf414",
+    "_productName": "HIV Self Test Kit (OraQuick)",
+    "genericName": "HIV self-test kit",
+    "uses": [
+      "HIV screening",
+      "private home HIV testing"
+    ],
+    "keywords": [
+      "HIV test",
+      "aids test",
+      "self test"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "6842a1e0be8c07a7feddf419",
+    "_productName": "Cholesterol Test Kit (CardioCheck)",
+    "genericName": "Cholesterol test kit",
+    "uses": [
+      "home cholesterol monitoring",
+      "lipid level check"
+    ],
+    "keywords": [
+      "cholesterol check",
+      "heart check",
+      "cholesterol test"
+    ],
+    "prescriptionRequired": false
+  },
+  {
+    "_id": "69821e9c7d381ddae98b9c37",
+    "_productName": "Azithromycin (Sun pharma)",
+    "genericName": "Azithromycin",
+    "uses": [
+      "bacterial infection",
+      "throat infection",
+      "respiratory tract infection",
+      "chest infection",
+      "ear infection",
+      "skin infection"
+    ],
+    "keywords": [
+      "antibiotic",
+      "gale ka infection",
+      "gola betha",
+      "seene mein infection"
+    ],
+    "prescriptionRequired": true
+  }
+]

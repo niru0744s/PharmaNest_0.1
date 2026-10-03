@@ -1,0 +1,1064 @@
+{
+  "summary": {
+    "totalQueries": 40,
+    "totalHits": 18,
+    "hitRate": "45.0%",
+    "totalZeroResults": 22,
+    "zeroResultRate": "55.0%",
+    "avgRankOverall": "1.67",
+    "mrrOverall": "0.360"
+  },
+  "groupStats": {
+    "symptom-based": {
+      "total": 10,
+      "hits": 2,
+      "zeroResults": 8,
+      "ranks": [
+        5,
+        2
+      ],
+      "reciprocalRanks": [
+        0.2,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.5,
+        0
+      ]
+    },
+    "vague/casual wording": {
+      "total": 8,
+      "hits": 3,
+      "zeroResults": 5,
+      "ranks": [
+        1,
+        1,
+        5
+      ],
+      "reciprocalRanks": [
+        0,
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0.2
+      ]
+    },
+    "typos in medicine names": {
+      "total": 6,
+      "hits": 1,
+      "zeroResults": 5,
+      "ranks": [
+        1
+      ],
+      "reciprocalRanks": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ]
+    },
+    "long natural sentences": {
+      "total": 8,
+      "hits": 7,
+      "zeroResults": 1,
+      "ranks": [
+        2,
+        1,
+        1,
+        2,
+        1,
+        1,
+        1
+      ],
+      "reciprocalRanks": [
+        0.5,
+        1,
+        0,
+        1,
+        0.5,
+        1,
+        1,
+        1
+      ]
+    },
+    "Hinglish/Bengali": {
+      "total": 4,
+      "hits": 1,
+      "zeroResults": 3,
+      "ranks": [
+        2
+      ],
+      "reciprocalRanks": [
+        0,
+        0,
+        0,
+        0.5
+      ]
+    },
+    "queries containing a medicine name": {
+      "total": 4,
+      "hits": 4,
+      "zeroResults": 0,
+      "ranks": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "reciprocalRanks": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "results": [
+    {
+      "id": "SYM-01",
+      "group": "symptom-based",
+      "query": "medicine for high fever and body ache",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59",
+        "6842921ea052a29e76f1ae72"
+      ],
+      "expectedProductNames": [
+        "Paracetamol",
+        "Ibuprofen"
+      ],
+      "retrievedCount": 6,
+      "isHit": true,
+      "firstHitRank": 5,
+      "matchedProduct": "Paracetamol (Dolo)",
+      "retrievedProducts": [
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan"
+        },
+        {
+          "id": "684fbc3b42eb7a74023af910",
+          "name": "Face Mask",
+          "brand": "some"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma"
+        }
+      ]
+    },
+    {
+      "id": "SYM-02",
+      "group": "symptom-based",
+      "query": "severe acidity and burning stomach",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68",
+        "6842948da052a29e76f1ae87"
+      ],
+      "expectedProductNames": [
+        "Omeprazole",
+        "Ranitine"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "SYM-03",
+      "group": "symptom-based",
+      "query": "running nose sneezing and dust allergy",
+      "expectedProductIds": [
+        "6842926da052a29e76f1ae77",
+        "684292bba052a29e76f1ae7c"
+      ],
+      "expectedProductNames": [
+        "Cetirizine",
+        "Levocetirizine"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "SYM-04",
+      "group": "symptom-based",
+      "query": "loose motion and frequent watery stool",
+      "expectedProductIds": [
+        "68429439a052a29e76f1ae82"
+      ],
+      "expectedProductNames": [
+        "Loperame"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "SYM-05",
+      "group": "symptom-based",
+      "query": "bacterial throat infection and chest congestion",
+      "expectedProductIds": [
+        "68428ffea052a29e76f1ae5e",
+        "69821e9c7d381ddae98b9c37"
+      ],
+      "expectedProductNames": [
+        "Azithromycin (Azithral)",
+        "Azithromycin (Sun pharma)"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "SYM-06",
+      "group": "symptom-based",
+      "query": "fungal skin infection and itching",
+      "expectedProductIds": [
+        "684290d4a052a29e76f1ae6d"
+      ],
+      "expectedProductNames": [
+        "Fluconazole"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "SYM-07",
+      "group": "symptom-based",
+      "query": "joint pain and knee inflammation",
+      "expectedProductIds": [
+        "6842921ea052a29e76f1ae72",
+        "6842a12bbe8c07a7feddf405"
+      ],
+      "expectedProductNames": [
+        "Ibuprofen",
+        "Calcium + Magnesium"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "SYM-08",
+      "group": "symptom-based",
+      "query": "minor bleeding finger cut from kitchen knife",
+      "expectedProductIds": [
+        "68429cbdbe8c07a7feddf3a4",
+        "68429cf6be8c07a7feddf3a9"
+      ],
+      "expectedProductNames": [
+        "Adhesive Bandage",
+        "Antiseptic Cream"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "SYM-09",
+      "group": "symptom-based",
+      "query": "baby has diaper rash and dry skin",
+      "expectedProductIds": [
+        "68429f68be8c07a7feddf3e2",
+        "68429efbbe8c07a7feddf3d8"
+      ],
+      "expectedProductNames": [
+        "Baby Lotion",
+        "Baby Wipes"
+      ],
+      "retrievedCount": 3,
+      "isHit": true,
+      "firstHitRank": 2,
+      "matchedProduct": "Baby Lotion (Johnson's)",
+      "retrievedProducts": [
+        {
+          "id": "68429f32be8c07a7feddf3dd",
+          "name": "Baby Diapers",
+          "brand": "Pampers"
+        },
+        {
+          "id": "68429f68be8c07a7feddf3e2",
+          "name": "Baby Lotion",
+          "brand": "Johnson's"
+        },
+        {
+          "id": "68429efbbe8c07a7feddf3d8",
+          "name": "Baby Wipes",
+          "brand": "Pampers"
+        }
+      ]
+    },
+    {
+      "id": "SYM-10",
+      "group": "symptom-based",
+      "query": "blocked nose in infant cannot breathe easily",
+      "expectedProductIds": [
+        "68429f96be8c07a7feddf3e7"
+      ],
+      "expectedProductNames": [
+        "Nasal Aspirator"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "VAG-01",
+      "group": "vague/casual wording",
+      "query": "something for weakness and low energy",
+      "expectedProductIds": [
+        "68429fc6be8c07a7feddf3ec",
+        "6842a053be8c07a7feddf3fb"
+      ],
+      "expectedProductNames": [
+        "Multivitamin Syrup",
+        "Zinc + Vitamin C"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "VAG-02",
+      "group": "vague/casual wording",
+      "query": "my tummy is upset since morning",
+      "expectedProductIds": [
+        "68429439a052a29e76f1ae82",
+        "6842907ca052a29e76f1ae68"
+      ],
+      "expectedProductNames": [
+        "Loperame",
+        "Omeprazole"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "VAG-03",
+      "group": "vague/casual wording",
+      "query": "stuff to clean hands without water",
+      "expectedProductIds": [
+        "68429dc4be8c07a7feddf3bd",
+        "68429ecbbe8c07a7feddf3d3"
+      ],
+      "expectedProductNames": [
+        "Hand Sanitizer",
+        "Wet Wipes"
+      ],
+      "retrievedCount": 1,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Hand Sanitizer (Dettol)",
+      "retrievedProducts": [
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol"
+        }
+      ]
+    },
+    {
+      "id": "VAG-04",
+      "group": "vague/casual wording",
+      "query": "tape to stick cotton dressing",
+      "expectedProductIds": [
+        "68429d8cbe8c07a7feddf3b8"
+      ],
+      "expectedProductNames": [
+        "Surgical Tape"
+      ],
+      "retrievedCount": 2,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Surgical Tape (Generic)",
+      "retrievedProducts": [
+        {
+          "id": "68429d8cbe8c07a7feddf3b8",
+          "name": "Surgical Tape",
+          "brand": "Generic"
+        },
+        {
+          "id": "68429d2dbe8c07a7feddf3ae",
+          "name": "Cotton Roll",
+          "brand": "Generic"
+        }
+      ]
+    },
+    {
+      "id": "VAG-05",
+      "group": "vague/casual wording",
+      "query": "pills for weak bones",
+      "expectedProductIds": [
+        "68429ff0be8c07a7feddf3f1",
+        "6842a12bbe8c07a7feddf405"
+      ],
+      "expectedProductNames": [
+        "Vitamin D3",
+        "Calcium + Magnesium"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "VAG-06",
+      "group": "vague/casual wording",
+      "query": "check my sugar level at home",
+      "expectedProductIds": [
+        "6842a0f0be8c07a7feddf400"
+      ],
+      "expectedProductNames": [
+        "Blood Glucose Test Kit"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "VAG-07",
+      "group": "vague/casual wording",
+      "query": "protection against air pollution and dust when going out",
+      "expectedProductIds": [
+        "68429e68be8c07a7feddf3c9"
+      ],
+      "expectedProductNames": [
+        "Face Mask"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "VAG-08",
+      "group": "vague/casual wording",
+      "query": "good supplement for heart and brain health",
+      "expectedProductIds": [
+        "6842a023be8c07a7feddf3f6"
+      ],
+      "expectedProductNames": [
+        "Omega-3 Fish Oil"
+      ],
+      "retrievedCount": 5,
+      "isHit": true,
+      "firstHitRank": 5,
+      "matchedProduct": "Omega-3 Fish Oil (Seven Seas)",
+      "retrievedProducts": [
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin"
+        },
+        {
+          "id": "68429ff0be8c07a7feddf3f1",
+          "name": "Vitamin D3",
+          "brand": "Calcimax"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas"
+        }
+      ]
+    },
+    {
+      "id": "TYP-01",
+      "group": "typos in medicine names",
+      "query": "paracetmol 650 tablet",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59"
+      ],
+      "expectedProductNames": [
+        "Paracetamol"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "TYP-02",
+      "group": "typos in medicine names",
+      "query": "azithromicin for throat",
+      "expectedProductIds": [
+        "68428ffea052a29e76f1ae5e",
+        "69821e9c7d381ddae98b9c37"
+      ],
+      "expectedProductNames": [
+        "Azithromycin"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "TYP-03",
+      "group": "typos in medicine names",
+      "query": "citerizine allergy tablet",
+      "expectedProductIds": [
+        "6842926da052a29e76f1ae77"
+      ],
+      "expectedProductNames": [
+        "Cetirizine"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "TYP-04",
+      "group": "typos in medicine names",
+      "query": "ibuprufen for headache",
+      "expectedProductIds": [
+        "6842921ea052a29e76f1ae72"
+      ],
+      "expectedProductNames": [
+        "Ibuprofen"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "TYP-05",
+      "group": "typos in medicine names",
+      "query": "omeprazol capsules for gas",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68"
+      ],
+      "expectedProductNames": [
+        "Omeprazole"
+      ],
+      "retrievedCount": 1,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Omeprazole (Omez)",
+      "retrievedProducts": [
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez"
+        }
+      ]
+    },
+    {
+      "id": "TYP-06",
+      "group": "typos in medicine names",
+      "query": "flucanazole fungal tablet",
+      "expectedProductIds": [
+        "684290d4a052a29e76f1ae6d"
+      ],
+      "expectedProductNames": [
+        "Fluconazole"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "LNG-01",
+      "group": "long natural sentences",
+      "query": "Hello doctor, I woke up today with a mild fever of 100 degrees and a throbbing headache, what medicine do you recommend?",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59"
+      ],
+      "expectedProductNames": [
+        "Paracetamol"
+      ],
+      "retrievedCount": 6,
+      "isHit": true,
+      "firstHitRank": 2,
+      "matchedProduct": "Paracetamol (Dolo)",
+      "retrievedProducts": [
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo"
+        },
+        {
+          "id": "684fbc3b42eb7a74023af910",
+          "name": "Face Mask",
+          "brand": "some"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma"
+        },
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan"
+        }
+      ]
+    },
+    {
+      "id": "LNG-02",
+      "group": "long natural sentences",
+      "query": "My newborn baby has sensitive skin and we need safe gentle diapers for overnight protection",
+      "expectedProductIds": [
+        "68429f32be8c07a7feddf3dd"
+      ],
+      "expectedProductNames": [
+        "Baby Diapers"
+      ],
+      "retrievedCount": 3,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Baby Diapers (Pampers)",
+      "retrievedProducts": [
+        {
+          "id": "68429f32be8c07a7feddf3dd",
+          "name": "Baby Diapers",
+          "brand": "Pampers"
+        },
+        {
+          "id": "68429f68be8c07a7feddf3e2",
+          "name": "Baby Lotion",
+          "brand": "Johnson's"
+        },
+        {
+          "id": "68429efbbe8c07a7feddf3d8",
+          "name": "Baby Wipes",
+          "brand": "Pampers"
+        }
+      ]
+    },
+    {
+      "id": "LNG-03",
+      "group": "long natural sentences",
+      "query": "I ate some oily street food yesterday night and now feeling severe gas reflux and heartburn in my chest",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68",
+        "6842948da052a29e76f1ae87"
+      ],
+      "expectedProductNames": [
+        "Omeprazole",
+        "Ranitine"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "LNG-04",
+      "group": "long natural sentences",
+      "query": "We are preparing a basic emergency first aid kit for our home and need sterile wound cleaning gauze and bandage",
+      "expectedProductIds": [
+        "68429d59be8c07a7feddf3b3",
+        "68429cbdbe8c07a7feddf3a4"
+      ],
+      "expectedProductNames": [
+        "Gauze Pads",
+        "Adhesive Bandage"
+      ],
+      "retrievedCount": 6,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Adhesive Bandage (Band-A)",
+      "retrievedProducts": [
+        {
+          "id": "68429cbdbe8c07a7feddf3a4",
+          "name": "Adhesive Bandage",
+          "brand": "Band-A"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic"
+        },
+        {
+          "id": "6842a15abe8c07a7feddf40a",
+          "name": "Pregnancy Test Kit",
+          "brand": "Clearblue"
+        },
+        {
+          "id": "6842a1e0be8c07a7feddf419",
+          "name": "Cholesterol Test Kit",
+          "brand": "CardioCheck"
+        },
+        {
+          "id": "6842a1b8be8c07a7feddf414",
+          "name": "HIV Self Test Kit",
+          "brand": "OraQuick"
+        },
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek"
+        }
+      ]
+    },
+    {
+      "id": "LNG-05",
+      "group": "long natural sentences",
+      "query": "I have missed my period by 4 days and would like to test at home discreetly to confirm if I am pregnant",
+      "expectedProductIds": [
+        "6842a15abe8c07a7feddf40a"
+      ],
+      "expectedProductNames": [
+        "Pregnancy Test Kit"
+      ],
+      "retrievedCount": 5,
+      "isHit": true,
+      "firstHitRank": 2,
+      "matchedProduct": "Pregnancy Test Kit (Clearblue)",
+      "retrievedProducts": [
+        {
+          "id": "6842a1e0be8c07a7feddf419",
+          "name": "Cholesterol Test Kit",
+          "brand": "CardioCheck"
+        },
+        {
+          "id": "6842a15abe8c07a7feddf40a",
+          "name": "Pregnancy Test Kit",
+          "brand": "Clearblue"
+        },
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek"
+        },
+        {
+          "id": "6842a186be8c07a7feddf40f",
+          "name": "COV-19 Rap Test",
+          "brand": "Abbott"
+        },
+        {
+          "id": "6842a1b8be8c07a7feddf414",
+          "name": "HIV Self Test Kit",
+          "brand": "OraQuick"
+        }
+      ]
+    },
+    {
+      "id": "LNG-06",
+      "group": "long natural sentences",
+      "query": "Need an immunity boosting tablet containing ascorbic acid and zinc to help recover faster from seasonal flu",
+      "expectedProductIds": [
+        "6842a053be8c07a7feddf3fb"
+      ],
+      "expectedProductNames": [
+        "Zinc + Vitamin C"
+      ],
+      "retrievedCount": 1,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Zinc + Vitamin C (C-Zee)",
+      "retrievedProducts": [
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee"
+        }
+      ]
+    },
+    {
+      "id": "LNG-07",
+      "group": "long natural sentences",
+      "query": "My father is a diabetic patient and his doctor told him to track daily fasting blood sugar levels at home",
+      "expectedProductIds": [
+        "6842a0f0be8c07a7feddf400"
+      ],
+      "expectedProductNames": [
+        "Blood Glucose Test Kit"
+      ],
+      "retrievedCount": 1,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Blood Glucose Test Kit (Accu-Chek)",
+      "retrievedProducts": [
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek"
+        }
+      ]
+    },
+    {
+      "id": "LNG-08",
+      "group": "long natural sentences",
+      "query": "I cut my knee while playing football outside, is there any antiseptic healing cream like Savlon to prevent infection?",
+      "expectedProductIds": [
+        "68429cf6be8c07a7feddf3a9"
+      ],
+      "expectedProductNames": [
+        "Antiseptic Cream"
+      ],
+      "retrievedCount": 1,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Antiseptic Cream (Savlon)",
+      "retrievedProducts": [
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon"
+        }
+      ]
+    },
+    {
+      "id": "HIN-01",
+      "group": "Hinglish/Bengali",
+      "query": "buk jala korche gas er oshudh ache?",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68",
+        "6842948da052a29e76f1ae87"
+      ],
+      "expectedProductNames": [
+        "Omeprazole",
+        "Ranitine"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "HIN-02",
+      "group": "Hinglish/Bengali",
+      "query": "matha betha ar jhor er jonno ki khabo",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59"
+      ],
+      "expectedProductNames": [
+        "Paracetamol"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "HIN-03",
+      "group": "Hinglish/Bengali",
+      "query": "pet kharab aur dast lag gayi hai koi dawai batao",
+      "expectedProductIds": [
+        "68429439a052a29e76f1ae82"
+      ],
+      "expectedProductNames": [
+        "Loperame"
+      ],
+      "retrievedCount": 0,
+      "isHit": false,
+      "firstHitRank": null,
+      "matchedProduct": null,
+      "retrievedProducts": []
+    },
+    {
+      "id": "HIN-04",
+      "group": "Hinglish/Bengali",
+      "query": "chehere pe mask lagane ke liye aur sanitiser chahiye",
+      "expectedProductIds": [
+        "68429e68be8c07a7feddf3c9",
+        "68429dc4be8c07a7feddf3bd"
+      ],
+      "expectedProductNames": [
+        "Face Mask",
+        "Hand Sanitizer"
+      ],
+      "retrievedCount": 2,
+      "isHit": true,
+      "firstHitRank": 2,
+      "matchedProduct": "Face Mask (3M)",
+      "retrievedProducts": [
+        {
+          "id": "684fbc3b42eb7a74023af910",
+          "name": "Face Mask",
+          "brand": "some"
+        },
+        {
+          "id": "68429e68be8c07a7feddf3c9",
+          "name": "Face Mask",
+          "brand": "3M"
+        }
+      ]
+    },
+    {
+      "id": "MED-01",
+      "group": "queries containing a medicine name",
+      "query": "do you have Paracetamol 500mg in stock?",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59"
+      ],
+      "expectedProductNames": [
+        "Paracetamol"
+      ],
+      "retrievedCount": 1,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Paracetamol (Dolo)",
+      "retrievedProducts": [
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo"
+        }
+      ]
+    },
+    {
+      "id": "MED-02",
+      "group": "queries containing a medicine name",
+      "query": "I want to buy Azithromycin tablets",
+      "expectedProductIds": [
+        "68428ffea052a29e76f1ae5e",
+        "69821e9c7d381ddae98b9c37"
+      ],
+      "expectedProductNames": [
+        "Azithromycin"
+      ],
+      "retrievedCount": 2,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Azithromycin (Azithral)",
+      "retrievedProducts": [
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma"
+        }
+      ]
+    },
+    {
+      "id": "MED-03",
+      "group": "queries containing a medicine name",
+      "query": "give me Dolo or Brufen for body pain",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59",
+        "6842921ea052a29e76f1ae72"
+      ],
+      "expectedProductNames": [
+        "Paracetamol",
+        "Ibuprofen"
+      ],
+      "retrievedCount": 2,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Ibuprofen (brufen)",
+      "retrievedProducts": [
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "brufen"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo"
+        }
+      ]
+    },
+    {
+      "id": "MED-04",
+      "group": "queries containing a medicine name",
+      "query": "price of Omez 20mg capsule",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68"
+      ],
+      "expectedProductNames": [
+        "Omeprazole"
+      ],
+      "retrievedCount": 1,
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Omeprazole (Omez)",
+      "retrievedProducts": [
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez"
+        }
+      ]
+    }
+  ]
+}

@@ -34,7 +34,11 @@ module.exports.fetchData = asyncHandler(async (req, res, next) => {
                 sideEffects: 1,
                 precautions: 1,
                 storage: 1,
-                manufacturer: 1
+                manufacturer: 1,
+                genericName: 1,
+                uses: 1,
+                keywords: 1,
+                prescriptionRequired: 1
             };
 
             const categoryWise = await Product.aggregate([
@@ -65,7 +69,11 @@ module.exports.fetchData = asyncHandler(async (req, res, next) => {
                                 sideEffects: "$sideEffects",
                                 precautions: "$precautions",
                                 storage: "$storage",
-                                manufacturer: "$manufacturer"
+                                manufacturer: "$manufacturer",
+                                genericName: "$genericName",
+                                uses: "$uses",
+                                keywords: "$keywords",
+                                prescriptionRequired: "$prescriptionRequired"
                             }
                         }
                     }
@@ -126,11 +134,11 @@ module.exports.addProduct = asyncHandler(async (req, res, next) => {
 
     const url = req.file.path;
     const filename = req.file.filename;
-    const { name, brand, form, strength, category, price, mainPrice, description, quantity, composition, benefits, usage, sideEffects, precautions, storage, manufacturer } = req.body;
+    const { name, brand, form, strength, category, price, mainPrice, description, quantity, composition, benefits, usage, sideEffects, precautions, storage, manufacturer, genericName, uses, keywords, prescriptionRequired } = req.body;
 
     const initProducts = new Product({
         name, brand, form, strength, category, mainPrice, price, description, quantity, hostId: req.user._id,
-        composition, benefits, usage, sideEffects, precautions, storage, manufacturer
+        composition, benefits, usage, sideEffects, precautions, storage, manufacturer, genericName, uses, keywords, prescriptionRequired
     });
     initProducts.imageUrl = { url, filename };
 
@@ -146,7 +154,7 @@ module.exports.addProduct = asyncHandler(async (req, res, next) => {
 
 module.exports.updateproduct = asyncHandler(async (req, res, next) => {
     const { id } = req.query;
-    const { name, brand, form, strength, category, mainPrice, price, description, quantity, composition, benefits, usage, sideEffects, precautions, storage, manufacturer } = req.body;
+    const { name, brand, form, strength, category, mainPrice, price, description, quantity, composition, benefits, usage, sideEffects, precautions, storage, manufacturer, genericName, uses, keywords, prescriptionRequired } = req.body;
 
     let updatedProduct = await Product.findById(id);
 
@@ -175,7 +183,11 @@ module.exports.updateproduct = asyncHandler(async (req, res, next) => {
         sideEffects,
         precautions,
         storage,
-        manufacturer
+        manufacturer,
+        genericName,
+        uses,
+        keywords,
+        prescriptionRequired
     }, {
         new: true,
         runValidators: true
