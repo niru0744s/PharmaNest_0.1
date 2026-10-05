@@ -4,9 +4,10 @@ const crypto = require("crypto");
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const { getCache, setCache } = require("../utils/cache");
 const { recordAiLatency, getAiLatencySummary } = require("../utils/latencyMetrics");
+const { vectorSearchProducts } = require("../services/vectorSearch");
 
-const AI_MODEL = "llama3";
-const AI_PROMPT_VERSION = "v2";
+const AI_MODEL = "openai/gpt-oss-20b";
+const AI_PROMPT_VERSION = "v3";
 const AI_CACHE_TTL_SECONDS = 600;
 const MAX_HISTORY_TURNS = 6;
 const MAX_HISTORY_CONTENT_CHARS = 300;
@@ -65,32 +66,56 @@ const persistChatMessages = async ({ userId, message, aiReply }) => {
 
 const buildProductContext = async (message) => {
     const productQueryStart = Date.now();
-    let products = await Product.find(
-        { $text: { $search: message } },
-        { score: { $meta: "textScore" } }
-    )
-        .sort({ score: { $meta: "textScore" } })
-        .limit(8)
-        .select("name category price brand description")
-        .lean();
+    let products = [];
+    let retrievalMethod = "vector";
 
-    if (products.length === 0) {
+    try {
+        products = await vectorSearchProducts(message, 8);
+    } catch (err) {
+        console.warn("[AI] Vector search failed or unavailable, falling back to text search:", err.message);
+    }
+
+    // Fallback 1: Text search if vector search returned nothing or threw error
+    if (!products || products.length === 0) {
+        retrievalMethod = "text";
+        try {
+            products = await Product.find(
+                { $text: { $search: message } },
+                { score: { $meta: "textScore" } }
+            )
+                .sort({ score: { $meta: "textScore" } })
+                .limit(8)
+                .select("name category price brand description genericName uses prescriptionRequired")
+                .lean();
+        } catch (textErr) {
+            console.warn("[AI] Text search fallback failed:", textErr.message);
+        }
+    }
+
+    // Fallback 2: Top-selling products if both searches returned nothing
+    if (!products || products.length === 0) {
+        retrievalMethod = "popular";
         products = await Product.find({})
             .sort({ soldQuantity: -1 })
             .limit(MAX_CONTEXT_PRODUCTS)
-            .select("name category price brand description")
+            .select("name category price brand description genericName uses prescriptionRequired")
             .lean();
     }
 
     const productContext = products
         .slice(0, MAX_CONTEXT_PRODUCTS)
-        .map((p) =>
-            `${p.name} (${p.category}) by ${p.brand} - ₹${p.price}. Description: ${(p.description || "").substring(0, MAX_PRODUCT_DESCRIPTION_CHARS)}...`
-        )
+        .map((p) => {
+            const generic = p.genericName ? ` [Generic: ${p.genericName}]` : "";
+            const usesStr = Array.isArray(p.uses) && p.uses.length ? ` Uses: ${p.uses.slice(0, 3).join(", ")}.` : "";
+            const rxStr = p.prescriptionRequired ? " (Prescription Required)" : "";
+            const desc = (p.description || "").substring(0, MAX_PRODUCT_DESCRIPTION_CHARS);
+            return `${p.name}${generic} (${p.category}) by ${p.brand} - ₹${p.price}${rxStr}.${usesStr} Description: ${desc}...`;
+        })
         .join("\n");
 
     return {
         productContext,
+        retrievalMethod,
         productQueryMs: Date.now() - productQueryStart
     };
 };
@@ -134,10 +159,13 @@ const buildProviderPayload = ({ messages, stream }) => {
     return payload;
 };
 
-const getAuthHeaders = () => ({
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${process.env.LLM7_API_KEY}`
-});
+const getAuthHeaders = () => {
+    const apiKey = process.env.AI_API_KEY || "";
+    return {
+        "Content-Type": "application/json",
+        ...(apiKey ? { "Authorization": `Bearer ${apiKey}` } : {})
+    };
+};
 
 const parseStreamChunk = (line) => {
     const trimmed = line.trim();

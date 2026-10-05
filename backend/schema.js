@@ -71,6 +71,10 @@ module.exports.products = joi.object({
         precautions: joi.string().allow("", null),
         storage: joi.string().allow("", null),
         manufacturer: joi.string().allow("", null),
+        genericName: joi.string().allow("", null),
+        uses: joi.array().items(joi.string()).allow(null),
+        keywords: joi.array().items(joi.string()).allow(null),
+        prescriptionRequired: joi.boolean().default(false),
 });
 
 module.exports.location = joi.object({

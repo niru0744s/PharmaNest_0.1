@@ -119,6 +119,27 @@ const newSchema = mongoose.Schema({
     manufacturer: {
         type: String,
         default: ""
+    },
+    genericName: {
+        type: String,
+        trim: true,
+        default: ""
+    },
+    uses: {
+        type: [String],
+        default: []
+    },
+    keywords: {
+        type: [String],
+        default: []
+    },
+    prescriptionRequired: {
+        type: Boolean,
+        default: false
+    },
+    embedding: {
+        type: [Number],
+        default: undefined
     }
 }, {
     timestamps: true
@@ -145,7 +166,10 @@ newSchema.index({
     brand: 'text',
     category: 'text',
     description: 'text',
-    composition: 'text'
+    composition: 'text',
+    genericName: 'text',
+    uses: 'text',
+    keywords: 'text'
 }); // Enhanced Text search
 newSchema.index({ category: 1, price: 1 }); // Filter by category and price
 newSchema.index({ hostId: 1, category: 1 }); // Seller's products by category

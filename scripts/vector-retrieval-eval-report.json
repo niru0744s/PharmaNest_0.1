@@ -1,0 +1,2823 @@
+{
+  "summary": {
+    "totalQueries": 40,
+    "totalHits": 40,
+    "hitRate": "100.0%",
+    "totalZeroResults": 0,
+    "zeroResultRate": "0.0%",
+    "avgRankOverall": "1.00",
+    "mrrOverall": "1.000"
+  },
+  "groupStats": {
+    "symptom-based": {
+      "total": 10,
+      "hits": 10,
+      "zeroResults": 0,
+      "ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "reciprocalRanks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "vague/casual wording": {
+      "total": 8,
+      "hits": 8,
+      "zeroResults": 0,
+      "ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "reciprocalRanks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "typos in medicine names": {
+      "total": 6,
+      "hits": 6,
+      "zeroResults": 0,
+      "ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "reciprocalRanks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "long natural sentences": {
+      "total": 8,
+      "hits": 8,
+      "zeroResults": 0,
+      "ranks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "reciprocalRanks": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "Hinglish/Bengali": {
+      "total": 4,
+      "hits": 4,
+      "zeroResults": 0,
+      "ranks": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "reciprocalRanks": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "queries containing a medicine name": {
+      "total": 4,
+      "hits": 4,
+      "zeroResults": 0,
+      "ranks": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "reciprocalRanks": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  },
+  "results": [
+    {
+      "id": "SYM-01",
+      "group": "symptom-based",
+      "query": "medicine for high fever and body ache",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59",
+        "6842921ea052a29e76f1ae72"
+      ],
+      "expectedProductNames": [
+        "Paracetamol",
+        "Ibuprofen"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Paracetamol (Dolo)",
+      "retrievedProducts": [
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.867"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.851"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.813"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.809"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.807"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.807"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.802"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.802"
+        }
+      ]
+    },
+    {
+      "id": "SYM-02",
+      "group": "symptom-based",
+      "query": "severe acidity and burning stomach",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68",
+        "6842948da052a29e76f1ae87"
+      ],
+      "expectedProductNames": [
+        "Omeprazole",
+        "Ranitine"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Omeprazole (Omez)",
+      "retrievedProducts": [
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.850"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.834"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.801"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.790"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.788"
+        },
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek",
+          "score": "0.787"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.786"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.784"
+        }
+      ]
+    },
+    {
+      "id": "SYM-03",
+      "group": "symptom-based",
+      "query": "running nose sneezing and dust allergy",
+      "expectedProductIds": [
+        "6842926da052a29e76f1ae77",
+        "684292bba052a29e76f1ae7c"
+      ],
+      "expectedProductNames": [
+        "Cetirizine",
+        "Levocetirizine"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Cetirizine (Zyrtec)",
+      "retrievedProducts": [
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.852"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.847"
+        },
+        {
+          "id": "68429e68be8c07a7feddf3c9",
+          "name": "Face Mask",
+          "brand": "3M",
+          "score": "0.801"
+        },
+        {
+          "id": "68429f96be8c07a7feddf3e7",
+          "name": "Nasal Aspirator",
+          "brand": "Chicco",
+          "score": "0.798"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.795"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.786"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.783"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.780"
+        }
+      ]
+    },
+    {
+      "id": "SYM-04",
+      "group": "symptom-based",
+      "query": "loose motion and frequent watery stool",
+      "expectedProductIds": [
+        "68429439a052a29e76f1ae82"
+      ],
+      "expectedProductNames": [
+        "Loperame"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Loperamide (Imodium)",
+      "retrievedProducts": [
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.849"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.791"
+        },
+        {
+          "id": "68429f68be8c07a7feddf3e2",
+          "name": "Baby Lotion",
+          "brand": "Johnson's",
+          "score": "0.790"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.788"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.786"
+        },
+        {
+          "id": "68429e01be8c07a7feddf3c2",
+          "name": "Liquid Soap",
+          "brand": "Lifebuoy",
+          "score": "0.786"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.784"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.783"
+        }
+      ]
+    },
+    {
+      "id": "SYM-05",
+      "group": "symptom-based",
+      "query": "bacterial throat infection and chest congestion",
+      "expectedProductIds": [
+        "68428ffea052a29e76f1ae5e",
+        "69821e9c7d381ddae98b9c37"
+      ],
+      "expectedProductNames": [
+        "Azithromycin (Azithral)",
+        "Azithromycin (Sun pharma)"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Azithromycin (Azithral)",
+      "retrievedProducts": [
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.832"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.823"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.793"
+        },
+        {
+          "id": "68429f96be8c07a7feddf3e7",
+          "name": "Nasal Aspirator",
+          "brand": "Chicco",
+          "score": "0.788"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.779"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.778"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.777"
+        },
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.773"
+        }
+      ]
+    },
+    {
+      "id": "SYM-06",
+      "group": "symptom-based",
+      "query": "fungal skin infection and itching",
+      "expectedProductIds": [
+        "684290d4a052a29e76f1ae6d"
+      ],
+      "expectedProductNames": [
+        "Fluconazole"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Fluconazole (Diflucan)",
+      "retrievedProducts": [
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan",
+          "score": "0.823"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.799"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.798"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.790"
+        },
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.784"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.780"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.779"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.778"
+        }
+      ]
+    },
+    {
+      "id": "SYM-07",
+      "group": "symptom-based",
+      "query": "joint pain and knee inflammation",
+      "expectedProductIds": [
+        "6842921ea052a29e76f1ae72",
+        "6842a12bbe8c07a7feddf405"
+      ],
+      "expectedProductNames": [
+        "Ibuprofen",
+        "Calcium + Magnesium"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Ibuprofen (Brufen)",
+      "retrievedProducts": [
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.819"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.788"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.788"
+        },
+        {
+          "id": "68429ff0be8c07a7feddf3f1",
+          "name": "Vitamin D3",
+          "brand": "Calcimax",
+          "score": "0.788"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.784"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.783"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.777"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.777"
+        }
+      ]
+    },
+    {
+      "id": "SYM-08",
+      "group": "symptom-based",
+      "query": "minor bleeding finger cut from kitchen knife",
+      "expectedProductIds": [
+        "68429cbdbe8c07a7feddf3a4",
+        "68429cf6be8c07a7feddf3a9"
+      ],
+      "expectedProductNames": [
+        "Adhesive Bandage",
+        "Antiseptic Cream"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Adhesive Bandage (Band-A)",
+      "retrievedProducts": [
+        {
+          "id": "68429cbdbe8c07a7feddf3a4",
+          "name": "Adhesive Bandage",
+          "brand": "Band-A",
+          "score": "0.833"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.805"
+        },
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.797"
+        },
+        {
+          "id": "68429d8cbe8c07a7feddf3b8",
+          "name": "Surgical Tape",
+          "brand": "Generic",
+          "score": "0.794"
+        },
+        {
+          "id": "68429d2dbe8c07a7feddf3ae",
+          "name": "Cotton Roll",
+          "brand": "Generic",
+          "score": "0.786"
+        },
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek",
+          "score": "0.782"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.776"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.776"
+        }
+      ]
+    },
+    {
+      "id": "SYM-09",
+      "group": "symptom-based",
+      "query": "baby has diaper rash and dry skin",
+      "expectedProductIds": [
+        "68429f68be8c07a7feddf3e2",
+        "68429efbbe8c07a7feddf3d8"
+      ],
+      "expectedProductNames": [
+        "Baby Lotion",
+        "Baby Wipes"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Baby Lotion (Johnson's)",
+      "retrievedProducts": [
+        {
+          "id": "68429f68be8c07a7feddf3e2",
+          "name": "Baby Lotion",
+          "brand": "Johnson's",
+          "score": "0.826"
+        },
+        {
+          "id": "68429f32be8c07a7feddf3dd",
+          "name": "Baby Diapers",
+          "brand": "Pampers",
+          "score": "0.807"
+        },
+        {
+          "id": "68429efbbe8c07a7feddf3d8",
+          "name": "Baby Wipes",
+          "brand": "Pampers",
+          "score": "0.802"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.779"
+        },
+        {
+          "id": "68429f96be8c07a7feddf3e7",
+          "name": "Nasal Aspirator",
+          "brand": "Chicco",
+          "score": "0.773"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.770"
+        },
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan",
+          "score": "0.770"
+        },
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.768"
+        }
+      ]
+    },
+    {
+      "id": "SYM-10",
+      "group": "symptom-based",
+      "query": "blocked nose in infant cannot breathe easily",
+      "expectedProductIds": [
+        "68429f96be8c07a7feddf3e7"
+      ],
+      "expectedProductNames": [
+        "Nasal Aspirator"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Nasal Aspirator (Chicco)",
+      "retrievedProducts": [
+        {
+          "id": "68429f96be8c07a7feddf3e7",
+          "name": "Nasal Aspirator",
+          "brand": "Chicco",
+          "score": "0.847"
+        },
+        {
+          "id": "68429f68be8c07a7feddf3e2",
+          "name": "Baby Lotion",
+          "brand": "Johnson's",
+          "score": "0.787"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.785"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.784"
+        },
+        {
+          "id": "68429f32be8c07a7feddf3dd",
+          "name": "Baby Diapers",
+          "brand": "Pampers",
+          "score": "0.782"
+        },
+        {
+          "id": "68429efbbe8c07a7feddf3d8",
+          "name": "Baby Wipes",
+          "brand": "Pampers",
+          "score": "0.778"
+        },
+        {
+          "id": "68429e68be8c07a7feddf3c9",
+          "name": "Face Mask",
+          "brand": "3M",
+          "score": "0.777"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.776"
+        }
+      ]
+    },
+    {
+      "id": "VAG-01",
+      "group": "vague/casual wording",
+      "query": "something for weakness and low energy",
+      "expectedProductIds": [
+        "68429fc6be8c07a7feddf3ec",
+        "6842a053be8c07a7feddf3fb"
+      ],
+      "expectedProductNames": [
+        "Multivitamin Syrup",
+        "Zinc + Vitamin C"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Multivitamin Syrup (Becadexamin)",
+      "retrievedProducts": [
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.858"
+        },
+        {
+          "id": "68429ff0be8c07a7feddf3f1",
+          "name": "Vitamin D3",
+          "brand": "Calcimax",
+          "score": "0.816"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.813"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.813"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.810"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.805"
+        },
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek",
+          "score": "0.801"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.800"
+        }
+      ]
+    },
+    {
+      "id": "VAG-02",
+      "group": "vague/casual wording",
+      "query": "my tummy is upset since morning",
+      "expectedProductIds": [
+        "68429439a052a29e76f1ae82",
+        "6842907ca052a29e76f1ae68"
+      ],
+      "expectedProductNames": [
+        "Loperame",
+        "Omeprazole"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Loperamide (Imodium)",
+      "retrievedProducts": [
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.806"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.804"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.796"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.792"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.786"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.786"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.784"
+        },
+        {
+          "id": "6842a15abe8c07a7feddf40a",
+          "name": "Pregnancy Test Kit",
+          "brand": "Clearblue",
+          "score": "0.781"
+        }
+      ]
+    },
+    {
+      "id": "VAG-03",
+      "group": "vague/casual wording",
+      "query": "stuff to clean hands without water",
+      "expectedProductIds": [
+        "68429dc4be8c07a7feddf3bd",
+        "68429ecbbe8c07a7feddf3d3"
+      ],
+      "expectedProductNames": [
+        "Hand Sanitizer",
+        "Wet Wipes"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Hand Sanitizer (Dettol)",
+      "retrievedProducts": [
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.850"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.833"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.818"
+        },
+        {
+          "id": "68429e01be8c07a7feddf3c2",
+          "name": "Liquid Soap",
+          "brand": "Lifebuoy",
+          "score": "0.817"
+        },
+        {
+          "id": "68429efbbe8c07a7feddf3d8",
+          "name": "Baby Wipes",
+          "brand": "Pampers",
+          "score": "0.806"
+        },
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.802"
+        },
+        {
+          "id": "68429d2dbe8c07a7feddf3ae",
+          "name": "Cotton Roll",
+          "brand": "Generic",
+          "score": "0.800"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.797"
+        }
+      ]
+    },
+    {
+      "id": "VAG-04",
+      "group": "vague/casual wording",
+      "query": "tape to stick cotton dressing",
+      "expectedProductIds": [
+        "68429d8cbe8c07a7feddf3b8"
+      ],
+      "expectedProductNames": [
+        "Surgical Tape"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Surgical Tape (Generic)",
+      "retrievedProducts": [
+        {
+          "id": "68429d8cbe8c07a7feddf3b8",
+          "name": "Surgical Tape",
+          "brand": "Generic",
+          "score": "0.869"
+        },
+        {
+          "id": "68429d2dbe8c07a7feddf3ae",
+          "name": "Cotton Roll",
+          "brand": "Generic",
+          "score": "0.845"
+        },
+        {
+          "id": "68429cbdbe8c07a7feddf3a4",
+          "name": "Adhesive Bandage",
+          "brand": "Band-A",
+          "score": "0.837"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.826"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.790"
+        },
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.785"
+        },
+        {
+          "id": "68429f32be8c07a7feddf3dd",
+          "name": "Baby Diapers",
+          "brand": "Pampers",
+          "score": "0.785"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.782"
+        }
+      ]
+    },
+    {
+      "id": "VAG-05",
+      "group": "vague/casual wording",
+      "query": "pills for weak bones",
+      "expectedProductIds": [
+        "68429ff0be8c07a7feddf3f1",
+        "6842a12bbe8c07a7feddf405"
+      ],
+      "expectedProductNames": [
+        "Vitamin D3",
+        "Calcium + Magnesium"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Vitamin D3 (Calcimax)",
+      "retrievedProducts": [
+        {
+          "id": "68429ff0be8c07a7feddf3f1",
+          "name": "Vitamin D3",
+          "brand": "Calcimax",
+          "score": "0.854"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.853"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.805"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.803"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.797"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.795"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.791"
+        },
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan",
+          "score": "0.788"
+        }
+      ]
+    },
+    {
+      "id": "VAG-06",
+      "group": "vague/casual wording",
+      "query": "check my sugar level at home",
+      "expectedProductIds": [
+        "6842a0f0be8c07a7feddf400"
+      ],
+      "expectedProductNames": [
+        "Blood Glucose Test Kit"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Blood Glucose Test Kit (Accu-Chek)",
+      "retrievedProducts": [
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek",
+          "score": "0.846"
+        },
+        {
+          "id": "6842a1e0be8c07a7feddf419",
+          "name": "Cholesterol Test Kit",
+          "brand": "CardioCheck",
+          "score": "0.814"
+        },
+        {
+          "id": "6842a15abe8c07a7feddf40a",
+          "name": "Pregnancy Test Kit",
+          "brand": "Clearblue",
+          "score": "0.786"
+        },
+        {
+          "id": "6842a1b8be8c07a7feddf414",
+          "name": "HIV Self Test Kit",
+          "brand": "OraQuick",
+          "score": "0.786"
+        },
+        {
+          "id": "6842a186be8c07a7feddf40f",
+          "name": "COVID-19 Rapid Test",
+          "brand": "Abbott",
+          "score": "0.785"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.769"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.768"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.766"
+        }
+      ]
+    },
+    {
+      "id": "VAG-07",
+      "group": "vague/casual wording",
+      "query": "protection against air pollution and dust when going out",
+      "expectedProductIds": [
+        "68429e68be8c07a7feddf3c9"
+      ],
+      "expectedProductNames": [
+        "Face Mask"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Face Mask (3M)",
+      "retrievedProducts": [
+        {
+          "id": "68429e68be8c07a7feddf3c9",
+          "name": "Face Mask",
+          "brand": "3M",
+          "score": "0.849"
+        },
+        {
+          "id": "68429f96be8c07a7feddf3e7",
+          "name": "Nasal Aspirator",
+          "brand": "Chicco",
+          "score": "0.808"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.807"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.807"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.806"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.806"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.805"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.796"
+        }
+      ]
+    },
+    {
+      "id": "VAG-08",
+      "group": "vague/casual wording",
+      "query": "good supplement for heart and brain health",
+      "expectedProductIds": [
+        "6842a023be8c07a7feddf3f6"
+      ],
+      "expectedProductNames": [
+        "Omega-3 Fish Oil"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Omega-3 Fish Oil (Seven Seas)",
+      "retrievedProducts": [
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.869"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.795"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.794"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.792"
+        },
+        {
+          "id": "68429ff0be8c07a7feddf3f1",
+          "name": "Vitamin D3",
+          "brand": "Calcimax",
+          "score": "0.789"
+        },
+        {
+          "id": "6842a1e0be8c07a7feddf419",
+          "name": "Cholesterol Test Kit",
+          "brand": "CardioCheck",
+          "score": "0.784"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.774"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.773"
+        }
+      ]
+    },
+    {
+      "id": "TYP-01",
+      "group": "typos in medicine names",
+      "query": "paracetmol 650 tablet",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59"
+      ],
+      "expectedProductNames": [
+        "Paracetamol"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Paracetamol (Dolo)",
+      "retrievedProducts": [
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.850"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.808"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.788"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.784"
+        },
+        {
+          "id": "68429ff0be8c07a7feddf3f1",
+          "name": "Vitamin D3",
+          "brand": "Calcimax",
+          "score": "0.783"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.782"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.781"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.780"
+        }
+      ]
+    },
+    {
+      "id": "TYP-02",
+      "group": "typos in medicine names",
+      "query": "azithromicin for throat",
+      "expectedProductIds": [
+        "68428ffea052a29e76f1ae5e",
+        "69821e9c7d381ddae98b9c37"
+      ],
+      "expectedProductNames": [
+        "Azithromycin"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Azithromycin (Sun pharma)",
+      "retrievedProducts": [
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.860"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.852"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.775"
+        },
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan",
+          "score": "0.772"
+        },
+        {
+          "id": "6842a186be8c07a7feddf40f",
+          "name": "COVID-19 Rapid Test",
+          "brand": "Abbott",
+          "score": "0.771"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.770"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.766"
+        },
+        {
+          "id": "6842a1b8be8c07a7feddf414",
+          "name": "HIV Self Test Kit",
+          "brand": "OraQuick",
+          "score": "0.765"
+        }
+      ]
+    },
+    {
+      "id": "TYP-03",
+      "group": "typos in medicine names",
+      "query": "citerizine allergy tablet",
+      "expectedProductIds": [
+        "6842926da052a29e76f1ae77"
+      ],
+      "expectedProductNames": [
+        "Cetirizine"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Cetirizine (Zyrtec)",
+      "retrievedProducts": [
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.876"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.849"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.806"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.806"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.796"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.795"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.791"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.783"
+        }
+      ]
+    },
+    {
+      "id": "TYP-04",
+      "group": "typos in medicine names",
+      "query": "ibuprufen for headache",
+      "expectedProductIds": [
+        "6842921ea052a29e76f1ae72"
+      ],
+      "expectedProductNames": [
+        "Ibuprofen"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Ibuprofen (Brufen)",
+      "retrievedProducts": [
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.852"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.801"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.760"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.760"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.758"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.756"
+        },
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan",
+          "score": "0.754"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.753"
+        }
+      ]
+    },
+    {
+      "id": "TYP-05",
+      "group": "typos in medicine names",
+      "query": "omeprazol capsules for gas",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68"
+      ],
+      "expectedProductNames": [
+        "Omeprazole"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Omeprazole (Omez)",
+      "retrievedProducts": [
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.873"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.813"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.801"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.794"
+        },
+        {
+          "id": "68429f96be8c07a7feddf3e7",
+          "name": "Nasal Aspirator",
+          "brand": "Chicco",
+          "score": "0.771"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.767"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.763"
+        },
+        {
+          "id": "68429f32be8c07a7feddf3dd",
+          "name": "Baby Diapers",
+          "brand": "Pampers",
+          "score": "0.763"
+        }
+      ]
+    },
+    {
+      "id": "TYP-06",
+      "group": "typos in medicine names",
+      "query": "flucanazole fungal tablet",
+      "expectedProductIds": [
+        "684290d4a052a29e76f1ae6d"
+      ],
+      "expectedProductNames": [
+        "Fluconazole"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Fluconazole (Diflucan)",
+      "retrievedProducts": [
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan",
+          "score": "0.868"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.797"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.793"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.786"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.782"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.780"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.778"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.776"
+        }
+      ]
+    },
+    {
+      "id": "LNG-01",
+      "group": "long natural sentences",
+      "query": "Hello doctor, I woke up today with a mild fever of 100 degrees and a throbbing headache, what medicine do you recommend?",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59"
+      ],
+      "expectedProductNames": [
+        "Paracetamol"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Paracetamol (Dolo)",
+      "retrievedProducts": [
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.846"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.830"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.796"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.789"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.788"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.788"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.785"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.785"
+        }
+      ]
+    },
+    {
+      "id": "LNG-02",
+      "group": "long natural sentences",
+      "query": "My newborn baby has sensitive skin and we need safe gentle diapers for overnight protection",
+      "expectedProductIds": [
+        "68429f32be8c07a7feddf3dd"
+      ],
+      "expectedProductNames": [
+        "Baby Diapers"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Baby Diapers (Pampers)",
+      "retrievedProducts": [
+        {
+          "id": "68429f32be8c07a7feddf3dd",
+          "name": "Baby Diapers",
+          "brand": "Pampers",
+          "score": "0.852"
+        },
+        {
+          "id": "68429efbbe8c07a7feddf3d8",
+          "name": "Baby Wipes",
+          "brand": "Pampers",
+          "score": "0.824"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.808"
+        },
+        {
+          "id": "68429f68be8c07a7feddf3e2",
+          "name": "Baby Lotion",
+          "brand": "Johnson's",
+          "score": "0.806"
+        },
+        {
+          "id": "68429d8cbe8c07a7feddf3b8",
+          "name": "Surgical Tape",
+          "brand": "Generic",
+          "score": "0.785"
+        },
+        {
+          "id": "68429f96be8c07a7feddf3e7",
+          "name": "Nasal Aspirator",
+          "brand": "Chicco",
+          "score": "0.783"
+        },
+        {
+          "id": "68429d2dbe8c07a7feddf3ae",
+          "name": "Cotton Roll",
+          "brand": "Generic",
+          "score": "0.776"
+        },
+        {
+          "id": "68429cbdbe8c07a7feddf3a4",
+          "name": "Adhesive Bandage",
+          "brand": "Band-A",
+          "score": "0.774"
+        }
+      ]
+    },
+    {
+      "id": "LNG-03",
+      "group": "long natural sentences",
+      "query": "I ate some oily street food yesterday night and now feeling severe gas reflux and heartburn in my chest",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68",
+        "6842948da052a29e76f1ae87"
+      ],
+      "expectedProductNames": [
+        "Omeprazole",
+        "Ranitine"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Omeprazole (Omez)",
+      "retrievedProducts": [
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.825"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.816"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.793"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.789"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.779"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.778"
+        },
+        {
+          "id": "6842a1e0be8c07a7feddf419",
+          "name": "Cholesterol Test Kit",
+          "brand": "CardioCheck",
+          "score": "0.774"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.773"
+        }
+      ]
+    },
+    {
+      "id": "LNG-04",
+      "group": "long natural sentences",
+      "query": "We are preparing a basic emergency first aid kit for our home and need sterile wound cleaning gauze and bandage",
+      "expectedProductIds": [
+        "68429d59be8c07a7feddf3b3",
+        "68429cbdbe8c07a7feddf3a4"
+      ],
+      "expectedProductNames": [
+        "Gauze Pads",
+        "Adhesive Bandage"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Gauze Pads (Generic)",
+      "retrievedProducts": [
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.860"
+        },
+        {
+          "id": "68429d2dbe8c07a7feddf3ae",
+          "name": "Cotton Roll",
+          "brand": "Generic",
+          "score": "0.843"
+        },
+        {
+          "id": "68429cbdbe8c07a7feddf3a4",
+          "name": "Adhesive Bandage",
+          "brand": "Band-A",
+          "score": "0.831"
+        },
+        {
+          "id": "68429d8cbe8c07a7feddf3b8",
+          "name": "Surgical Tape",
+          "brand": "Generic",
+          "score": "0.820"
+        },
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.808"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.802"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.797"
+        },
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek",
+          "score": "0.789"
+        }
+      ]
+    },
+    {
+      "id": "LNG-05",
+      "group": "long natural sentences",
+      "query": "I have missed my period by 4 days and would like to test at home discreetly to confirm if I am pregnant",
+      "expectedProductIds": [
+        "6842a15abe8c07a7feddf40a"
+      ],
+      "expectedProductNames": [
+        "Pregnancy Test Kit"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Pregnancy Test Kit (Clearblue)",
+      "retrievedProducts": [
+        {
+          "id": "6842a15abe8c07a7feddf40a",
+          "name": "Pregnancy Test Kit",
+          "brand": "Clearblue",
+          "score": "0.855"
+        },
+        {
+          "id": "6842a1b8be8c07a7feddf414",
+          "name": "HIV Self Test Kit",
+          "brand": "OraQuick",
+          "score": "0.813"
+        },
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek",
+          "score": "0.795"
+        },
+        {
+          "id": "6842a1e0be8c07a7feddf419",
+          "name": "Cholesterol Test Kit",
+          "brand": "CardioCheck",
+          "score": "0.795"
+        },
+        {
+          "id": "6842a186be8c07a7feddf40f",
+          "name": "COVID-19 Rapid Test",
+          "brand": "Abbott",
+          "score": "0.793"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.772"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.766"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.764"
+        }
+      ]
+    },
+    {
+      "id": "LNG-06",
+      "group": "long natural sentences",
+      "query": "Need an immunity boosting tablet containing ascorbic acid and zinc to help recover faster from seasonal flu",
+      "expectedProductIds": [
+        "6842a053be8c07a7feddf3fb"
+      ],
+      "expectedProductNames": [
+        "Zinc + Vitamin C"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Zinc + Vitamin C (C-Zee)",
+      "retrievedProducts": [
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.881"
+        },
+        {
+          "id": "68429ff0be8c07a7feddf3f1",
+          "name": "Vitamin D3",
+          "brand": "Calcimax",
+          "score": "0.810"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.806"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.805"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.804"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.802"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.800"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.797"
+        }
+      ]
+    },
+    {
+      "id": "LNG-07",
+      "group": "long natural sentences",
+      "query": "My father is a diabetic patient and his doctor told him to track daily fasting blood sugar levels at home",
+      "expectedProductIds": [
+        "6842a0f0be8c07a7feddf400"
+      ],
+      "expectedProductNames": [
+        "Blood Glucose Test Kit"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Blood Glucose Test Kit (Accu-Chek)",
+      "retrievedProducts": [
+        {
+          "id": "6842a0f0be8c07a7feddf400",
+          "name": "Blood Glucose Test Kit",
+          "brand": "Accu-Chek",
+          "score": "0.853"
+        },
+        {
+          "id": "6842a1e0be8c07a7feddf419",
+          "name": "Cholesterol Test Kit",
+          "brand": "CardioCheck",
+          "score": "0.803"
+        },
+        {
+          "id": "68429cbdbe8c07a7feddf3a4",
+          "name": "Adhesive Bandage",
+          "brand": "Band-A",
+          "score": "0.792"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.789"
+        },
+        {
+          "id": "6842a15abe8c07a7feddf40a",
+          "name": "Pregnancy Test Kit",
+          "brand": "Clearblue",
+          "score": "0.786"
+        },
+        {
+          "id": "68429d8cbe8c07a7feddf3b8",
+          "name": "Surgical Tape",
+          "brand": "Generic",
+          "score": "0.783"
+        },
+        {
+          "id": "68429d2dbe8c07a7feddf3ae",
+          "name": "Cotton Roll",
+          "brand": "Generic",
+          "score": "0.781"
+        },
+        {
+          "id": "6842a186be8c07a7feddf40f",
+          "name": "COVID-19 Rapid Test",
+          "brand": "Abbott",
+          "score": "0.780"
+        }
+      ]
+    },
+    {
+      "id": "LNG-08",
+      "group": "long natural sentences",
+      "query": "I cut my knee while playing football outside, is there any antiseptic healing cream like Savlon to prevent infection?",
+      "expectedProductIds": [
+        "68429cf6be8c07a7feddf3a9"
+      ],
+      "expectedProductNames": [
+        "Antiseptic Cream"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Antiseptic Cream (Savlon)",
+      "retrievedProducts": [
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.880"
+        },
+        {
+          "id": "68429cbdbe8c07a7feddf3a4",
+          "name": "Adhesive Bandage",
+          "brand": "Band-A",
+          "score": "0.821"
+        },
+        {
+          "id": "68429d2dbe8c07a7feddf3ae",
+          "name": "Cotton Roll",
+          "brand": "Generic",
+          "score": "0.815"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.810"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.810"
+        },
+        {
+          "id": "68429e01be8c07a7feddf3c2",
+          "name": "Liquid Soap",
+          "brand": "Lifebuoy",
+          "score": "0.804"
+        },
+        {
+          "id": "68429d8cbe8c07a7feddf3b8",
+          "name": "Surgical Tape",
+          "brand": "Generic",
+          "score": "0.800"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.796"
+        }
+      ]
+    },
+    {
+      "id": "HIN-01",
+      "group": "Hinglish/Bengali",
+      "query": "buk jala korche gas er oshudh ache?",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68",
+        "6842948da052a29e76f1ae87"
+      ],
+      "expectedProductNames": [
+        "Omeprazole",
+        "Ranitine"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Omeprazole (Omez)",
+      "retrievedProducts": [
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.866"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.862"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.816"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.816"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.815"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.808"
+        },
+        {
+          "id": "68429cf6be8c07a7feddf3a9",
+          "name": "Antiseptic Cream",
+          "brand": "Savlon",
+          "score": "0.807"
+        },
+        {
+          "id": "68429d59be8c07a7feddf3b3",
+          "name": "Gauze Pads",
+          "brand": "Generic",
+          "score": "0.806"
+        }
+      ]
+    },
+    {
+      "id": "HIN-02",
+      "group": "Hinglish/Bengali",
+      "query": "matha betha ar jhor er jonno ki khabo",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59"
+      ],
+      "expectedProductNames": [
+        "Paracetamol"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Paracetamol (Dolo)",
+      "retrievedProducts": [
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.827"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.821"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.815"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.812"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.809"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.805"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.805"
+        },
+        {
+          "id": "68429f68be8c07a7feddf3e2",
+          "name": "Baby Lotion",
+          "brand": "Johnson's",
+          "score": "0.804"
+        }
+      ]
+    },
+    {
+      "id": "HIN-03",
+      "group": "Hinglish/Bengali",
+      "query": "pet kharab aur dast lag gayi hai koi dawai batao",
+      "expectedProductIds": [
+        "68429439a052a29e76f1ae82"
+      ],
+      "expectedProductNames": [
+        "Loperame"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Loperamide (Imodium)",
+      "retrievedProducts": [
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.855"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.818"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.817"
+        },
+        {
+          "id": "68429e01be8c07a7feddf3c2",
+          "name": "Liquid Soap",
+          "brand": "Lifebuoy",
+          "score": "0.813"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.811"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.809"
+        },
+        {
+          "id": "68429fc6be8c07a7feddf3ec",
+          "name": "Multivitamin Syrup",
+          "brand": "Becadexamin",
+          "score": "0.807"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.805"
+        }
+      ]
+    },
+    {
+      "id": "HIN-04",
+      "group": "Hinglish/Bengali",
+      "query": "chehere pe mask lagane ke liye aur sanitiser chahiye",
+      "expectedProductIds": [
+        "68429e68be8c07a7feddf3c9",
+        "68429dc4be8c07a7feddf3bd"
+      ],
+      "expectedProductNames": [
+        "Face Mask",
+        "Hand Sanitizer"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Face Mask (3M)",
+      "retrievedProducts": [
+        {
+          "id": "68429e68be8c07a7feddf3c9",
+          "name": "Face Mask",
+          "brand": "3M",
+          "score": "0.848"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.845"
+        },
+        {
+          "id": "68429ecbbe8c07a7feddf3d3",
+          "name": "Wet Wipes",
+          "brand": "Pampers",
+          "score": "0.818"
+        },
+        {
+          "id": "68429e9dbe8c07a7feddf3ce",
+          "name": "Tissue Pack",
+          "brand": "Kleenex",
+          "score": "0.817"
+        },
+        {
+          "id": "68429e01be8c07a7feddf3c2",
+          "name": "Liquid Soap",
+          "brand": "Lifebuoy",
+          "score": "0.812"
+        },
+        {
+          "id": "68429d8cbe8c07a7feddf3b8",
+          "name": "Surgical Tape",
+          "brand": "Generic",
+          "score": "0.812"
+        },
+        {
+          "id": "68429f96be8c07a7feddf3e7",
+          "name": "Nasal Aspirator",
+          "brand": "Chicco",
+          "score": "0.809"
+        },
+        {
+          "id": "68429cbdbe8c07a7feddf3a4",
+          "name": "Adhesive Bandage",
+          "brand": "Band-A",
+          "score": "0.804"
+        }
+      ]
+    },
+    {
+      "id": "MED-01",
+      "group": "queries containing a medicine name",
+      "query": "do you have Paracetamol 500mg in stock?",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59"
+      ],
+      "expectedProductNames": [
+        "Paracetamol"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Paracetamol (Dolo)",
+      "retrievedProducts": [
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.852"
+        },
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.815"
+        },
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.800"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.796"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.788"
+        },
+        {
+          "id": "68429dc4be8c07a7feddf3bd",
+          "name": "Hand Sanitizer",
+          "brand": "Dettol",
+          "score": "0.788"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.786"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.783"
+        }
+      ]
+    },
+    {
+      "id": "MED-02",
+      "group": "queries containing a medicine name",
+      "query": "I want to buy Azithromycin tablets",
+      "expectedProductIds": [
+        "68428ffea052a29e76f1ae5e",
+        "69821e9c7d381ddae98b9c37"
+      ],
+      "expectedProductNames": [
+        "Azithromycin"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Azithromycin (Sun pharma)",
+      "retrievedProducts": [
+        {
+          "id": "69821e9c7d381ddae98b9c37",
+          "name": "Azithromycin",
+          "brand": "Sun pharma",
+          "score": "0.851"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.847"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.796"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.791"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.786"
+        },
+        {
+          "id": "684290d4a052a29e76f1ae6d",
+          "name": "Fluconazole",
+          "brand": "Diflucan",
+          "score": "0.784"
+        },
+        {
+          "id": "6842a186be8c07a7feddf40f",
+          "name": "COVID-19 Rapid Test",
+          "brand": "Abbott",
+          "score": "0.781"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.779"
+        }
+      ]
+    },
+    {
+      "id": "MED-03",
+      "group": "queries containing a medicine name",
+      "query": "give me Dolo or Brufen for body pain",
+      "expectedProductIds": [
+        "68428fb6a052a29e76f1ae59",
+        "6842921ea052a29e76f1ae72"
+      ],
+      "expectedProductNames": [
+        "Paracetamol",
+        "Ibuprofen"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Ibuprofen (Brufen)",
+      "retrievedProducts": [
+        {
+          "id": "6842921ea052a29e76f1ae72",
+          "name": "Ibuprofen",
+          "brand": "Brufen",
+          "score": "0.874"
+        },
+        {
+          "id": "68428fb6a052a29e76f1ae59",
+          "name": "Paracetamol",
+          "brand": "Dolo",
+          "score": "0.858"
+        },
+        {
+          "id": "6842a12bbe8c07a7feddf405",
+          "name": "Calcium + Magnesium",
+          "brand": "Shelcal",
+          "score": "0.790"
+        },
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.788"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.786"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.784"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.783"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.782"
+        }
+      ]
+    },
+    {
+      "id": "MED-04",
+      "group": "queries containing a medicine name",
+      "query": "price of Omez 20mg capsule",
+      "expectedProductIds": [
+        "6842907ca052a29e76f1ae68"
+      ],
+      "expectedProductNames": [
+        "Omeprazole"
+      ],
+      "retrievedCount": 8,
+      "methodUsed": "vector",
+      "isHit": true,
+      "firstHitRank": 1,
+      "matchedProduct": "Omeprazole (Omez)",
+      "retrievedProducts": [
+        {
+          "id": "6842907ca052a29e76f1ae68",
+          "name": "Omeprazole",
+          "brand": "Omez",
+          "score": "0.881"
+        },
+        {
+          "id": "6842948da052a29e76f1ae87",
+          "name": "Ranitidine",
+          "brand": "Zantac",
+          "score": "0.814"
+        },
+        {
+          "id": "6842a023be8c07a7feddf3f6",
+          "name": "Omega-3 Fish Oil",
+          "brand": "Seven Seas",
+          "score": "0.789"
+        },
+        {
+          "id": "68429439a052a29e76f1ae82",
+          "name": "Loperamide",
+          "brand": "Imodium",
+          "score": "0.786"
+        },
+        {
+          "id": "6842926da052a29e76f1ae77",
+          "name": "Cetirizine",
+          "brand": "Zyrtec",
+          "score": "0.781"
+        },
+        {
+          "id": "684292bba052a29e76f1ae7c",
+          "name": "Levocetirizine",
+          "brand": "Xyzal",
+          "score": "0.771"
+        },
+        {
+          "id": "6842a053be8c07a7feddf3fb",
+          "name": "Zinc + Vitamin C",
+          "brand": "C-Zee",
+          "score": "0.769"
+        },
+        {
+          "id": "68428ffea052a29e76f1ae5e",
+          "name": "Azithromycin",
+          "brand": "Azithral",
+          "score": "0.769"
+        }
+      ]
+    }
+  ]
+}
