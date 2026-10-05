@@ -274,7 +274,7 @@ const AIAdvisor = () => {
                                                 {[
                                                     "Common cold remedies",
                                                     "Best vitamins for energy",
-                                                    "How to track my order?"
+                                                    "Covind - 19 Test kit"
                                                 ].map((q, i) => (
                                                     <button
                                                         key={i}

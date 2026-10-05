@@ -6,7 +6,7 @@ const { getCache, setCache } = require("../utils/cache");
 const { recordAiLatency, getAiLatencySummary } = require("../utils/latencyMetrics");
 const { vectorSearchProducts } = require("../services/vectorSearch");
 
-const AI_MODEL = process.env.AI_MODEL || "openai/gpt-oss-20b";
+const AI_MODEL = "openai/gpt-oss-20b";
 const AI_PROMPT_VERSION = "v3";
 const AI_CACHE_TTL_SECONDS = 600;
 const MAX_HISTORY_TURNS = 6;
@@ -160,7 +160,7 @@ const buildProviderPayload = ({ messages, stream }) => {
 };
 
 const getAuthHeaders = () => {
-    const apiKey = process.env.AI_API_KEY || process.env.LLM7_API_KEY || process.env.OPENAI_API_KEY || "";
+    const apiKey = process.env.AI_API_KEY || "";
     return {
         "Content-Type": "application/json",
         ...(apiKey ? { "Authorization": `Bearer ${apiKey}` } : {})
